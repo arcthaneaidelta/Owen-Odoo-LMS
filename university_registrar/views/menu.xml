@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_university_registrar_root"
+              name="Registrar"
+              sequence="3"
+              web_icon="university_registrar,static/description/registrar.svg"/>
+
+    <menuitem id="menu_student_affairs"
+              name="Student Affairs"
+              parent="university_registrar.menu_university_registrar_root"
+              sequence="10"/>
+
+    <!-- <menuitem id="menu_curriculum"
+              name="Curriculum"
+              parent="university_registrar.menu_university_registrar_root"
+              sequence="20"/> -->
+              
+    <menuitem id="menu_document_requests"
+              name="Document Requests"
+              parent="university_registrar.menu_university_registrar_root"
+              sequence="30"/>
+</odoo>

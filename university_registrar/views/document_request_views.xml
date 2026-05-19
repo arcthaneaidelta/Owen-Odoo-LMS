@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="view_university_document_request_form" model="ir.ui.view">
+        <field name="name">university.document.request.form</field>
+        <field name="model">university.document.request</field>
+        <field name="arch" type="xml">
+            <form string="Document Request">
+                <header>
+                    <button name="action_submit"
+                            string="Submit"
+                            type="object"
+                            invisible="state != 'draft'"
+                            class="oe_highlight"/>
+
+                    <button name="action_process"
+                            string="Process"
+                            type="object"
+                            invisible="state != 'submitted'"
+                            class="oe_highlight"/>
+
+                    <button name="action_ready"
+                            string="Mark as Ready"
+                            type="object"
+                            invisible="state != 'in_progress'"
+                            class="oe_highlight"/>
+
+                    <button name="action_deliver"
+                            string="Deliver to Student"
+                            type="object"
+                            invisible="state != 'ready'"
+                            class="oe_highlight"/>
+
+                    <button name="action_reject"
+                            string="Reject"
+                            type="object"
+                            invisible="state not in ['submitted','in_progress']"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,in_progress,ready,delivered"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="student_id" readonly="state != 'draft'"/>
+                            <field name="document_type" readonly="state != 'draft'"/>
+                        </group>
+
+                        <group>
+                            <field name="notes" readonly="state in ['delivered', 'rejected']"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_university_document_request_tree" model="ir.ui.view">
+        <field name="name">university.document.request.tree</field>
+        <field name="model">university.document.request</field>
+        <field name="arch" type="xml">
+            <list string="Document Requests">
+                <field name="name"/>
+                <field name="student_id"/>
+                <field name="document_type"/>
+                <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'delivered'" decoration-warning="state == 'in_progress'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_document_request" model="ir.actions.act_window">
+        <field name="name">Document Requests</field>
+        <field name="res_model">university.document.request</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_action_document_request"
+              name="All Requests"
+              parent="university_registrar.menu_document_requests"
+              action="action_document_request"
+              sequence="10"/>
+</odoo>

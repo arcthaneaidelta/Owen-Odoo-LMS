@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_student_form_inherit_admission" model="ir.ui.view">
+        <field name="name">university.student.form.inherit.admission</field>
+        <field name="model">university.student</field>
+        <field name="inherit_id" ref="university_student.view_student_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='grp_previous_institution']" position="after">
+                <group string="Assigned Subjects" invisible="admission_type == 'regular'">
+                    <field name="assigned_subject_ids" widget="many2many_tags" readonly="1"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,22 @@
+{
+    'name': 'University Examination',
+    'version': '18.0.1.0.0',
+    'category': 'University',
+    'summary': 'Manage University Examinations, Grades, and Outcomes',
+    'depends': ['university_curriculum', 'university_student', 'university_results', 'account', 'mail'],
+    'data': [
+        'security/ir.model.access.csv',
+        'data/mail_template_data.xml',
+        'views/examination_menus.xml',
+        'views/examination_cycle_views.xml',
+        'views/examination_paper_views.xml',
+        'views/examination_seating_views.xml',
+        'views/examination_grade_views.xml',
+        'views/examination_board_views.xml',
+        'views/university_batch_inherit_views.xml',
+        'views/student_outcome_views.xml',
+    ],
+    'installable': True,
+    'application': True,
+    'license': 'LGPL-3',
+}

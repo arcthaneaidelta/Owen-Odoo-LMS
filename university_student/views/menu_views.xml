@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Students top-level menu (under University) -->
+    <menuitem id="menu_student_root"
+              name="Students"
+              parent="university_core.menu_university_root"
+              sequence="30"
+              groups="university_core.group_university_manager,university_core.group_academic_coordinator,university_core.group_head_admissions,university_core.group_university_super_admin"/>
+
+    <menuitem id="menu_all_students"
+              name="All Students"
+              parent="menu_student_root"
+              action="action_university_student"
+              sequence="10"/>
+
+    <menuitem id="menu_registered_students"
+              name="Registered Students"
+              parent="menu_student_root"
+              action="action_university_student_registered"
+              sequence="20"/>
+
+    <menuitem id="menu_rfid_cards"
+              name="RFID Cards"
+              parent="menu_student_root"
+              action="action_university_rfid_card"
+              sequence="30"
+              groups="university_core.group_university_manager,university_core.group_university_super_admin"/>
+
+</odoo>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ═══ TOP MENU ════════════════════════════════════════════════════════ -->
+    <menuitem id="menu_university_root"
+              name="University"
+              sequence="10"
+              web_icon="university_core,static/description/university.svg"
+              groups="university_core.group_university_manager,university_core.group_academic_coordinator,university_core.group_head_admissions,university_core.group_finance_officer,university_core.group_teacher,university_core.group_university_super_admin"/>
+
+    <!-- ═══ CONFIGURATION MENU ══════════════════════════════════════════════ -->
+    <menuitem id="menu_university_config"
+              name="Configuration"
+              parent="menu_university_root"
+              sequence="100"
+              groups="university_core.group_university_manager,university_core.group_university_super_admin"/>
+
+    <menuitem id="menu_university_university"
+              name="Universities"
+              parent="menu_university_config"
+              action="action_university_university"
+              sequence="10"/>
+
+    <menuitem id="menu_university_college"
+              name="Colleges"
+              parent="menu_university_config"
+              action="action_university_college"
+              sequence="20"/>
+
+    <menuitem id="menu_university_program"
+              name="Programs"
+              parent="menu_university_config"
+              action="action_university_program"
+              sequence="30"/>
+
+    <menuitem id="menu_university_specialization"
+              name="Specializations"
+              parent="menu_university_config"
+              action="action_university_specialization"
+              sequence="40"/>
+
+    <menuitem id="menu_university_department"
+              name="Departments"
+              parent="menu_university_config"
+              action="action_university_department"
+              sequence="50"/>
+
+    <menuitem id="menu_university_room"
+              name="Rooms"
+              parent="menu_university_config"
+              action="action_university_room"
+              sequence="55"/>
+
+    <menuitem id="menu_university_academic_year"
+              name="Academic Years"
+              parent="menu_university_config"
+              action="action_university_academic_year"
+              sequence="60"/>
+
+    <!-- ═══ TEACHERS & STAFF ════════════════════════════════════════════════ -->
+    <menuitem id="menu_university_teachers_root"
+              name="Teachers &amp; Staff"
+              parent="menu_university_root"
+              sequence="15"
+              groups="university_core.group_university_manager,university_core.group_academic_coordinator,university_core.group_university_super_admin"/>
+
+    <menuitem id="menu_university_teachers_action"
+              name="Teachers"
+              parent="menu_university_teachers_root"
+              action="action_university_teachers"
+              sequence="10"/>
+
+    <!-- ═══ BATCHES MENU ════════════════════════════════════════════════════ -->
+    <menuitem id="menu_university_batches"
+              name="Batches"
+              parent="menu_university_root"
+              sequence="20"
+              groups="university_core.group_university_manager,university_core.group_academic_coordinator,university_core.group_head_admissions,university_core.group_university_super_admin"/>
+
+    <menuitem id="menu_university_batch"
+              name="All Batches"
+              parent="menu_university_batches"
+              action="action_university_batch"
+              sequence="10"/>
+
+</odoo>

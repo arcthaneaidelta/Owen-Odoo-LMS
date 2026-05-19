@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="view_student_resignation_tree" model="ir.ui.view">
+        <field name="name">university.student.resignation.tree</field>
+        <field name="model">university.student.resignation</field>
+        <field name="arch" type="xml">
+            <list string="Resignation Requests" decoration-info="state == 'draft'" decoration-warning="state in ['otp_sent', 'clearance']" decoration-success="state == 'approved'" decoration-danger="state == 'rejected'">
+                <field name="name"/>
+                <field name="student_id"/>
+                <field name="academic_year_id"/>
+                <field name="level"/>
+                <field name="resignation_date"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_student_resignation_form" model="ir.ui.view">
+        <field name="name">university.student.resignation.form</field>
+        <field name="model">university.student.resignation</field>
+        <field name="arch" type="xml">
+            <form string="Resignation Request">
+                <header>
+                    <button name="action_send_otp" string="Send OTP" type="object" invisible="state != 'draft'" class="oe_highlight"/>
+                    
+                    <!-- Registrar Approval -->
+                    <button name="action_registrar_approve" string="Registrar Approve" type="object" invisible="state != 'registrar_approval'" class="oe_highlight"/>
+                    
+                    <!-- Academic Affairs Approval -->
+                    <button name="action_academic_approve" string="Final Academic Approval" type="object" invisible="state != 'academic_affairs'" class="oe_highlight" confirm="Are you sure? This will archive the student and deactivate their portal user."/>
+                    
+                    <button name="action_reject" string="Reject" type="object" invisible="state in ['approved', 'rejected', 'cancelled']" class="btn-danger"/>
+                    
+                    <!-- Print Options -->
+                    <button name="%(action_report_resignation_letter)d" string="Print Resignation Letter" type="action" invisible="state != 'approved'" class="oe_highlight"/>
+                    <button name="%(action_report_student_transcript)d" string="Print Transcript" type="action" invisible="state != 'approved'"/>
+                    
+                    <field name="state" widget="statusbar" statusbar_visible="draft,otp_sent,clearance,registrar_approval,academic_affairs,approved"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="student_id" readonly="state != 'draft'"/>
+                            <field name="academic_year_id" readonly="1"/>
+                            <field name="level" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="resignation_date" readonly="state != 'draft'"/>
+                            <field name="otp_verified" invisible="not otp_verified"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Reason" name="reason">
+                            <field name="reason" placeholder="Reason for resignation..." readonly="state != 'draft'"/>
+                        </page>
+                        
+                        <page string="Departmental Clearance" name="clearance" invisible="state not in ['clearance', 'registrar_approval', 'academic_affairs', 'approved']">
+                            <group>
+                                <group string="Library">
+                                    <field name="library_clearance" readonly="1"/>
+                                    <field name="library_cleared_by"/>
+                                    <button name="action_clear_library" string="Clear Library" type="object" invisible="library_clearance == 'cleared'" class="btn-secondary"/>
+                                </group>
+                                <group string="Laboratory">
+                                    <field name="lab_clearance" readonly="1"/>
+                                    <field name="lab_cleared_by"/>
+                                    <button name="action_clear_lab" string="Clear Laboratory" type="object" invisible="lab_clearance == 'cleared'" class="btn-secondary"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group string="Finance">
+                                    <field name="finance_clearance" readonly="1"/>
+                                    <field name="finance_cleared_by"/>
+                                    <button name="action_clear_finance" string="Clear Finance" type="object" invisible="finance_clearance == 'cleared'" class="btn-secondary"/>
+                                </group>
+                                <group string="Admission">
+                                    <field name="admission_clearance" readonly="1"/>
+                                    <field name="admission_cleared_by"/>
+                                    <button name="action_clear_admission" string="Clear Admission" type="object" invisible="admission_clearance == 'cleared'" class="btn-secondary"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="Financials" name="finance">
+                            <group>
+                                <field name="is_refund_eligible"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="tuition_refund_amount" invisible="not is_refund_eligible"/>
+                            </group>
+                        </page>
+                        
+                        <page string="Approvals" name="approvals" invisible="state not in ['registrar_approval', 'academic_affairs', 'approved']">
+                            <group>
+                                <field name="registrar_approver_id"/>
+                                <field name="academic_approver_id"/>
+                            </group>
+                        </page>
+                        
+                        <page string="Rejection info" name="rejection" invisible="state != 'rejected'">
+                            <field name="rejection_reason" readonly="state == 'approved'"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_student_resignation_search" model="ir.ui.view">
+        <field name="name">university.student.resignation.search</field>
+        <field name="model">university.student.resignation</field>
+        <field name="arch" type="xml">
+            <search string="Resignation Requests">
+                <field name="student_id"/>
+                <field name="name"/>
+                <filter string="My Clearances" name="my_clearance" domain="[('state', '=', 'clearance')]"/>
+                <filter string="Approved" name="approved" domain="[('state', '=', 'approved')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Student" name="group_student" context="{'group_by': 'student_id'}"/>
+                    <filter string="Status" name="group_status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_student_resignation" model="ir.actions.act_window">
+        <field name="name">Resignation Requests</field>
+        <field name="res_model">university.student.resignation</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a resignation request for a student.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_student_resignation"
+              name="Resignation Requests"
+              parent="university_registrar.menu_student_affairs"
+              action="action_student_resignation"
+              sequence="30"/>
+</odoo>

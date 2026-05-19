@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_admissions_root"
+              name="Admissions"
+              parent="university_core.menu_university_root"
+              sequence="40"
+              groups="university_core.group_head_admissions,university_core.group_university_manager,university_core.group_medical_committee,university_core.group_university_super_admin"/>
+
+    <menuitem id="menu_admissions_all"
+              name="All Applications"
+              parent="menu_admissions_root"
+              action="action_university_admission"
+              sequence="10"/>
+
+    <menuitem id="menu_admissions_medical"
+              name="Medical Review Queue"
+              parent="menu_admissions_root"
+              action="action_admission_medical_review"
+              sequence="20"
+              groups="university_core.group_medical_committee,university_core.group_university_super_admin"/>
+
+    <menuitem id="menu_admissions_equivalency"
+              name="Subject Equivalencies"
+              parent="menu_admissions_root"
+              action="action_subject_equivalency"
+              sequence="30"/>
+</odoo>

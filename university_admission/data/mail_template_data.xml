@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="email_template_admission_verification" model="mail.template">
+            <field name="name">Admission Verification Email</field>
+            <field name="model_id" ref="university_admission.model_university_admission"/>
+            <field name="subject">Verify your email address - {{ object.name_en or object.display_name_ar }}</field>
+            <field name="email_from">{{ ('usmank123428@gmail.com') }}</field>
+            <field name="email_to">{{ object.email }}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear <t t-out="object.name_en or object.display_name_ar"/>,<br/><br/>
+                        Thank you for your admission application to the university.<br/><br/>
+                        Please verify your email address by clicking the link below:<br/><br/>
+                        <div style="margin: 16px 0px 16px 0px;">
+                            <a t-att-href="object.get_base_url() + '/admission/verify_email?token=' + object.email_verification_token"
+                                style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+                                Verify Email
+                            </a>
+                        </div>
+                        <br/><br/>
+                        If you have any issues, please contact the admission office.<br/><br/>
+                        Best regards,<br/>
+                        Admission Office
+                    </p>
+                </div>
+            </field>
+            <field name="lang">{{ object.env.lang or 'en_US' }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+    </data>
+</odoo>

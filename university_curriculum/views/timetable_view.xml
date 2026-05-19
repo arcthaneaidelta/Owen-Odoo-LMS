@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ─── Form View ──────────────────────────────────────────────────────── -->
+    <record id="view_timetable_form" model="ir.ui.view">
+        <field name="name">university.timetable.form</field>
+        <field name="model">university.timetable</field>
+        <field name="arch" type="xml">
+            <form string="Timetable Entry">
+                <header>
+                    <button name="action_submit" string="Submit" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_approve" string="Approve" type="object" class="oe_highlight" invisible="state != 'submitted'"/>
+                    <button name="action_publish" string="Publish" type="object" class="oe_highlight" invisible="state != 'approved'"/>
+                    <button name="action_draft" string="Reset to Draft" type="object" invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved,published"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Class Details">
+                            <field name="batch_id"/>
+                            <field name="program_id" invisible="1"/>
+                            <field name="department_id" invisible="1"/>
+                            <field name="academic_year_id"/>
+                            <field name="subject_id"/>
+                            <field name="session_type"/>
+                        </group>
+                        <group string="Schedule &amp; Allocation">
+                            <field name="day_of_week"/>
+                            <label for="start_time" string="Time"/>
+                            <div class="o_row">
+                                <field name="start_time" widget="float_time"/> - <field name="end_time" widget="float_time"/>
+                            </div>
+                            <field name="room_id"
+                                   domain="[('is_active', '=', True),
+                                            '|', ('room_type', '=', session_type),
+                                            ('room_type', 'not in', ['lab', 'field'])]"/>
+                            <field name="teacher_id"/>
+                        </group>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1" placeholder="Session specific notes..."/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ─── List View ─────────────────────────────────────────────────────── -->
+    <record id="view_timetable_list" model="ir.ui.view">
+        <field name="name">university.timetable.list</field>
+        <field name="model">university.timetable</field>
+        <field name="arch" type="xml">
+            <list string="Timetable" decoration-info="state=='draft'" decoration-success="state=='published'">
+                <field name="name" optional="hide"/>
+                <field name="batch_id"/>
+                <field name="subject_id"/>
+                <field name="teacher_id"/>
+                <field name="day_of_week"/>
+                <field name="start_time" widget="float_time"/>
+                <field name="end_time" widget="float_time"/>
+                <field name="room_id"/>
+                <field name="session_type"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-warning="state == 'submitted'"
+                       decoration-success="state == 'published'"
+                       decoration-primary="state == 'approved'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ─── Kanban View: Grouped by Batch ─────────────────────────────────── -->
+    <record id="view_timetable_kanban" model="ir.ui.view">
+        <field name="name">university.timetable.kanban</field>
+        <field name="model">university.timetable</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="batch_id"
+                    class="o_kanban_small_column"
+                    quick_create="false">
+
+                <field name="batch_id"/>
+                <field name="program_id"/>
+                <field name="subject_id"/>
+                <field name="teacher_id"/>
+                <field name="room_id"/>
+                <field name="day_of_week"/>
+                <field name="start_time"/>
+                <field name="end_time"/>
+                <field name="session_type"/>
+                <field name="state"/>
+
+                <templates>
+                    <t t-name="card">
+                        <!-- JS-safe colour lookup (no Python .get()) -->
+                        <t t-set="type_val" t-value="record.session_type.raw_value"/>
+                        <t t-set="color_map" t-value="{theory: '#1a73e8', practical: '#e67c00', lab: '#1e8e3e', tutorial: '#7b1fa2'}"/>
+                        <t t-set="stripe_color" t-value="color_map[type_val] || '#607d8b'"/>
+
+                        <!-- JS-safe time formatting (avoid String and padStart) -->
+                        <t t-set="sh" t-value="Math.floor(record.start_time.raw_value || 0)"/>
+                        <t t-set="sm" t-value="Math.round(((record.start_time.raw_value || 0) % 1) * 60)"/>
+                        <t t-set="eh" t-value="Math.floor(record.end_time.raw_value || 0)"/>
+                        <t t-set="em" t-value="Math.round(((record.end_time.raw_value || 0) % 1) * 60)"/>
+                        <t t-set="time_start" t-value="(sh &lt; 10 ? '0' : '') + sh + ':' + (sm &lt; 10 ? '0' : '') + sm"/>
+                        <t t-set="time_end"   t-value="(eh &lt; 10 ? '0' : '') + eh + ':' + (em &lt; 10 ? '0' : '') + em"/>
+
+                        <div t-att-style="'border-top:4px solid ' + stripe_color + ';border-radius:10px;overflow:hidden;'">
+
+                            <!-- Card header: subject + state badge -->
+                            <div class="o_kanban_card_header" style="padding:10px 12px 6px;">
+                                <div class="o_kanban_card_header_title">
+                                    <div class="o_primary fw-bold" style="font-size:.92rem;color:#212121;">
+                                        <field name="subject_id"/>
+                                    </div>
+                                    <div class="o_secondary text-muted" style="font-size:.78rem;">
+                                        <field name="program_id"/>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_card_manage_section">
+                                    <field name="state" widget="badge"
+                                           decoration-info="state == 'draft'"
+                                           decoration-warning="state == 'submitted'"
+                                           decoration-success="state == 'published'"
+                                           decoration-primary="state == 'approved'"/>
+                                </div>
+                            </div>
+
+                            <!-- Card body: day, time, teacher, room, type -->
+                            <div style="padding:6px 12px 10px;font-size:.8rem;color:#444;display:flex;flex-direction:column;gap:4px;">
+
+                                <!-- Day + Time -->
+                                <div style="display:flex;align-items:center;gap:6px;">
+                                    <span>&#x1F4C5;</span>
+                                    <span class="fw-semibold"><field name="day_of_week"/></span>
+                                    <span style="margin-left:auto;font-family:monospace;background:#f0f0f0;padding:1px 6px;border-radius:6px;">
+                                        <t t-esc="time_start"/> – <t t-esc="time_end"/>
+                                    </span>
+                                </div>
+
+                                <!-- Teacher -->
+                                <div style="display:flex;align-items:center;gap:6px;">
+                                    <span>&#x1F464;</span>
+                                    <field name="teacher_id"/>
+                                </div>
+
+                                <!-- Room -->
+                                <div style="display:flex;align-items:center;gap:6px;">
+                                    <span>&#x1F4CD;</span>
+                                    <field name="room_id"/>
+                                </div>
+
+                                <!-- Session type badge -->
+                                <div style="margin-top:4px;">
+                                    <span t-att-style="'display:inline-block;padding:2px 9px;border-radius:10px;font-size:.72rem;font-weight:600;color:white;background:' + stripe_color">
+                                        <field name="session_type"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ─── Search View ───────────────────────────────────────────────────── -->
+    <record id="view_timetable_search" model="ir.ui.view">
+        <field name="name">university.timetable.search</field>
+        <field name="model">university.timetable</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="batch_id"/>
+                <field name="subject_id"/>
+                <field name="teacher_id"/>
+                <field name="room_id"/>
+                <filter string="Draft"            name="draft"     domain="[('state','=','draft')]"/>
+                <filter string="Published"        name="published" domain="[('state','=','published')]"/>
+                <filter string="Theory Sessions"  name="theory"    domain="[('session_type','=','theory')]"/>
+                <filter string="Lab Sessions"     name="lab"       domain="[('session_type','in',['lab','practical'])]"/>
+                <group expand="1" string="Group By">
+                    <filter string="Batch"        name="grp_batch"   context="{'group_by':'batch_id'}"/>
+                    <filter string="Teacher"      name="grp_teacher" context="{'group_by':'teacher_id'}"/>
+                    <filter string="Day"          name="grp_day"     context="{'group_by':'day_of_week'}"/>
+                    <filter string="Room"         name="grp_room"    context="{'group_by':'room_id'}"/>
+                    <filter string="Session Type" name="grp_type"    context="{'group_by':'session_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ─── Action: opens Kanban grouped by Batch by default ─────────────── -->
+    <record id="action_university_timetable" model="ir.actions.act_window">
+        <field name="name">Timetable Management</field>
+        <field name="res_model">university.timetable</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="search_view_id" ref="view_timetable_search"/>
+        <field name="context">{'search_default_grp_batch': 1}</field>
+    </record>
+
+    <!-- ─── Print Grid wizard launcher ───────────────────────────────────── -->
+    <record id="action_timetable_print_grid_from_list" model="ir.actions.act_window">
+        <field name="name">Print Timetable Grid</field>
+        <field name="res_model">university.timetable.grid.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

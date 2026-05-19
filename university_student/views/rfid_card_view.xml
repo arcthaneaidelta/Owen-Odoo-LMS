@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_rfid_card_form" model="ir.ui.view">
+        <field name="name">university.rfid_card.form</field>
+        <field name="model">university.rfid_card</field>
+        <field name="arch" type="xml">
+            <form string="RFID Card">
+                <header>
+                    <button name="action_activate" string="Activate" type="object"
+                            class="btn-success" invisible="status == 'active'"/>
+                    <button name="action_block" string="Block Card" type="object"
+                            class="btn-danger" invisible="status != 'active'"/>
+                    <button name="action_report_lost" string="Report Lost" type="object"
+                            invisible="status not in ('active','blocked')"/>
+                    <field name="status" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="student_id"/>
+                            <field name="card_uid"/>
+                            <field name="issue_date"/>
+                            <field name="expiry_date"/>
+                        </group>
+                        <group>
+                            <field name="block_reason"
+                                   invisible="status not in ('blocked',)"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_rfid_card_list" model="ir.ui.view">
+        <field name="name">university.rfid_card.list</field>
+        <field name="model">university.rfid_card</field>
+        <field name="arch" type="xml">
+            <list string="RFID Cards"
+                  decoration-success="status=='active'"
+                  decoration-danger="status in ('blocked','lost')">
+                <field name="student_id"/>
+                <field name="card_uid"/>
+                <field name="status" widget="badge"
+                       decoration-success="status=='active'"
+                       decoration-danger="status in ('blocked','lost')"
+                       decoration-muted="status in ('expired','cancelled')"/>
+                <field name="issue_date"/>
+                <field name="expiry_date"/>
+                <field name="block_reason"/>
+            </list>
+        </field>
+    </record>
+
+
+    <record id="view_university_block_wizard_form" model="ir.ui.view">
+        <field name="name">university.block.wizard.form</field>
+        <field name="model">university.block.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Block Reason">
+                <group>
+                    <field name="block_reason"/>
+                </group>
+                <footer>
+                    <button string="Confirm" type="object" name="confirm_block" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_university_rfid_card" model="ir.actions.act_window">
+        <field name="name">RFID Cards</field>
+        <field name="res_model">university.rfid_card</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

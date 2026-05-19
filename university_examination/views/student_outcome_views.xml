@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_university_student_form_inherit_examination" model="ir.ui.view">
+        <field name="name">university.student.form.inherit.examination</field>
+        <field name="model">university.student</field>
+        <field name="inherit_id" ref="university_student.view_student_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Examination Outcomes" groups="university_core.group_university_manager,university_core.group_teacher">
+                    <group>
+                        <group>
+                            <field name="academic_status" readonly="1"/>
+                            <field name="cumulative_gpa" readonly="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

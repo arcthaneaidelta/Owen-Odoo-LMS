@@ -1,0 +1,568 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: System Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-05 00:00+0000\n"
+"PO-Revision-Date: 2026-03-05 00:00+0000\n"
+"Last-Translator: University Dev Team\n"
+"Language-Team: Arabic <ar@li.org>\n"
+"Language: ar_001\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#. module: university_curriculum
+#: model:ir.module.module,shortdesc:university_curriculum.module_university_curriculum
+msgid "University Curriculum Module"
+msgstr "وحدة المناهج الجامعية"
+
+#. module: university_curriculum
+#: model:ir.model,name:university_curriculum.model_university_curriculum
+msgid "Curriculum Blueprint"
+msgstr "مخطط المنهج الدراسي"
+
+#. module: university_curriculum
+#: model:ir.model,name:university_curriculum.model_university_subject
+msgid "Academic Subject"
+msgstr "مادة أكاديمية"
+
+#. module: university_curriculum
+#: model:ir.model,name:university_curriculum.model_university_assessment_config
+msgid "Subject Assessment Configuration"
+msgstr "إعدادات تقييم المادة"
+
+#. module: university_curriculum
+#: model:ir.model,name:university_curriculum.model_university_timetable
+msgid "Timetable Entry"
+msgstr "إدخال جدول دراسي"
+
+#. module: university_curriculum
+#: model:ir.actions.act_window,name:university_curriculum.action_university_curriculum
+msgid "Curriculum Blueprints"
+msgstr "مخططات المناهج الدراسية"
+
+#. module: university_curriculum
+#: model:ir.actions.act_window,name:university_curriculum.action_university_subject
+msgid "Subjects"
+msgstr "المواد الدراسية"
+
+#. module: university_curriculum
+#: model:ir.actions.act_window,name:university_curriculum.action_university_timetable
+msgid "Timetable / Class Schedule"
+msgstr "الجدول الدراسي / جدول الحصص"
+
+#. module: university_curriculum
+#: model:ir.ui.menu,name:university_curriculum.menu_curriculum_root
+msgid "Curriculum"
+msgstr "المناهج الدراسية"
+
+#. module: university_curriculum
+#: model:ir.ui.menu,name:university_curriculum.menu_curriculum_blueprints
+msgid "Curriculum Blueprints"
+msgstr "مخططات المناهج"
+
+#. module: university_curriculum
+#: model:ir.ui.menu,name:university_curriculum.menu_subjects
+msgid "Subjects"
+msgstr "المواد"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_curriculum__name
+msgid "Curriculum Name"
+msgstr "اسم المنهج الدراسي"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_curriculum__code
+msgid "Code"
+msgstr "الرمز"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_curriculum__academic_year_id
+#: model:ir.model.fields,field_description:university_curriculum.field_university_subject__academic_year_id
+msgid "Academic Year"
+msgstr "السنة الدراسية"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_curriculum__version
+msgid "Version"
+msgstr "الإصدار"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_curriculum__subject_ids
+msgid "Subjects"
+msgstr "المواد الدراسية"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_curriculum__subject_count
+msgid "Subject Count"
+msgstr "عدد المواد"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_curriculum__total_credit_hours
+msgid "Total Credit Hours"
+msgstr "مجموع الساعات المعتمدة"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_curriculum__total_lecture_hours
+msgid "Total Lecture Hours"
+msgstr "مجموع ساعات المحاضرات"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_curriculum__total_practical_hours
+msgid "Total Practical Hours"
+msgstr "مجموع الساعات العملية"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_curriculum__is_locked
+msgid "Locked"
+msgstr "مقفل"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_curriculum__batch_ids
+msgid "Linked Batches"
+msgstr "الأفواج المرتبطة"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_curriculum__active
+msgid "Active"
+msgstr "نشط"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_curriculum__state
+msgid "State"
+msgstr "الحالة"
+
+#. module: university_curriculum
+#: model:ir.model.fields.selection,name:university_curriculum.selection__university_curriculum__state__draft
+msgid "Draft"
+msgstr "مسودة"
+
+#. module: university_curriculum
+#: model:ir.model.fields.selection,name:university_curriculum.selection__university_curriculum__state__active
+msgid "Active"
+msgstr "نشط"
+
+#. module: university_curriculum
+#: model:ir.model.fields.selection,name:university_curriculum.selection__university_curriculum__state__deprecated
+msgid "Deprecated"
+msgstr "موقوف"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_curriculum__notes
+msgid "Notes"
+msgstr "ملاحظات"
+
+#. module: university_curriculum
+#: view:university.curriculum:university_curriculum.view_university_curriculum_form
+msgid "Activate"
+msgstr "تفعيل"
+
+#. module: university_curriculum
+#: view:university.curriculum:university_curriculum.view_university_curriculum_form
+msgid "Lock Blueprint"
+msgstr "قفل المخطط"
+
+#. module: university_curriculum
+#: view:university.curriculum:university_curriculum.view_university_curriculum_form
+msgid "Duplicate as New Version"
+msgstr "نسخ كإصدار جديد"
+
+#. module: university_curriculum
+#: code:addons/university_management/university_curriculum/models/curriculum.py:0
+#, python-format
+msgid "Curriculum code must be unique."
+msgstr "يجب أن يكون رمز المنهج فريداً."
+
+#. module: university_curriculum
+#: code:addons/university_management/university_curriculum/models/curriculum.py:0
+#, python-format
+msgid "This curriculum blueprint is locked because it is linked to an active batch. To make changes, create a new curriculum version."
+msgstr "هذا المخطط مقفل لأنه مرتبط بفوج نشط. لإجراء تغييرات، أنشئ نسخة جديدة من المنهج."
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_subject__name
+msgid "Subject Name"
+msgstr "اسم المادة"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_subject__name_ar
+msgid "Arabic Name"
+msgstr "الاسم بالعربية"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_subject__name_en
+msgid "English Name"
+msgstr "الاسم بالإنجليزية"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_subject__code
+msgid "Subject Code"
+msgstr "رمز المادة"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_subject__department_id
+msgid "Department"
+msgstr "القسم"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_subject__program_ids
+msgid "Programs"
+msgstr "البرامج"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_subject__lecture_hours
+msgid "Lecture Hours (per week)"
+msgstr "ساعات المحاضرة (أسبوعياً)"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_subject__practical_hours
+msgid "Practical/Lab Hours (per week)"
+msgstr "الساعات العملية / ساعات المختبر (أسبوعياً)"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_subject__credit_hours
+msgid "Credit Hours"
+msgstr "الساعات المعتمدة"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_subject__semester
+msgid "Semester"
+msgstr "الفصل الدراسي"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_subject__year_level
+msgid "Year Level"
+msgstr "المستوى الدراسي"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_subject__subject_type
+msgid "Subject Type"
+msgstr "نوع المادة"
+
+#. module: university_curriculum
+#: model:ir.model.fields.selection,name:university_curriculum.selection__university_subject__subject_type__theory
+msgid "Theory"
+msgstr "نظري"
+
+#. module: university_curriculum
+#: model:ir.model.fields.selection,name:university_curriculum.selection__university_subject__subject_type__practical
+msgid "Practical"
+msgstr "عملي"
+
+#. module: university_curriculum
+#: model:ir.model.fields.selection,name:university_curriculum.selection__university_subject__subject_type__mixed
+msgid "Mixed (Theory + Practical)"
+msgstr "مختلط (نظري + عملي)"
+
+#. module: university_curriculum
+#: model:ir.model.fields.selection,name:university_curriculum.selection__university_subject__subject_type__clinical
+msgid "Clinical"
+msgstr "سريري"
+
+#. module: university_curriculum
+#: model:ir.model.fields.selection,name:university_curriculum.selection__university_subject__subject_type__seminar
+msgid "Seminar"
+msgstr "ندوة / سيمينار"
+
+#. module: university_curriculum
+#: model:ir.model.fields.selection,name:university_curriculum.selection__university_subject__subject_type__elective
+msgid "Elective"
+msgstr "اختياري"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_subject__has_prerequisites
+msgid "Has Prerequisites"
+msgstr "له متطلبات سابقة"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_subject__prerequisite_ids
+msgid "Prerequisites"
+msgstr "المتطلبات السابقة"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_subject__passing_score
+msgid "Passing Score (%)"
+msgstr "درجة النجاح (%)"
+
+#. module: university_curriculum
+#: code:addons/university_management/university_curriculum/models/subject.py:0
+#, python-format
+msgid "Subject code must be unique."
+msgstr "يجب أن يكون رمز المادة فريداً."
+
+#. module: university_curriculum
+#: code:addons/university_management/university_curriculum/models/subject.py:0
+#, python-format
+msgid "Hours cannot be negative."
+msgstr "لا يمكن أن تكون الساعات سالبة."
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_assessment_config__subject_id
+msgid "Subject"
+msgstr "المادة الدراسية"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_assessment_config__curriculum_id
+msgid "Curriculum"
+msgstr "المنهج"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_assessment_config__assignment_pct
+msgid "Assignment (%)"
+msgstr "أعمال السنة (%)"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_assessment_config__midterm_pct
+msgid "Midterm (%)"
+msgstr "الامتحان الفصلي (%)"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_assessment_config__practical_pct
+msgid "Practical/Lab (%)"
+msgstr "العملي / المختبر (%)"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_assessment_config__attendance_pct
+msgid "Attendance (%)"
+msgstr "الحضور (%)"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_assessment_config__final_exam_pct
+msgid "Final Exam (%)"
+msgstr "الامتحان النهائي (%)"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_assessment_config__total_pct
+msgid "Total (%)"
+msgstr "المجموع (%)"
+
+#. module: university_curriculum
+#: code:addons/university_management/university_curriculum/models/assessment_config.py:0
+#, python-format
+msgid "Assessment percentages must sum to exactly 100%%. Current total: %.2f%%"
+msgstr "يجب أن تكون مجموع نسب التقييم 100%% بالضبط. المجموع الحالي: %.2f%%"
+
+#. module: university_curriculum
+#: code:addons/university_management/university_curriculum/models/assessment_config.py:0
+#, python-format
+msgid "Assessment percentages cannot be negative."
+msgstr "لا يمكن أن تكون نسب التقييم سالبة."
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_timetable__batch_id
+msgid "Batch"
+msgstr "الفوج"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_timetable__subject_id
+msgid "Subject"
+msgstr "المادة الدراسية"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_timetable__session_type
+msgid "Session Type"
+msgstr "نوع الجلسة"
+
+#. module: university_curriculum
+#: model:ir.model.fields.selection,name:university_curriculum.selection__university_timetable__session_type__lecture
+msgid "Lecture"
+msgstr "محاضرة"
+
+#. module: university_curriculum
+#: model:ir.model.fields.selection,name:university_curriculum.selection__university_timetable__session_type__practical
+msgid "Practical/Lab"
+msgstr "عملي / مختبر"
+
+#. module: university_curriculum
+#: model:ir.model.fields.selection,name:university_curriculum.selection__university_timetable__session_type__tutorial
+msgid "Tutorial"
+msgstr "حصة تطبيقية"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_timetable__day_of_week
+msgid "Day of Week"
+msgstr "يوم الأسبوع"
+
+#. module: university_curriculum
+#: model:ir.model.fields.selection,name:university_curriculum.selection__university_timetable__day_of_week__6
+msgid "Saturday"
+msgstr "السبت"
+
+#. module: university_curriculum
+#: model:ir.model.fields.selection,name:university_curriculum.selection__university_timetable__day_of_week__0
+msgid "Sunday"
+msgstr "الأحد"
+
+#. module: university_curriculum
+#: model:ir.model.fields.selection,name:university_curriculum.selection__university_timetable__day_of_week__1
+msgid "Monday"
+msgstr "الاثنين"
+
+#. module: university_curriculum
+#: model:ir.model.fields.selection,name:university_curriculum.selection__university_timetable__day_of_week__2
+msgid "Tuesday"
+msgstr "الثلاثاء"
+
+#. module: university_curriculum
+#: model:ir.model.fields.selection,name:university_curriculum.selection__university_timetable__day_of_week__3
+msgid "Wednesday"
+msgstr "الأربعاء"
+
+#. module: university_curriculum
+#: model:ir.model.fields.selection,name:university_curriculum.selection__university_timetable__day_of_week__4
+msgid "Thursday"
+msgstr "الخميس"
+
+#. module: university_curriculum
+#: model:ir.model.fields.selection,name:university_curriculum.selection__university_timetable__day_of_week__5
+msgid "Friday"
+msgstr "الجمعة"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_timetable__time_start
+msgid "Start Time"
+msgstr "وقت البداية"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_timetable__time_end
+msgid "End Time"
+msgstr "وقت الانتهاء"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_timetable__room
+msgid "Room / Hall"
+msgstr "القاعة / القاعة الدراسية"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_timetable__active
+msgid "Active Schedule"
+msgstr "جدول نشط"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_timetable__teacher_id
+msgid "Teacher"
+msgstr "المحاضر"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_timetable__teacher_assignment_type
+msgid "Teacher Assignment Type"
+msgstr "نوع تعيين المحاضر"
+
+#. module: university_curriculum
+#: model:ir.model.fields.selection,name:university_curriculum.selection__university_timetable__teacher_assignment_type__department
+msgid "Department Assignment"
+msgstr "تعيين على مستوى القسم"
+
+#. module: university_curriculum
+#: model:ir.model.fields.selection,name:university_curriculum.selection__university_timetable__teacher_assignment_type__program
+msgid "Program-Specific Assignment"
+msgstr "تعيين خاص بالبرنامج"
+
+#. module: university_curriculum
+#: code:addons/university_management/university_curriculum/models/timetable.py:0
+#, python-format
+msgid "Teacher is already scheduled at this time slot."
+msgstr "المحاضر مجدوَل بالفعل في هذا الوقت."
+
+#. module: university_curriculum
+#: code:addons/university_management/university_curriculum/models/timetable.py:0
+#, python-format
+msgid "Room is already occupied at this time slot."
+msgstr "القاعة مشغولة بالفعل في هذا الوقت."
+
+#. module: university_curriculum
+#: code:addons/university_management/university_curriculum/models/timetable.py:0
+#, python-format
+msgid "End time must be after start time."
+msgstr "يجب أن يكون وقت الانتهاء بعد وقت البداية."
+
+#. module: university_curriculum
+#: code:addons/university_management/university_curriculum/models/timetable.py:0
+#, python-format
+msgid "Times must be valid 24h values."
+msgstr "يجب أن تكون الأوقات قيماً صحيحة بتنسيق 24 ساعة."
+
+#. module: university_curriculum
+#: view:university.timetable:university_curriculum.view_university_timetable_form
+msgid "Class Info"
+msgstr "معلومات الحصة"
+
+#. module: university_curriculum
+#: view:university.timetable:university_curriculum.view_university_timetable_form
+msgid "Schedule"
+msgstr "الجدول"
+
+#. module: university_curriculum
+#: view:university.subject:university_curriculum.view_university_subject_form
+msgid "Hours & Credits"
+msgstr "الساعات والاعتمادات"
+
+#. module: university_curriculum
+#: view:university.curriculum:university_curriculum.view_university_curriculum_form
+msgid "Totals"
+msgstr "المجاميع"
+
+#. module: university_curriculum
+#: view:university.subject:university_curriculum.view_university_subject_form
+msgid "Placement"
+msgstr "التوزيع"
+
+#. module: university_curriculum
+#: view:university.subject:university_curriculum.view_university_subject_list
+msgid "Theory"
+msgstr "نظري"
+
+#. module: university_curriculum
+#: view:university.subject:university_curriculum.view_university_subject_list
+msgid "Practical"
+msgstr "عملي"
+
+#. module: university_curriculum
+#: view:university.subject:university_curriculum.view_university_subject_list
+msgid "Elective"
+msgstr "اختياري"
+
+#. module: university_curriculum
+#: view:university.timetable:university_curriculum.view_university_timetable_list
+msgid "Day"
+msgstr "اليوم"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_batch__curriculum_id
+msgid "Curriculum Blueprint"
+msgstr "مخطط المنهج الدراسي"
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_batch__curriculum_locked
+msgid "Curriculum Locked"
+msgstr "المنهج مقفل"
+
+#. module: university_curriculum
+#: code:addons/university_management/university_curriculum/models/university_batch.py:0
+#, python-format
+msgid "Cannot activate a batch without a curriculum blueprint."
+msgstr "لا يمكن تفعيل الفوج بدون مخطط منهج دراسي."
+
+#. module: university_curriculum
+#: code:addons/university_management/university_curriculum/models/university_batch.py:0
+#, python-format
+msgid "Curriculum blueprint is now locked."
+msgstr "تم قفل مخطط المنهج الدراسي."
+
+#. module: university_curriculum
+#: code:addons/university_management/university_curriculum/models/university_batch.py:0
+#, python-format
+msgid "Cannot change the curriculum blueprint for batch \"%s\" because it is locked (batch is active). Create a new batch for curriculum changes."
+msgstr "لا يمكن تغيير مخطط المنهج للفوج \"%s\" لأنه مقفل (الفوج نشط). أنشئ فوجاً جديداً لإجراء تغييرات على المنهج."
+
+#. module: university_curriculum
+#: model:ir.model.fields,field_description:university_curriculum.field_university_assessment_config__subject_assessment_configuration
+msgid "Assessment Configuration"
+msgstr "إعدادات التقييم"
+
+#. module: university_curriculum
+#: view:university.curriculum:university_curriculum.view_university_curriculum_form
+msgid "Curricula"
+msgstr "المناهج الدراسية"

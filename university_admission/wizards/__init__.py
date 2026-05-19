@@ -1,0 +1,1 @@
+from . import ministry_import_wizard

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="admission_verification_success" name="Email Verified">
+        <t t-call="website.layout">
+            <div class="container mt-5 mb-5">
+                <div class="alert alert-success" role="alert">
+                    <h4 class="alert-heading">Email Verified!</h4>
+                    <p><t t-esc="message"/></p>
+                    <hr/>
+                    <a href="/admission/apply" class="btn btn-primary">Go to Home</a>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="admission_verification_failed" name="Verification Failed">
+        <t t-call="website.layout">
+            <div class="container mt-5 mb-5">
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">Verification Failed!</h4>
+                    <p><t t-esc="error"/></p>
+                    <hr/>
+                    <a href="/admission/apply" class="btn btn-primary">Try Again</a>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

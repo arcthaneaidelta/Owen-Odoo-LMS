@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ═══ PORTAL HOME: Schedule / Timetable cards ══════════════════════════ -->
+    <template id="portal_my_home_timetable" name="Portal: My Schedule Cards"
+              inherit_id="portal.portal_my_home" priority="30">
+
+        <xpath expr="//div[@id='portal_common_category']" position="before">
+
+            <!-- My Class Schedule — portal/student users only -->
+            <t t-if="request.env.user.has_group('university_core.group_student_portal') or request.env.user.has_group('base.group_portal')">
+                <div class="col-md-6 mb-3">
+                    <a href="/my/schedule"
+                       class="lms-action-card schedule d-flex flex-column align-items-center h-100 w-100">
+                        <div class="lms-action-icon">
+                            <i class="fa fa-calendar-check-o"/>
+                        </div>
+                        <div class="lms-action-label">My Class Schedule</div>
+                        <div class="lms-action-desc">View your weekly timetable, subjects, teachers and rooms</div>
+                    </a>
+                </div>
+            </t>
+
+            <!-- Teaching Schedule — teacher/coordinator/manager/admin users -->
+            <t t-if="request.env.user.has_group('university_core.group_teacher') or
+                      request.env.user.has_group('university_core.group_academic_coordinator') or
+                      request.env.user.has_group('university_core.group_university_manager') or
+                      request.env.user.has_group('university_core.group_university_super_admin')">
+                <div class="col-md-6 mb-3">
+                    <a href="/my/timetable"
+                       class="lms-action-card timetable d-flex flex-column align-items-center h-100 w-100">
+                        <div class="lms-action-icon">
+                            <i class="fa fa-table"/>
+                        </div>
+                        <div class="lms-action-label">Teaching Schedule</div>
+                        <div class="lms-action-desc">View your assigned sessions, rooms and batches by week</div>
+                    </a>
+                </div>
+            </t>
+
+            <!-- Room Occupancy — teacher/admin users -->
+            <t t-if="request.env.user.has_group('university_core.group_teacher') or
+                      request.env.user.has_group('university_core.group_academic_coordinator') or
+                      request.env.user.has_group('university_core.group_university_manager') or
+                      request.env.user.has_group('university_core.group_university_super_admin')">
+                <div class="col-md-6 mb-3">
+                    <a href="/schedule/rooms"
+                       class="lms-action-card rooms d-flex flex-column align-items-center h-100 w-100">
+                        <div class="lms-action-icon">
+                            <i class="fa fa-building-o"/>
+                        </div>
+                        <div class="lms-action-label">Room Occupancy</div>
+                        <div class="lms-action-desc">Check which rooms are free or occupied for each day</div>
+                    </a>
+                </div>
+            </t>
+
+        </xpath>
+    </template>
+
+    <!-- ═══ ADMIN: All Teachers List ═════════════════════════════════════════ -->
+    <template id="portal_admin_teacher_list" name="All Teachers Schedules">
+        <t t-call="web.layout">
+            <t t-set="head">
+                <style>
+                    body { font-family:'Segoe UI',Arial,sans-serif; background:#f4f6f8; }
+                    .page-header { background:linear-gradient(135deg,#1a237e,#283593); color:white; padding:30px; border-radius:12px; margin-bottom:24px; }
+                    .teacher-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:16px; }
+                    .teacher-card { background:white; border-radius:12px; overflow:hidden; box-shadow:0 2px 10px rgba(0,0,0,.08); text-decoration:none; color:inherit; transition:transform .2s,box-shadow .2s; display:block; }
+                    .teacher-card:hover { transform:translateY(-3px); box-shadow:0 6px 20px rgba(0,0,0,.14); }
+                    .teacher-avatar { background:linear-gradient(135deg,#1a237e,#3949ab); padding:24px; text-align:center; }
+                    .teacher-avatar span { font-size:2.5rem; }
+                    .teacher-info { padding:14px; }
+                    .teacher-name { font-weight:700; color:#1a237e; font-size:.95rem; margin-bottom:4px; }
+                    .teacher-dept { font-size:.8rem; color:#666; }
+                    .teacher-badge { display:inline-block; background:#e8eaf6; color:#3949ab; padding:2px 8px; border-radius:10px; font-size:.75rem; margin-top:6px; }
+                    .no-teachers { text-align:center; padding:60px 20px; color:#aaa; }
+                </style>
+            </t>
+            <div class="container py-4">
+                <div class="page-header">
+                    <h1 style="font-size:1.8rem;margin:0;">👩‍🏫 All Teachers' Schedules</h1>
+                    <p style="margin:6px 0 0;opacity:.85;">Click any teacher to view their weekly teaching schedule.</p>
+                </div>
+
+                <t t-if="all_teachers">
+                    <div class="teacher-grid">
+                        <t t-foreach="all_teachers" t-as="teacher">
+                            <a t-att-href="'/my/timetable/%d' % teacher.id" class="teacher-card">
+                                <div class="teacher-avatar">
+                                    <span>👤</span>
+                                </div>
+                                <div class="teacher-info">
+                                    <div class="teacher-name"><t t-esc="teacher.name"/></div>
+                                    <div class="teacher-dept"><t t-esc="teacher.university_department_id.name or 'No Department'"/></div>
+                                    <span class="teacher-badge">View Schedule →</span>
+                                </div>
+                            </a>
+                        </t>
+                    </div>
+                </t>
+                <t t-else="">
+                    <div class="no-teachers">
+                        <p style="font-size:3rem;">👩‍🏫</p>
+                        <p>No teachers found in the system.</p>
+                    </div>
+                </t>
+
+                <div class="mt-4">
+                    <a href="/my/home" class="btn btn-outline-secondary">← Back to Portal Home</a>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ═══ TEACHER PORTAL: My Teaching Schedule ═════════════════════════════ -->
+    <template id="portal_teacher_timetable" name="My Teaching Schedule">
+        <t t-call="web.layout">
+            <t t-set="head">
+                <style>
+                    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f8; }
+                    .schedule-header { background: linear-gradient(135deg, #2c3e50, #3498db); color: white; padding: 30px; border-radius: 12px; margin-bottom: 24px; }
+                    .schedule-header h1 { font-size: 1.8rem; margin: 0; }
+                    .schedule-header p { margin: 5px 0 0; opacity: 0.85; }
+                    .week-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 24px; }
+                    .day-col { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+                    .day-header { background: #2c3e50; color: white; text-align: center; padding: 10px; font-weight: 700; font-size: 0.9rem; letter-spacing: 0.5px; }
+                    .day-empty { text-align: center; padding: 24px; color: #aaa; font-size: 0.85rem; }
+                    .session-card { margin: 8px; padding: 10px 12px; border-radius: 8px; border-left: 4px solid #3498db; background: #f8f9fa; }
+                    .session-card.theory  { border-color: #3498db; background: #eef6fd; }
+                    .session-card.practical { border-color: #e67e22; background: #fef5ec; }
+                    .session-card.lab     { border-color: #27ae60; background: #eafaf1; }
+                    .session-card.tutorial { border-color: #9b59b6; background: #f5eef8; }
+                    .session-time { font-size: 0.75rem; color: #777; font-weight: 600; margin-bottom: 4px; }
+                    .session-subject { font-weight: 700; color: #2c3e50; font-size: 0.9rem; }
+                    .session-meta { font-size: 0.78rem; color: #666; margin-top: 3px; }
+                    .type-badge { display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 0.72rem; font-weight: 600; color: white; margin-top: 4px; }
+                    .badge-theory { background: #3498db; } .badge-practical { background: #e67e22; }
+                    .badge-lab { background: #27ae60; } .badge-tutorial { background: #9b59b6; }
+                    .no-schedule { text-align: center; padding: 60px 20px; color: #aaa; }
+                    .no-schedule i { font-size: 3rem; margin-bottom: 12px; display: block; }
+                    @media (max-width: 768px) { .week-grid { grid-template-columns: 1fr; } }
+                </style>
+            </t>
+            <div class="container py-4">
+                <div class="schedule-header">
+                    <h1>📅 My Teaching Schedule</h1>
+                    <p t-if="employee">
+                        <strong t-esc="employee.name"/> — <span t-esc="employee.university_department_id.name or 'No Department'"/>
+                    </p>
+                    <p t-if="not employee" style="color: #f39c12;">⚠ You are not linked to a teacher profile.</p>
+                </div>
+
+                <t t-if="employee and sessions">
+                    <div class="week-grid">
+                        <t t-foreach="days_order[:5]" t-as="day">
+                            <div class="day-col">
+                                <div class="day-header"><t t-esc="day_labels[day]"/></div>
+                                <t t-if="grid[day]">
+                                    <t t-foreach="grid[day]" t-as="s">
+                                        <div t-att-class="'session-card ' + s.session_type">
+                                            <div class="session-time">
+                                                <t t-esc="'%02d:%02d' % (int(s.start_time), int((s.start_time % 1) * 60))"/>
+                                                –
+                                                <t t-esc="'%02d:%02d' % (int(s.end_time), int((s.end_time % 1) * 60))"/>
+                                            </div>
+                                            <div class="session-subject"><t t-esc="s.subject_id.name"/></div>
+                                            <div class="session-meta">🏢 <t t-esc="s.room_id.name"/></div>
+                                            <div class="session-meta">👥 <t t-esc="s.batch_id.name"/></div>
+                                            <span t-att-class="'type-badge badge-' + s.session_type">
+                                                <t t-esc="s.session_type.title()"/>
+                                            </span>
+                                        </div>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <div class="day-empty">Free</div>
+                                </t>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+                <t t-else="">
+                    <div class="no-schedule">
+                        <i class="fa fa-calendar-o"/>
+                        <p>No published sessions assigned to you yet.</p>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <!-- ═══ STUDENT PORTAL: My Class Schedule ════════════════════════════════ -->
+    <template id="portal_student_schedule" name="My Class Schedule">
+        <t t-call="web.layout">
+            <t t-set="head">
+                <style>
+                    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f8; }
+                    .schedule-header { background: linear-gradient(135deg, #1a5276, #2980b9); color: white; padding: 30px; border-radius: 12px; margin-bottom: 24px; }
+                    .schedule-header h1 { font-size: 1.8rem; margin: 0; }
+                    .week-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+                    .day-col { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+                    .day-header { background: #1a5276; color: white; text-align: center; padding: 10px; font-weight: 700; }
+                    .day-empty { text-align: center; padding: 24px; color: #aaa; font-size: 0.85rem; }
+                    .session-card { margin: 8px; padding: 10px 12px; border-radius: 8px; border-left: 4px solid #2980b9; background: #f8f9fa; }
+                    .session-card.theory  { border-color: #2980b9; background: #eef6fd; }
+                    .session-card.practical { border-color: #ca6f1e; background: #fef5ec; }
+                    .session-card.lab     { border-color: #1e8449; background: #eafaf1; }
+                    .session-card.tutorial { border-color: #7d3c98; background: #f5eef8; }
+                    .session-time { font-size: 0.75rem; color: #777; font-weight: 600; }
+                    .session-subject { font-weight: 700; color: #1a252f; font-size: 0.9rem; }
+                    .session-meta { font-size: 0.78rem; color: #666; margin-top: 3px; }
+                    .type-badge { display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 0.72rem; font-weight: 600; color: white; margin-top: 4px; }
+                    .badge-theory { background: #2980b9; } .badge-practical { background: #ca6f1e; }
+                    .badge-lab { background: #1e8449; } .badge-tutorial { background: #7d3c98; }
+                    .no-schedule { text-align: center; padding: 60px 20px; color: #aaa; }
+                    .no-schedule i { font-size: 3rem; margin-bottom: 12px; display: block; }
+                    @media (max-width: 768px) { .week-grid { grid-template-columns: 1fr; } }
+                </style>
+            </t>
+            <div class="container py-4">
+                <div class="schedule-header">
+                    <h1>📚 My Class Schedule</h1>
+                    <p t-if="student">
+                        <strong t-esc="student.display_name_ar or student.name_en"/> 
+                        — Batch: <strong t-esc="student.batch_id.name or 'Unassigned'"/>
+                    </p>
+                </div>
+
+                <t t-if="student and sessions">
+                    <div class="week-grid">
+                        <t t-foreach="days_order[:5]" t-as="day">
+                            <div class="day-col">
+                                <div class="day-header"><t t-esc="day_labels[day]"/></div>
+                                <t t-if="grid[day]">
+                                    <t t-foreach="grid[day]" t-as="s">
+                                        <div t-att-class="'session-card ' + s.session_type">
+                                            <div class="session-time">
+                                                <t t-esc="'%02d:%02d' % (int(s.start_time), int((s.start_time % 1) * 60))"/>
+                                                –
+                                                <t t-esc="'%02d:%02d' % (int(s.end_time), int((s.end_time % 1) * 60))"/>
+                                            </div>
+                                            <div class="session-subject"><t t-esc="s.subject_id.name"/></div>
+                                            <div class="session-meta">👨‍🏫 <t t-esc="s.teacher_id.name"/></div>
+                                            <div class="session-meta">🏢 <t t-esc="s.room_id.name"/></div>
+                                            <span t-att-class="'type-badge badge-' + s.session_type">
+                                                <t t-esc="s.session_type.title()"/>
+                                            </span>
+                                        </div>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <div class="day-empty">No Class</div>
+                                </t>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+                <t t-else="">
+                    <div class="no-schedule">
+                        <i class="fa fa-calendar-o"/>
+                        <p>No published schedule for your batch yet.</p>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <!-- ═══ ROOM OCCUPANCY PORTAL ════════════════════════════════════════════ -->
+    <template id="portal_room_occupancy" name="Room Occupancy">
+        <t t-call="web.layout">
+            <t t-set="head">
+                <style>
+                    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f8; }
+                    .page-header { background: linear-gradient(135deg, #1b2631, #117a65); color: white; padding: 30px; border-radius: 12px; margin-bottom: 24px; }
+                    .page-header h1 { font-size: 1.8rem; margin: 0; }
+                    .room-selector { background: white; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+                    .room-btn { display: inline-block; margin: 4px; padding: 7px 14px; border-radius: 20px; text-decoration: none; color: #2c3e50; border: 2px solid #bdc3c7; background: white; font-size: 0.85rem; transition: all 0.2s; }
+                    .room-btn:hover, .room-btn.active { background: #117a65; color: white; border-color: #117a65; }
+                    .week-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+                    .day-col { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+                    .day-header { background: #117a65; color: white; text-align: center; padding: 10px; font-weight: 700; }
+                    .day-empty { text-align: center; padding: 24px; color: #aaa; font-size: 0.85rem; }
+                    .session-card { margin: 8px; padding: 10px 12px; border-radius: 8px; background: #f0fdf4; border-left: 4px solid #117a65; }
+                    .session-time { font-size: 0.75rem; color: #777; font-weight: 600; }
+                    .session-subject { font-weight: 700; color: #1b2631; font-size: 0.9rem; }
+                    .session-meta { font-size: 0.78rem; color: #555; margin-top: 3px; }
+                    .free-badge { display: inline-block; background: #27ae60; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.72rem; }
+                    .busy-badge { display: inline-block; background: #e74c3c; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.72rem; }
+                    .no-selection { text-align: center; padding: 60px 20px; color: #aaa; }
+                    @media (max-width: 768px) { .week-grid { grid-template-columns: 1fr; } }
+                </style>
+            </t>
+            <div class="container py-4">
+                <div class="page-header">
+                    <h1>🏢 Room Occupancy Dashboard</h1>
+                    <p>See which rooms are busy and which are free each day of the week.</p>
+                </div>
+
+                <!-- Room Selector -->
+                <div class="room-selector">
+                    <strong style="color: #2c3e50;">Select Room:</strong><br/><br/>
+                    <t t-foreach="rooms" t-as="room">
+                        <a t-att-href="'/schedule/rooms?room_id=%d' % room.id"
+                           t-att-class="'room-btn' + (' active' if selected_room and selected_room.id == room.id else '')">
+                            <t t-esc="room.name"/>
+                            <small style="opacity: 0.75;"> (<t t-esc="room.capacity"/> seats)</small>
+                        </a>
+                    </t>
+                </div>
+
+                <t t-if="selected_room">
+                    <h4 style="color: #117a65; margin-bottom: 16px;">
+                        Weekly Schedule — <t t-esc="selected_room.name"/>
+                        (<t t-esc="selected_room.room_type.title()"/>, Capacity: <t t-esc="selected_room.capacity"/>)
+                    </h4>
+                    <div class="week-grid">
+                        <t t-foreach="days_order[:5]" t-as="day">
+                            <div class="day-col">
+                                <div class="day-header"><t t-esc="day_labels[day]"/></div>
+                                <t t-if="grid[day]">
+                                    <t t-foreach="grid[day]" t-as="s">
+                                        <div class="session-card">
+                                            <div class="session-time">
+                                                <t t-esc="'%02d:%02d' % (int(s.start_time), int((s.start_time % 1) * 60))"/>
+                                                –
+                                                <t t-esc="'%02d:%02d' % (int(s.end_time), int((s.end_time % 1) * 60))"/>
+                                            </div>
+                                            <div class="session-subject"><t t-esc="s.subject_id.name"/></div>
+                                            <div class="session-meta">👥 <t t-esc="s.batch_id.name"/></div>
+                                            <div class="session-meta">👨‍🏫 <t t-esc="s.teacher_id.name"/></div>
+                                            <span class="busy-badge">Occupied</span>
+                                        </div>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <div class="day-empty">
+                                        <span class="free-badge">Free</span>
+                                    </div>
+                                </t>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+                <t t-else="">
+                    <div class="no-selection">
+                        <i class="fa fa-building-o" style="font-size: 3rem; display: block; margin-bottom: 12px; color: #ccc;"/>
+                        <p>Select a room above to see its weekly occupancy.</p>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>

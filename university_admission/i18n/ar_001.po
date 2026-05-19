@@ -1,0 +1,767 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: System Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-05 00:00+0000\n"
+"PO-Revision-Date: 2026-03-05 00:00+0000\n"
+"Last-Translator: University Dev Team\n"
+"Language-Team: Arabic <ar@li.org>\n"
+"Language: ar_001\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#. module: university_admission
+#: model:ir.module.module,shortdesc:university_admission.module_university_admission
+msgid "University Admission Module"
+msgstr "وحدة القبول الجامعي"
+
+#. module: university_admission
+#: model:ir.model,name:university_admission.model_university_admission
+msgid "Student Admission Application"
+msgstr "طلب قبول طالب"
+
+#. module: university_admission
+#: model:ir.model,name:university_admission.model_university_subject_equivalency
+msgid "Transfer Student Subject Equivalency"
+msgstr "معادلة مواد طالب النقل"
+
+#. module: university_admission
+#: model:ir.actions.act_window,name:university_admission.action_university_admission
+msgid "Admission Applications"
+msgstr "طلبات القبول"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__name
+msgid "Application Reference"
+msgstr "رقم مرجع الطلب"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__application_date
+msgid "Application Date"
+msgstr "تاريخ تقديم الطلب"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__state
+msgid "Stage"
+msgstr "المرحلة"
+
+#. module: university_admission
+#: model:ir.model.fields.selection,name:university_admission.selection__university_admission__state__draft
+msgid "1. Draft"
+msgstr "1. مسودة"
+
+#. module: university_admission
+#: model:ir.model.fields.selection,name:university_admission.selection__university_admission__state__validated
+msgid "2. Validated"
+msgstr "2. تم التحقق"
+
+#. module: university_admission
+#: model:ir.model.fields.selection,name:university_admission.selection__university_admission__state__ministry_submitted
+msgid "3. Ministry Submitted"
+msgstr "3. مُقدَّم للوزارة"
+
+#. module: university_admission
+#: model:ir.model.fields.selection,name:university_admission.selection__university_admission__state__ministry_approved
+msgid "4. Ministry Approved"
+msgstr "4. موافقة الوزارة"
+
+#. module: university_admission
+#: model:ir.model.fields.selection,name:university_admission.selection__university_admission__state__medical_review
+msgid "5. Medical Review"
+msgstr "5. مراجعة طبية"
+
+#. module: university_admission
+#: model:ir.model.fields.selection,name:university_admission.selection__university_admission__state__program_review
+msgid "6. Program Review"
+msgstr "6. مراجعة البرنامج"
+
+#. module: university_admission
+#: model:ir.model.fields.selection,name:university_admission.selection__university_admission__state__head_approval
+msgid "7. Head Approval"
+msgstr "7. موافقة رئيس القبول"
+
+#. module: university_admission
+#: model:ir.model.fields.selection,name:university_admission.selection__university_admission__state__invoice_generated
+msgid "8. Invoice Generated"
+msgstr "8. تم إنشاء الفاتورة"
+
+#. module: university_admission
+#: model:ir.model.fields.selection,name:university_admission.selection__university_admission__state__payment_received
+msgid "9. Payment Received"
+msgstr "9. تم استلام الدفع"
+
+#. module: university_admission
+#: model:ir.model.fields.selection,name:university_admission.selection__university_admission__state__registered
+msgid "10. Registered"
+msgstr "10. مسجل"
+
+#. module: university_admission
+#: model:ir.model.fields.selection,name:university_admission.selection__university_admission__state__rejected
+msgid "Rejected"
+msgstr "مرفوض"
+
+#. module: university_admission
+#: model:ir.model.fields.selection,name:university_admission.selection__university_admission__state__cancelled
+msgid "Cancelled"
+msgstr "ملغى"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__full_arabic_name
+msgid "Full Arabic Name"
+msgstr "الاسم الرباعي الكامل"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__national_id
+msgid "National ID"
+msgstr "الرقم الوطني"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__gender
+msgid "Gender"
+msgstr "الجنس"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__date_of_birth
+msgid "Date of Birth"
+msgstr "تاريخ الميلاد"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__phone
+msgid "Phone"
+msgstr "الهاتف"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__whatsapp
+msgid "WhatsApp"
+msgstr "واتساب"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__email
+msgid "Email"
+msgstr "البريد الإلكتروني"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__secondary_school
+msgid "Secondary School"
+msgstr "المدرسة الثانوية"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__gobno
+msgid "Governorate No. (GOBNO)"
+msgstr "رقم الولاية (GOBNO)"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__gobols
+msgid "Admission Type (GOBOLS)"
+msgstr "نوع القبول (GOBOLS)"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__program_id
+msgid "Requested Program"
+msgstr "البرنامج المطلوب"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__admission_type
+msgid "Admission Type"
+msgstr "نوع القبول"
+
+#. module: university_admission
+#: model:ir.model.fields.selection,name:university_admission.selection__university_admission__admission_type__new
+msgid "New Student"
+msgstr "طالب جديد"
+
+#. module: university_admission
+#: model:ir.model.fields.selection,name:university_admission.selection__university_admission__admission_type__mature
+msgid "Mature Student"
+msgstr "طالب ناضج"
+
+#. module: university_admission
+#: model:ir.model.fields.selection,name:university_admission.selection__university_admission__admission_type__bridging
+msgid "Bridging"
+msgstr "تجسير"
+
+#. module: university_admission
+#: model:ir.model.fields.selection,name:university_admission.selection__university_admission__admission_type__transfer
+msgid "Transfer"
+msgstr "نقل"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__academic_year_id
+msgid "Academic Year"
+msgstr "السنة الدراسية"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__year_ministry
+msgid "YEAR (Ministry Format)"
+msgstr "السنة الدراسية (تنسيق الوزارة)"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__frmno
+msgid "FRMNO"
+msgstr "رقم الاستمارة (FRMNO)"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__fac
+msgid "FAC"
+msgstr "رمز الكلية (FAC)"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__univ_id
+msgid "UNIV_ID"
+msgstr "معرّف الجامعة (UNIV_ID)"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__facname
+msgid "FACNAME"
+msgstr "اسم الكلية (FACNAME)"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__university_ministry
+msgid "UNIVERSITY (Ministry)"
+msgstr "اسم الجامعة (الوزارة)"
+
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__ministry_university_number
+msgid "Ministry University Number"
+msgstr "الرقم الجامعي من الوزارة"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__medical_reviewer_id
+msgid "Medical Reviewer"
+msgstr "المراجع الطبي"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__medical_review_date
+msgid "Medical Review Date"
+msgstr "تاريخ المراجعة الطبية"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__medical_result
+msgid "Medical Result"
+msgstr "النتيجة الطبية"
+
+#. module: university_admission
+#: model:ir.model.fields.selection,name:university_admission.selection__university_admission__medical_result__pending
+msgid "Pending"
+msgstr "قيد الانتظار"
+
+#. module: university_admission
+#: model:ir.model.fields.selection,name:university_admission.selection__university_admission__medical_result__passed
+msgid "Passed"
+msgstr "ناجح"
+
+#. module: university_admission
+#: model:ir.model.fields.selection,name:university_admission.selection__university_admission__medical_result__failed
+msgid "Failed"
+msgstr "راسب"
+
+#. module: university_admission
+#: model:ir.model.fields.selection,name:university_admission.selection__university_admission__medical_result__conditional
+msgid "Conditional Pass"
+msgstr "نجاح مشروط"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__color_blindness_test
+msgid "Color Blindness Test"
+msgstr "اختبار عمى الألوان"
+
+#. module: university_admission
+#: model:ir.model.fields.selection,name:university_admission.selection__university_admission__color_blindness_test__pass
+msgid "Pass"
+msgstr "ناجح"
+
+#. module: university_admission
+#: model:ir.model.fields.selection,name:university_admission.selection__university_admission__color_blindness_test__fail
+msgid "Fail"
+msgstr "راسب"
+
+#. module: university_admission
+#: model:ir.model.fields.selection,name:university_admission.selection__university_admission__color_blindness_test__na
+msgid "N/A"
+msgstr "غير مطبق"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__health_book_scan
+msgid "Health Book Scan"
+msgstr "صورة الدفتر الصحي"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__medical_notes
+msgid "Medical Notes"
+msgstr "الملاحظات الطبية"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__program_reviewer_id
+msgid "Program Reviewer"
+msgstr "مراجع البرنامج"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__program_review_date
+msgid "Program Review Date"
+msgstr "تاريخ مراجعة البرنامج"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__program_review_notes
+msgid "Program Review Notes"
+msgstr "ملاحظات مراجعة البرنامج"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__head_of_admissions_id
+msgid "Head of Admissions"
+msgstr "رئيس القبول والتسجيل"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__head_approval_date
+msgid "Head Approval Date"
+msgstr "تاريخ موافقة الرئيس"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__approval_notes
+msgid "Approval Notes"
+msgstr "ملاحظات الموافقة"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__invoice_id
+msgid "Invoice"
+msgstr "الفاتورة"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__invoice_payment_status
+msgid "Invoice Payment Status"
+msgstr "حالة دفع الفاتورة"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__bank_reference_number
+msgid "Bank Reference Number"
+msgstr "الرقم المرجعي للبنك"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__student_id
+msgid "Created Student"
+msgstr "الطالب المُنشأ"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__rejection_reason
+msgid "Rejection Reason"
+msgstr "سبب الرفض"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__subject_equivalency_ids
+msgid "Subject Equivalencies"
+msgstr "معادلة المواد الدراسية"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__national_id_scan
+msgid "National ID Scan"
+msgstr "صورة الهوية الوطنية"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__birth_certificate
+msgid "Birth Certificate"
+msgstr "شهادة الميلاد"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__photo
+msgid "Photo"
+msgstr "الصورة الشخصية"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__previous_transcript
+msgid "Previous Transcript (Transfer/Bridging)"
+msgstr "كشف الدرجات السابق (نقل/تجسير)"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__internal_notes
+msgid "Internal Notes"
+msgstr "ملاحظات داخلية"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_subject_equivalency__admission_id
+msgid "Admission Application"
+msgstr "طلب القبول"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_subject_equivalency__previous_subject_name
+msgid "Previous Subject Name"
+msgstr "اسم المادة السابقة"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_subject_equivalency__previous_subject_code
+msgid "Previous Subject Code"
+msgstr "رمز المادة السابقة"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_subject_equivalency__previous_credit_hours
+msgid "Previous Credit Hours"
+msgstr "الساعات المعتمدة السابقة"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_subject_equivalency__previous_grade
+msgid "Previous Grade"
+msgstr "الدرجة السابقة"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_subject_equivalency__previous_institution
+msgid "Previous Institution"
+msgstr "المؤسسة السابقة"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_subject_equivalency__equivalent_subject_id
+msgid "Equivalent Subject (Current Curriculum)"
+msgstr "المادة المعادلة (المنهج الحالي)"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_subject_equivalency__equivalency_status
+msgid "Equivalency Status"
+msgstr "حالة المعادلة"
+
+#. module: university_admission
+#: model:ir.model.fields.selection,name:university_admission.selection__university_subject_equivalency__equivalency_status__pending
+msgid "Pending Review"
+msgstr "قيد المراجعة"
+
+#. module: university_admission
+#: model:ir.model.fields.selection,name:university_admission.selection__university_subject_equivalency__equivalency_status__approved
+msgid "Approved"
+msgstr "معتمدة"
+
+#. module: university_admission
+#: model:ir.model.fields.selection,name:university_admission.selection__university_subject_equivalency__equivalency_status__not_equivalent
+msgid "Not Equivalent"
+msgstr "غير معادلة"
+
+#. module: university_admission
+#: model:ir.model.fields.selection,name:university_admission.selection__university_subject_equivalency__equivalency_status__partial
+msgid "Partial Credit"
+msgstr "اعتماد جزئي"
+
+#. module: university_admission
+#: model:ir.model.fields.selection,name:university_admission.selection__university_subject_equivalency__equivalency_status__exempt
+msgid "Exempt (Full Credit)"
+msgstr "إعفاء (اعتماد كامل)"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_subject_equivalency__awarded_credit_hours
+msgid "Awarded Credit Hours"
+msgstr "الساعات المعتمدة الممنوحة"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_subject_equivalency__reviewed_by_id
+msgid "Reviewed By"
+msgstr "راجعه"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_subject_equivalency__review_date
+msgid "Review Date"
+msgstr "تاريخ المراجعة"
+
+#. module: university_admission
+#: model:ir.ui.menu,name:university_admission.menu_admissions_root
+msgid "Admissions"
+msgstr "القبول والتسجيل"
+
+#. module: university_admission
+#: model:ir.ui.menu,name:university_admission.menu_all_applications
+msgid "All Applications"
+msgstr "جميع الطلبات"
+
+#. module: university_admission
+#: model:ir.ui.menu,name:university_admission.menu_medical_review_queue
+msgid "Medical Review Queue"
+msgstr "قائمة انتظار المراجعة الطبية"
+
+#. module: university_admission
+#: model:ir.ui.menu,name:university_admission.menu_subject_equivalencies
+msgid "Subject Equivalencies"
+msgstr "معادلة المواد"
+
+#. module: university_admission
+#: view:university.admission:university_admission.view_university_admission_form
+msgid "Validate Application"
+msgstr "التحقق من الطلب"
+
+#. module: university_admission
+#: view:university.admission:university_admission.view_university_admission_form
+msgid "Submit to Ministry"
+msgstr "إرسال إلى الوزارة"
+
+#. module: university_admission
+#: view:university.admission:university_admission.view_university_admission_form
+msgid "Ministry Approved"
+msgstr "موافقة الوزارة"
+
+#. module: university_admission
+#: view:university.admission:university_admission.view_university_admission_form
+msgid "Send to Medical Committee"
+msgstr "إرسال إلى اللجنة الطبية"
+
+#. module: university_admission
+#: view:university.admission:university_admission.view_university_admission_form
+msgid "Medical Approved"
+msgstr "موافقة طبية"
+
+#. module: university_admission
+#: view:university.admission:university_admission.view_university_admission_form
+msgid "Program Approved"
+msgstr "موافقة البرنامج"
+
+#. module: university_admission
+#: view:university.admission:university_admission.view_university_admission_form
+msgid "Head Approve & Generate Invoice"
+msgstr "موافقة الرئيس وإنشاء الفاتورة"
+
+#. module: university_admission
+#: view:university.admission:university_admission.view_university_admission_form
+msgid "Confirm Payment"
+msgstr "تأكيد الدفع"
+
+#. module: university_admission
+#: view:university.admission:university_admission.view_university_admission_form
+msgid "Register Student"
+msgstr "تسجيل الطالب"
+
+#. module: university_admission
+#: view:university.admission:university_admission.view_university_admission_form
+msgid "Reject"
+msgstr "رفض"
+
+#. module: university_admission
+#: view:university.admission:university_admission.view_university_admission_form
+msgid "Reset to Draft"
+msgstr "إعادة إلى المسودة"
+
+#. module: university_admission
+#: view:university.admission:university_admission.view_university_admission_form
+msgid "View Student"
+msgstr "عرض الطالب"
+
+#. module: university_admission
+#: view:university.admission:university_admission.view_university_admission_form
+msgid "Applicant"
+msgstr "مقدّم الطلب"
+
+#. module: university_admission
+#: view:university.admission:university_admission.view_university_admission_form
+msgid "Four-Part Arabic Name"
+msgstr "الاسم الرباعي"
+
+#. module: university_admission
+#: view:university.admission:university_admission.view_university_admission_form
+msgid "Identity"
+msgstr "الهوية"
+
+#. module: university_admission
+#: view:university.admission:university_admission.view_university_admission_form
+msgid "School Info (Ministry Fields)"
+msgstr "معلومات المدرسة (حقول الوزارة)"
+
+#. module: university_admission
+#: view:university.admission:university_admission.view_university_admission_form
+msgid "Ministry Data"
+msgstr "بيانات الوزارة"
+
+#. module: university_admission
+#: view:university.admission:university_admission.view_university_admission_form
+msgid "Medical"
+msgstr "الطبي"
+
+#. module: university_admission
+#: view:university.admission:university_admission.view_university_admission_form
+msgid "Finance"
+msgstr "المالية"
+
+#. module: university_admission
+#: view:university.admission:university_admission.view_university_admission_form
+msgid "Subject Equivalency"
+msgstr "معادلة المواد"
+
+#. module: university_admission
+#: view:university.admission:university_admission.view_university_admission_form
+msgid "Documents"
+msgstr "المستندات"
+
+#. module: university_admission
+#: view:university.admission:university_admission.view_university_admission_form
+msgid "Notes"
+msgstr "الملاحظات"
+
+#. module: university_admission
+#: code:addons/university_management/university_admission/models/admission.py:0
+#, python-format
+msgid "The following required fields are missing: %s"
+msgstr "الحقول المطلوبة التالية مفقودة: %s"
+
+#. module: university_admission
+#: code:addons/university_management/university_admission/models/admission.py:0
+#, python-format
+msgid "A student with National ID \"%s\" already exists in the system: %s"
+msgstr "يوجد طالب برقم وطني \"%s\" في النظام مسبقاً: %s"
+
+#. module: university_admission
+#: code:addons/university_management/university_admission/models/admission.py:0
+#, python-format
+msgid "Please enter the Ministry University Number before approving."
+msgstr "يرجى إدخال الرقم الجامعي من الوزارة قبل الموافقة."
+
+#. module: university_admission
+#: code:addons/university_management/university_admission/models/admission.py:0
+#, python-format
+msgid "Medical result is FAIL. Cannot proceed to program review."
+msgstr "النتيجة الطبية راسب. لا يمكن المتابعة إلى مراجعة البرنامج."
+
+#. module: university_admission
+#: code:addons/university_management/university_admission/models/admission.py:0
+#, python-format
+msgid "Invoice must be paid before confirming payment. Please record payment on invoice %s first."
+msgstr "يجب دفع الفاتورة قبل تأكيد الدفع. يرجى تسجيل الدفع على الفاتورة %s أولاً."
+
+#. module: university_admission
+#: code:addons/university_management/university_admission/models/admission.py:0
+#, python-format
+msgid "Payment must be confirmed before registration."
+msgstr "يجب تأكيد الدفع قبل التسجيل."
+
+#. module: university_admission
+#: code:addons/university_management/university_admission/models/admission.py:0
+#, python-format
+msgid "An application for this National ID and academic year already exists."
+msgstr "يوجد طلب لهذا الرقم الوطني وهذه السنة الدراسية مسبقاً."
+
+#. module: university_admission
+#: code:addons/university_management/university_admission/models/admission.py:0
+#, python-format
+msgid "Application validated successfully."
+msgstr "تم التحقق من الطلب بنجاح."
+
+#. module: university_admission
+#: code:addons/university_management/university_admission/models/admission.py:0
+#, python-format
+msgid "Application submitted to Ministry."
+msgstr "تم إرسال الطلب إلى الوزارة."
+
+#. module: university_admission
+#: code:addons/university_management/university_admission/models/admission.py:0
+#, python-format
+msgid "Ministry approved. University Number: %s"
+msgstr "موافقة الوزارة. الرقم الجامعي: %s"
+
+#. module: university_admission
+#: code:addons/university_management/university_admission/models/admission.py:0
+#, python-format
+msgid "Sent to medical committee for review."
+msgstr "تم الإرسال إلى اللجنة الطبية للمراجعة."
+
+#. module: university_admission
+#: code:addons/university_management/university_admission/models/admission.py:0
+#, python-format
+msgid "Medical review passed. Forwarded to program committee."
+msgstr "اجتازت المراجعة الطبية. تم إرسالها إلى لجنة البرنامج."
+
+#. module: university_admission
+#: code:addons/university_management/university_admission/models/admission.py:0
+#, python-format
+msgid "Program review approved. Awaiting Head of Admissions."
+msgstr "تمت الموافقة على مراجعة البرنامج. في انتظار رئيس القبول."
+
+#. module: university_admission
+#: code:addons/university_management/university_admission/models/admission.py:0
+#, python-format
+msgid "Head approved. Invoice %s created."
+msgstr "موافقة الرئيس. تم إنشاء الفاتورة %s."
+
+#. module: university_admission
+#: code:addons/university_management/university_admission/models/admission.py:0
+#, python-format
+msgid "Payment confirmed."
+msgstr "تم تأكيد الدفع."
+
+#. module: university_admission
+#: code:addons/university_management/university_admission/models/admission.py:0
+#, python-format
+msgid "Student registered. Student ID: %s"
+msgstr "تم تسجيل الطالب. رقم الطالب: %s"
+
+#. module: university_admission
+#: code:addons/university_management/university_admission/models/admission.py:0
+#, python-format
+msgid "Application rejected."
+msgstr "تم رفض الطلب."
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__name_part1_ar
+msgid "N1 (First Name)"
+msgstr "الاسم الأول (N1)"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__name_part2_ar
+msgid "N2 (Father's Name)"
+msgstr "اسم الأب (N2)"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__name_part3_ar
+msgid "N3 (Grandfather's Name)"
+msgstr "اسم الجد (N3)"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__name_part4_ar
+msgid "N4 (Family Name)"
+msgstr "اسم الأسرة (N4)"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__name_en
+msgid "Name (English)"
+msgstr "الاسم بالإنجليزية"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__display_name_ar
+msgid "Full Arabic Name"
+msgstr "الاسم الرباعي الكامل"
+
+#. module: university_admission
+#: model:ir.model.fields.selection,name:university_admission.selection__university_admission__gender__male
+msgid "Male"
+msgstr "ذكر"
+
+#. module: university_admission
+#: model:ir.model.fields.selection,name:university_admission.selection__university_admission__gender__female
+msgid "Female"
+msgstr "أنثى"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_subject_equivalency__student_id
+msgid "Student"
+msgstr "الطالب"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_subject_equivalency__notes
+msgid "Notes"
+msgstr "الملاحظات"
+
+#. module: university_admission
+#: model:ir.model.fields,field_description:university_admission.field_university_admission__college_id
+msgid "College"
+msgstr "الكلية"
+
+#. module: university_admission
+#: view:university.admission:university_admission.view_university_admission_list
+msgid "Awaiting Ministry"
+msgstr "في انتظار الوزارة"
+
+#. module: university_admission
+#: view:university.admission:university_admission.view_university_admission_list
+msgid "Medical Review"
+msgstr "المراجعة الطبية"
+
+#. module: university_admission
+#: view:university.admission:university_admission.view_university_admission_list
+msgid "Registered"
+msgstr "مسجل"
+
+#. module: university_admission
+#: view:university.admission:university_admission.view_university_admission_list
+msgid "Rejected"
+msgstr "مرفوض"

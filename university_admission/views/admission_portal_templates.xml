@@ -1,0 +1,662 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="admission_apply_form" name="Online Admission Form">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty bg-light">
+                <section class="s_text_block pb40 pt40" data-snippet="s_text_block">
+                    <div class="container shadow-sm p-4 bg-white rounded">
+                        <div class="row">
+                            <div class="col-lg-12 text-center pb-4">
+                                <h1 class="display-4 font-weight-bold">University Admission Portal</h1>
+                                <p class="lead text-muted">Complete the form below to start your academic journey</p>
+                                
+                                <!-- Step Indicators -->
+                                <div class="d-flex justify-content-center mt-3 flex-wrap">
+                                    <span t-attf-class="badge #{'bg-primary' if step == 1 else 'bg-secondary'} me-2 mb-2 p-2">1. Personal Info</span>
+                                    <span t-attf-class="badge #{'bg-primary' if step == 2 else 'bg-secondary'} me-2 mb-2 p-2">2. Guardians</span>
+                                    <span t-attf-class="badge #{'bg-primary' if step == 3 else 'bg-secondary'} me-2 mb-2 p-2">3. Admission Data</span>
+                                    <t t-if="post.get('admission_type') != 'regular' or step == 4">
+                                        <span t-attf-class="badge #{'bg-primary' if step == 4 else 'bg-secondary'} me-2 mb-2 p-2">4. Prev. Institution</span>
+                                        <span t-attf-class="badge #{'bg-primary' if step == 5 else 'bg-secondary'} me-2 mb-2 p-2">5. Medical Info</span>
+                                    </t>
+                                    <t t-else="">
+                                        <span t-attf-class="badge #{'bg-primary' if step == 5 else 'bg-secondary'} me-2 mb-2 p-2">4. Medical Info</span>
+                                    </t>
+                                </div>
+                                
+                                <hr class="w-25 mx-auto border-primary mt-4"/>
+                            </div>
+                        </div>
+
+                        <t t-if="error">
+                            <div class="alert alert-danger" role="alert">
+                                <t t-esc="error"/>
+                            </div>
+                        </t>
+
+                        <form t-attf-action="/admission/apply?step={{step}}" method="post" class="mt-4" enctype="multipart/form-data">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                            <!-- ============================================== STEP 1 ============================================== -->
+                            <t t-if="step == 1">
+                                <h4 class="text-primary mb-3">1. Personal Information</h4>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label" for="admission_type">Admission Type *</label>
+                                        <select name="admission_type" class="form-select" required="required">
+                                            <option value="regular" t-att-selected="post.get('admission_type') == 'regular'">Regular (عام)</option>
+                                            <option value="mature" t-att-selected="post.get('admission_type') == 'mature'">Mature (ناضجين)</option>
+                                            <option value="bridging" t-att-selected="post.get('admission_type') == 'bridging'">Bridging (تجسير)</option>
+                                            <option value="transfer" t-att-selected="post.get('admission_type') == 'transfer'">Transfer (تحويل)</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label" for="citizenship">Citizenship *</label>
+                                        <select name="citizenship" class="form-select" required="required">
+                                            <option value="citizen" t-att-selected="post.get('citizenship') == 'citizen'">Citizen (مواطن)</option>
+                                            <option value="foreigner" t-att-selected="post.get('citizenship') == 'foreigner'">Foreigner (أجنبي)</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="col-md-3 mb-3">
+                                        <label class="form-label" for="name_part1_ar">First Name (Arabic) *</label>
+                                        <input type="text" name="name_part1_ar" class="form-control" required="required" t-att-value="post.get('name_part1_ar')" placeholder="e.g. محمد"/>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label class="form-label" for="name_part2_ar">Father's Name (Arabic) *</label>
+                                        <input type="text" name="name_part2_ar" class="form-control" required="required" t-att-value="post.get('name_part2_ar')" placeholder="e.g. أحمد"/>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label class="form-label" for="name_part3_ar">Grandfather's Name (Ar)</label>
+                                        <input type="text" name="name_part3_ar" class="form-control" t-att-value="post.get('name_part3_ar')" placeholder="e.g. علي"/>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label class="form-label" for="name_part4_ar">Family Name (Arabic)</label>
+                                        <input type="text" name="name_part4_ar" class="form-control" t-att-value="post.get('name_part4_ar')" placeholder="e.g. عثمان"/>
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label" for="name_en">Full Name (English)</label>
+                                        <input type="text" name="name_en" class="form-control" t-att-value="post.get('name_en')" placeholder="Full name in English"/>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label class="form-label" for="gender">Gender *</label>
+                                        <select name="gender" class="form-select" required="required">
+                                            <option value="male" t-att-selected="post.get('gender') == 'male'">Male</option>
+                                            <option value="female" t-att-selected="post.get('gender') == 'female'">Female</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label class="form-label" for="date_of_birth">Date of Birth</label>
+                                        <input type="date" name="date_of_birth" class="form-control" t-att-value="post.get('date_of_birth')"/>
+                                    </div>
+                                    
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label" for="passport_number">Passport Number</label>
+                                        <input type="text" name="passport_number" class="form-control" t-att-value="post.get('passport_number')" placeholder="e.g. P1234567"/>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label" for="id_document_number">ID Document Number</label>
+                                        <input type="text" name="id_document_number" class="form-control" t-att-value="post.get('id_document_number')" placeholder="e.g. 123456789"/>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label" for="nationality_id">Nationality</label>
+                                        <select name="nationality_id" class="form-select">
+                                            <option value="">Select Nationality...</option>
+                                            <t t-foreach="countries" t-as="c">
+                                                <option t-att-value="c.get('id')" t-att-selected="str(post.get('nationality_id')) == str(c.get('id'))">
+                                                    <t t-esc="c.get('flag')"/> <t t-esc="c.get('name')"/>
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label" for="country_of_birth_id">Country of Birth</label>
+                                        <select name="country_of_birth_id" class="form-select">
+                                            <option value="">Select Country...</option>
+                                            <t t-foreach="countries" t-as="c">
+                                                <option t-att-value="c.get('id')" t-att-selected="str(post.get('country_of_birth_id')) == str(c.get('id'))">
+                                                    <t t-esc="c.get('flag')"/> <t t-esc="c.get('name')"/>
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label" for="religion">Religion</label>
+                                        <input type="text" name="religion" class="form-control" t-att-value="post.get('religion')" placeholder="e.g. Islam / Christianity"/>
+                                    </div>
+
+                                    <div class="col-md-8 mb-3">
+                                        <label class="form-label" for="address">Detailed Address</label>
+                                        <textarea name="address" class="form-control" rows="2" placeholder="Street, Block, House number..."><t t-esc="post.get('address')"/></textarea>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label" for="city_of_residence">City of Residence</label>
+                                        <input type="text" name="city_of_residence" class="form-control" t-att-value="post.get('city_of_residence')" placeholder="e.g. Khartoum"/>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label" for="residence_country_id">Country of Residence</label>
+                                        <select name="residence_country_id" class="form-select">
+                                            <option value="">Select Country...</option>
+                                            <t t-foreach="countries" t-as="c">
+                                                <option t-att-value="c.get('id')" t-att-selected="str(post.get('residence_country_id')) == str(c.get('id'))">
+                                                    <t t-esc="c.get('flag')"/> <t t-esc="c.get('name')"/>
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label" for="phone">Phone Number *</label>
+                                        <div class="input-group">
+                                            <select name="phone_country_id" class="form-select" style="max-width: 120px;">
+                                                <option value="">Code</option>
+                                                <t t-foreach="countries" t-as="c">
+                                                    <t t-if="c.get('phone_code')">
+                                                        <option t-att-value="c.get('id')" t-att-selected="str(post.get('phone_country_id')) == str(c.get('id'))">
+                                                            <t t-esc="c.get('flag')"/> +<t t-esc="c.get('phone_code')"/> (<t t-esc="c.get('code')"/>)
+                                                        </option>
+                                                    </t>
+                                                </t>
+                                            </select>
+                                            <input type="tel" name="phone" class="form-control" required="required" t-att-value="post.get('phone')" placeholder="Number"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label" for="phone_whatsapp">WhatsApp Number</label>
+                                        <div class="input-group">
+                                            <select name="whatsapp_country_id" class="form-select" style="max-width: 120px;">
+                                                <option value="">Code</option>
+                                                <t t-foreach="countries" t-as="c">
+                                                    <t t-if="c.get('phone_code')">
+                                                        <option t-att-value="c.get('id')" t-att-selected="str(post.get('whatsapp_country_id')) == str(c.get('id'))">
+                                                            <t t-esc="c.get('flag')"/> +<t t-esc="c.get('phone_code')"/> (<t t-esc="c.get('code')"/>)
+                                                        </option>
+                                                    </t>
+                                                </t>
+                                            </select>
+                                            <input type="tel" name="phone_whatsapp" class="form-control" t-att-value="post.get('phone_whatsapp')" placeholder="Number"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label" for="email">Email Address</label>
+                                        <input type="email" name="email" class="form-control" t-att-value="post.get('email')" placeholder="e.g. student@example.com"/>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <label class="form-label" for="national_id">National ID *</label>
+                                        <input type="text" name="national_id" class="form-control" required="required" t-att-value="post.get('national_id')" placeholder="11-digit National ID"/>
+                                        <div class="form-text">As it appears on your ID card.</div>
+                                    </div>
+                                </div>
+                            </t>
+
+                            <!-- ============================================== STEP 2 ============================================== -->
+                            <t t-if="step == 2">
+                                <h4 class="text-primary mb-3">2. Guardian Information</h4>
+                                <p class="text-muted small mb-3">At least one guardian (Emergency Contact) is required.</p>
+                                
+                                <div id="guardians_container">
+                                    <t t-set="guardians" t-value="post.get('guardians', [{}])"/>
+                                    <t t-foreach="range(len(guardians))" t-as="i">
+                                        <t t-set="g" t-value="guardians[i]"/>
+                                        <div t-attf-id="guardian_row_#{i}" class="card p-3 mb-3 guardian-row">
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <h6 class="m-0 text-secondary">Guardian #<span class="g-index-label"><t t-esc="i+1"/></span></h6>
+                                                <button t-if="i > 0" type="button" class="btn btn-sm btn-outline-danger remove-guardian-btn" t-att-data-idx="i">Remove</button>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 mb-2">
+                                                    <label class="form-label">Name <t t-if="i==0">*</t></label>
+                                                    <input type="text" t-attf-name="guardian_name_#{i}" class="form-control" t-att-required="'required' if i==0 else None" t-att-value="g.get('name')" placeholder="Full name"/>
+                                                </div>
+                                                <div class="col-md-6 mb-2">
+                                                    <label class="form-label">Relationship <t t-if="i==0">*</t></label>
+                                                    <select t-attf-name="guardian_relation_#{i}" class="form-select" t-att-required="'required' if i==0 else None">
+                                                        <option value="father" t-att-selected="g.get('relationship') == 'father'">Father</option>
+                                                        <option value="mother" t-att-selected="g.get('relationship') == 'mother'">Mother</option>
+                                                        <option value="guardian" t-att-selected="g.get('relationship', 'guardian') == 'guardian'">Legal Guardian</option>
+                                                        <option value="other" t-att-selected="g.get('relationship') == 'other'">Other</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Phone Number <t t-if="i==0">*</t></label>
+                                                    <div class="input-group">
+                                                        <select t-attf-name="guardian_phone_1_country_id_#{i}" class="form-select" style="max-width: 120px;">
+                                                            <option value="">Code</option>
+                                                            <t t-foreach="countries" t-as="c">
+                                                                <t t-if="c.get('phone_code')">
+                                                                    <option t-att-value="c.get('id')" t-att-selected="str(post.get('guardian_phone_1_country_id_' + str(i))) == str(c.get('id'))">
+                                                                        <t t-esc="c.get('flag')"/> +<t t-esc="c.get('phone_code')"/> (<t t-esc="c.get('code')"/>)
+                                                                    </option>
+                                                                </t>
+                                                            </t>
+                                                        </select>
+                                                        <input type="tel" t-attf-name="guardian_phone_#{i}" class="form-control" t-att-required="'required' if i==0 else None" t-att-value="g.get('phone_1')" placeholder="Primary contact number"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">WhatsApp Number</label>
+                                                    <div class="input-group">
+                                                        <select t-attf-name="guardian_whatsapp_country_id_#{i}" class="form-select" style="max-width: 120px;">
+                                                            <option value="">Code</option>
+                                                            <t t-foreach="countries" t-as="c">
+                                                                <t t-if="c.get('phone_code')">
+                                                                    <option t-att-value="c.get('id')" t-att-selected="str(post.get('guardian_whatsapp_country_id_' + str(i))) == str(c.get('id'))">
+                                                                        <t t-esc="c.get('flag')"/> +<t t-esc="c.get('phone_code')"/> (<t t-esc="c.get('code')"/>)
+                                                                    </option>
+                                                                </t>
+                                                            </t>
+                                                        </select>
+                                                        <input type="tel" t-attf-name="guardian_whatsapp_#{i}" class="form-control" t-att-value="g.get('phone_whatsapp')" placeholder="Same or different"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 mb-2">
+                                                    <label class="form-label">Email</label>
+                                                    <input type="email" t-attf-name="guardian_email_#{i}" class="form-control" t-att-value="g.get('email')" placeholder="e.g. guardian@example.com"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </div>
+                                
+                                <button type="button" id="btnAddGuardian" class="btn btn-outline-primary btn-sm mb-4">
+                                    <i class="fa fa-plus"></i> Add Another Guardian
+                                </button>
+                                
+                                <!-- JS for Guardian rows -->
+                                <script type="text/javascript">
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        let container = document.getElementById('guardians_container');
+                                        let btnAdd = document.getElementById('btnAddGuardian');
+                                        let nextIdx = document.querySelectorAll('.guardian-row').length;
+                                        
+                                        btnAdd.addEventListener('click', function() {
+                                            let firstRow = document.querySelector('.guardian-row');
+                                            let newRow = firstRow.cloneNode(true);
+                                            
+                                            newRow.id = 'guardian_row_' + nextIdx;
+                                            newRow.querySelector('.g-index-label').innerText = nextIdx + 1;
+                                            
+                                            // Add remove button if not exists
+                                            let header = newRow.querySelector('.d-flex');
+                                            if (!header.querySelector('.remove-guardian-btn')) {
+                                                let rmBtn = document.createElement('button');
+                                                rmBtn.type = 'button';
+                                                rmBtn.className = 'btn btn-sm btn-outline-danger remove-guardian-btn';
+                                                rmBtn.innerText = 'Remove';
+                                                header.appendChild(rmBtn);
+                                            }
+                                            newRow.querySelector('.remove-guardian-btn').setAttribute('data-idx', nextIdx);
+                                            
+                                            // Update inputs
+                                            let inputs = newRow.querySelectorAll('input, select');
+                                            inputs.forEach(input => {
+                                                let oldName = input.getAttribute('name');
+                                                if (oldName) {
+                                                    let newName = oldName.replace(/_\d+$/, '_' + nextIdx);
+                                                    input.setAttribute('name', newName);
+                                                }
+                                                input.value = '';
+                                                input.removeAttribute('required');
+                                            });
+                                            
+                                            container.appendChild(newRow);
+                                            nextIdx++;
+                                        });
+                                        
+                                        container.addEventListener('click', function(e) {
+                                            if (e.target.classList.contains('remove-guardian-btn')) {
+                                                let row = e.target.closest('.guardian-row');
+                                                if(document.querySelectorAll('.guardian-row').length > 1) {
+                                                    row.remove();
+                                                }
+                                            }
+                                        });
+                                    });
+                                </script>
+                            </t>
+
+                            <!-- ============================================== STEP 3 ============================================== -->
+                            <t t-if="step == 3">
+                                <h4 class="text-primary mb-3">3. Admission &amp; Education Data</h4>
+                                
+                                <div class="row mb-4">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label" for="program_id">Requested Program *</label>
+                                        <select name="program_id" class="form-select" required="required">
+                                            <option value="">Select a Program...</option>
+                                            <t t-foreach="programs" t-as="prog">
+                                                <option t-att-value="prog.id" t-att-selected="str(post.get('program_id')) == str(prog.id)"><t t-esc="prog.name"/></option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label" for="academic_year_id">Academic Year *</label>
+                                        <select name="academic_year_id" class="form-select" required="required">
+                                            <option value="">Select Year...</option>
+                                            <t t-foreach="years" t-as="year">
+                                                <option t-att-value="year.id" t-att-selected="str(post.get('academic_year_id')) == str(year.id)"><t t-esc="year.name"/></option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <h5 class="text-secondary mt-3">Document Uploads</h5>
+                                <p class="text-muted small mb-3">Please upload the following documents (Max 3MB per file, Images only).</p>
+                                <div class="row mb-4">
+                                    <div class="col-md-3 mb-3">
+                                        <label class="form-label">Profile Photo *</label>
+                                        <input type="file" name="photo" class="form-control" accept="image/*" t-att-required="not post.get('photo')"/>
+                                        <div t-if="post.get('photo')" class="text-success small"><i class="fa fa-check"></i> Already uploaded</div>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label class="form-label">Passport Picture *</label>
+                                        <input type="file" name="passport_photo" class="form-control" accept="image/*" t-att-required="not post.get('passport_photo')"/>
+                                        <div t-if="post.get('passport_photo')" class="text-success small"><i class="fa fa-check"></i> Already uploaded</div>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label class="form-label">National ID Picture *</label>
+                                        <input type="file" name="national_id_photo" class="form-control" accept="image/*" t-att-required="not post.get('national_id_photo')"/>
+                                        <div t-if="post.get('national_id_photo')" class="text-success small"><i class="fa fa-check"></i> Already uploaded</div>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label class="form-label">High School Cert *</label>
+                                        <input type="file" name="high_school_cert" class="form-control" accept="image/*,application/pdf" t-att-required="not post.get('high_school_cert')"/>
+                                        <div t-if="post.get('high_school_cert')" class="text-success small"><i class="fa fa-check"></i> Already uploaded</div>
+                                    </div>
+                                </div>
+                                    
+                                <h5 class="text-secondary mt-3">High School Details</h5>
+                                <div class="row mb-4">
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label" for="certificate_type">Certificate Type</label>
+                                        <input type="text" name="certificate_type" class="form-control" t-att-value="post.get('certificate_type')" placeholder="e.g. Sudanese Certificate"/>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label" for="high_school_grade">High School Grade %</label>
+                                        <input type="number" step="0.01" name="high_school_grade" class="form-control" t-att-value="post.get('high_school_grade')" placeholder="e.g. 85.5"/>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label class="form-label" for="high_school_name">High School Name</label>
+                                        <input type="text" name="high_school_name" class="form-control" t-att-value="post.get('high_school_name')" placeholder="Name of school"/>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label class="form-label" for="high_school_exam_number">Examination Number</label>
+                                        <input type="text" name="high_school_exam_number" class="form-control" t-att-value="post.get('high_school_exam_number')" placeholder="Exam seating number"/>
+                                    </div>
+                                </div>
+                                
+                                <h5 class="text-secondary mt-3">Ministry of Education Data</h5>
+                                <p class="text-muted small mb-3">Enter the details exactly as they appear on your Ministry Form.</p>
+                                <div class="row mb-4">
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label" for="ministry_form_number">Ministry Form Number (FRMNO) *</label>
+                                        <input type="text" name="ministry_form_number" class="form-control" required="required" t-att-value="post.get('ministry_form_number')" placeholder="FRMNO"/>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label" for="entry_year">Ministry Entry Year *</label>
+                                        <input type="number" name="entry_year" class="form-control" required="required" t-att-value="post.get('entry_year') or 2024" placeholder="e.g. 2024"/>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label" for="financial_type">Financial Category *</label>
+                                        <select name="financial_type" class="form-select" required="required">
+                                            <option value="citizen" t-att-selected="post.get('financial_type') == 'citizen'">Sudanese Citizen (SDG)</option>
+                                            <option value="foreigner" t-att-selected="post.get('financial_type') == 'foreigner'">Foreigner (USD)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </t>
+
+                            <!-- ============================================== STEP 4 ============================================== -->
+                            <t t-if="step == 4">
+                                <h4 class="text-primary mb-3">4. Previous Institution Data</h4>
+                                <p class="text-muted small mb-3">Since you selected <strong t-esc="post.get('admission_type', '').title()"/> Admission, please provide details of your previous institution.</p>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label" for="prev_institution_name">Institution Name</label>
+                                        <input type="text" name="prev_institution_name" class="form-control" t-att-value="post.get('prev_institution_name')" placeholder="Previous University/College"/>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label" for="prev_college_program">College / Program / Major</label>
+                                        <input type="text" name="prev_college_program" class="form-control" t-att-value="post.get('prev_college_program')" placeholder="e.g. Engineering - Civil"/>
+                                    </div>
+                                    
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label" for="prev_enrollment_year">Enrollment Year</label>
+                                        <input type="number" name="prev_enrollment_year" class="form-control" placeholder="e.g. 2020" t-att-value="post.get('prev_enrollment_year')"/>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label" for="prev_years_completed">Years Completed</label>
+                                        <input type="number" name="prev_years_completed" class="form-control" t-att-value="post.get('prev_years_completed')" placeholder="e.g. 2"/>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label" for="prev_graduation_cert_type">Graduation Certificate Type</label>
+                                        <input type="text" name="prev_graduation_cert_type" class="form-control" t-att-value="post.get('prev_graduation_cert_type')" placeholder="e.g. Diploma / Partial Transcript"/>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <label class="form-label">Previous Institute Certificate *</label>
+                                        <input type="file" name="prev_inst_cert" class="form-control" accept="image/*,application/pdf" t-att-required="not post.get('prev_inst_cert')"/>
+                                        <div t-if="post.get('prev_inst_cert')" class="text-success small"><i class="fa fa-check"></i> Already uploaded</div>
+                                    </div>
+                                </div>
+                            </t>
+
+                             <!-- ============================================== STEP 5 ============================================== -->
+                              <t t-if="step == 5">
+                                  <h4 class="text-primary mb-3 text-center">
+                                      <t t-esc="'5' if post.get('admission_type') != 'regular' else '4'"/>. Medical Report Declaration
+                                  </h4>
+                                 
+                                 <div class="card shadow-sm border-0 mb-4">
+                                     <div class="card-header bg-dark text-white text-center py-2">
+                                         <h6 class="mb-0">Personal Declaration Data</h6>
+                                     </div>
+                                     <div class="card-body bg-light">
+                                         <div class="row text-center mb-0">
+                                            <div class="col-4 mb-2 border-end">
+                                                <small class="text-muted d-block font-weight-bold">Date</small>
+                                                <strong t-esc="datetime.date.today().strftime('%Y-%m-%d')"/>
+                                            </div>
+                                            <div class="col-4 mb-2 border-end">
+                                                <small class="text-muted d-block font-weight-bold">University ID</small>
+                                                <strong t-esc="post.get('ministry_form_number', '-')"/>
+                                            </div>
+                                            <div class="col-4 mb-2 border-end">
+                                                <small class="text-muted d-block font-weight-bold">Program Name</small>
+                                                <t t-set="selected_prog" t-value="programs.filtered(lambda p: str(p.id) == str(post.get('program_id')))"/>
+                                                <strong t-esc="selected_prog.name if selected_prog else '-'"/>
+                                            </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 
+                                 <div class="row mb-4">
+                                     <div class="col-md-6 mb-3 mx-auto">
+                                         <label class="form-label font-weight-bold" for="blood_type">Blood Type / فصيلة الدم</label>
+                                         <select name="blood_type" class="form-select">
+                                             <option value="">Select Blood Type...</option>
+                                             <option value="A+" t-att-selected="post.get('blood_type') == 'A+'">A+</option>
+                                             <option value="A-" t-att-selected="post.get('blood_type') == 'A-'">A-</option>
+                                             <option value="B+" t-att-selected="post.get('blood_type') == 'B+'">B+</option>
+                                             <option value="B-" t-att-selected="post.get('blood_type') == 'B-'">B-</option>
+                                             <option value="AB+" t-att-selected="post.get('blood_type') == 'AB+'">AB+</option>
+                                             <option value="AB-" t-att-selected="post.get('blood_type') == 'AB-'">AB-</option>
+                                             <option value="O+" t-att-selected="post.get('blood_type') == 'O+'">O+</option>
+                                             <option value="O-" t-att-selected="post.get('blood_type') == 'O-'">O-</option>
+                                         </select>
+                                     </div>
+                                 </div>
+
+                                 <div class="table-responsive">
+                                     <table class="table table-bordered align-middle pb-2">
+                                         <thead class="table-secondary text-center">
+                                             <tr>
+                                                 <th colspan="2">Fill the following data</th>
+                                                 <th style="width: 80px;">Yes</th>
+                                                 <th>If Yes, specify / explain</th>
+                                             </tr>
+                                         </thead>
+                                         <tbody>
+                                             <!-- Table A -->
+                                             <tr class="table-light">
+                                                 <th colspan="4" class="text-muted">A. Have You any of chronic following the diseases</th>
+                                             </tr>
+                                             <tr>
+                                                 <td style="width: 40px;" class="text-center">1.</td>
+                                                 <td>Diabetes Mellitus?</td>
+                                                 <td class="text-center">
+                                                     <input type="checkbox" name="medical_diabetes" class="form-check-input" t-att-checked="'checked' if post.get('medical_diabetes') else None"/>
+                                                 </td>
+                                                 <td>
+                                                     <input type="text" name="medical_diabetes_drug" class="form-control form-control-sm" placeholder="Write the type of drug" t-att-value="post.get('medical_diabetes_drug')"/>
+                                                 </td>
+                                             </tr>
+                                             <tr>
+                                                 <td class="text-center">2.</td>
+                                                 <td>Hypertension?</td>
+                                                 <td class="text-center">
+                                                     <input type="checkbox" name="medical_hypertension" class="form-check-input" t-att-checked="'checked' if post.get('medical_hypertension') else None"/>
+                                                 </td>
+                                                 <td>
+                                                     <input type="text" name="medical_hypertension_drug" class="form-control form-control-sm" placeholder="Write the type of drug" t-att-value="post.get('medical_hypertension_drug')"/>
+                                                 </td>
+                                             </tr>
+                                             <tr>
+                                                 <td class="text-center">3.</td>
+                                                 <td>Bronchial asthma?</td>
+                                                 <td class="text-center">
+                                                     <input type="checkbox" name="medical_asthma" class="form-check-input" t-att-checked="'checked' if post.get('medical_asthma') else None"/>
+                                                 </td>
+                                                 <td>
+                                                     <input type="text" name="medical_asthma_drug" class="form-control form-control-sm" placeholder="Write the type of drug" t-att-value="post.get('medical_asthma_drug')"/>
+                                                 </td>
+                                             </tr>
+                                             <tr>
+                                                 <td class="text-center">4.</td>
+                                                 <td>Hepatitis B?</td>
+                                                 <td class="text-center">
+                                                     <input type="checkbox" name="medical_hepatitis_b" class="form-check-input" t-att-checked="'checked' if post.get('medical_hepatitis_b') else None"/>
+                                                 </td>
+                                                 <td>
+                                                     <input type="text" name="medical_hepatitis_b_drug" class="form-control form-control-sm" placeholder="Write the type of drug" t-att-value="post.get('medical_hepatitis_b_drug')"/>
+                                                 </td>
+                                             </tr>
+                                             
+                                             <!-- Table B -->
+                                             <tr class="table-light">
+                                                 <th colspan="4" class="text-muted">B. Have you any of the following diseases</th>
+                                             </tr>
+                                             <tr>
+                                                 <td class="text-center">1.</td>
+                                                 <td>Heart disease?</td>
+                                                 <td class="text-center">
+                                                     <input type="checkbox" name="medical_heart_disease" class="form-check-input" t-att-checked="'checked' if post.get('medical_heart_disease') else None"/>
+                                                 </td>
+                                                 <td>
+                                                     <input type="text" name="medical_heart_disease_details" class="form-control form-control-sm" placeholder="Determine" t-att-value="post.get('medical_heart_disease_details')"/>
+                                                 </td>
+                                             </tr>
+                                             <tr>
+                                                 <td class="text-center">2.</td>
+                                                 <td>Physical disability?</td>
+                                                 <td class="text-center">
+                                                     <input type="checkbox" name="medical_physical_disability" class="form-check-input" t-att-checked="'checked' if post.get('medical_physical_disability') else None"/>
+                                                 </td>
+                                                 <td>
+                                                     <input type="text" name="medical_physical_disability_details" class="form-control form-control-sm" placeholder="Determine" t-att-value="post.get('medical_physical_disability_details')"/>
+                                                 </td>
+                                             </tr>
+                                             <tr>
+                                                 <td class="text-center">3.</td>
+                                                 <td>Psychiatric disease?</td>
+                                                 <td class="text-center">
+                                                     <input type="checkbox" name="medical_psychiatric" class="form-check-input" t-att-checked="'checked' if post.get('medical_psychiatric') else None"/>
+                                                 </td>
+                                                 <td>
+                                                     <input type="text" name="medical_psychiatric_details" class="form-control form-control-sm" placeholder="Determine" t-att-value="post.get('medical_psychiatric_details')"/>
+                                                 </td>
+                                             </tr>
+                                             <tr>
+                                                 <td class="text-center">4.</td>
+                                                 <td>Any other disease?</td>
+                                                 <td class="text-center">
+                                                     <input type="checkbox" name="medical_other_disease" class="form-check-input" t-att-checked="'checked' if post.get('medical_other_disease') else None"/>
+                                                 </td>
+                                                 <td>
+                                                     <input type="text" name="medical_other_disease_details" class="form-control form-control-sm" placeholder="Determine" t-att-value="post.get('medical_other_disease_details')"/>
+                                                 </td>
+                                             </tr>
+                                             
+                                             <!-- Table C -->
+                                             <tr class="table-light">
+                                                 <th colspan="4" class="text-muted">C. Have you ...</th>
+                                             </tr>
+                                             <tr>
+                                                 <td class="text-center">1.</td>
+                                                 <td>Admitted in hospital before?</td>
+                                                 <td class="text-center">
+                                                     <input type="checkbox" name="medical_admitted_hospital" class="form-check-input" t-att-checked="'checked' if post.get('medical_admitted_hospital') else None"/>
+                                                 </td>
+                                                 <td>
+                                                     <input type="text" name="medical_admitted_hospital_details" class="form-control form-control-sm" placeholder="Explain" t-att-value="post.get('medical_admitted_hospital_details')"/>
+                                                 </td>
+                                             </tr>
+                                         </tbody>
+                                     </table>
+                                 </div>
+                             </t>
+
+                            <!-- ============================================== NAVIGATION ============================================== -->
+                            <div class="d-flex justify-content-between mt-5 pt-3 border-top">
+                                <div>
+                                    <t t-if="step &gt; 1">
+                                        <t t-set="back_step" t-value="3 if step == 5 and post.get('admission_type') == 'regular' else step - 1"/>
+                                        <a t-attf-href="/admission/apply?step={{back_step}}" class="btn btn-outline-secondary px-4">Back</a>
+                                    </t>
+                                </div>
+                                <div>
+                                    <t t-if="step == 3 and post.get('admission_type') == 'regular'">
+                                        <button type="submit" class="btn btn-primary px-5">Next <i class="fa fa-chevron-right ms-2"></i></button>
+                                    </t>
+                                    <t t-elif="step == 5">
+                                        <button type="submit" class="btn btn-success px-5">Submit Application</button>
+                                    </t>
+                                    <t t-else="">
+                                        <button type="submit" class="btn btn-primary px-5">Next <i class="fa fa-chevron-right ms-2"></i></button>
+                                    </t>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <template id="admission_thanks" name="Submission Thank You">
+        <t t-call="website.layout">
+            <div id="wrap" class="container py-5 text-center">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 card shadow p-5 border-0 rounded-lg">
+                        <div class="mb-4">
+                            <i class="fa fa-check-circle text-success" style="font-size: 80px;"></i>
+                        </div>
+                        <h1 class="display-4 font-weight-bold">Thank You!</h1>
+                        <p class="lead mt-3">Your application has been received successfully.</p>
+                        <hr class="my-4"/>
+                        <p>Your application reference is: <strong class="text-primary" t-esc="admission.name"/></p>
+                        <p class="text-muted">Our admissions team will review your application and contact you soon via email or WhatsApp.</p>
+                        <div class="mt-5">
+                            <a href="/" class="btn btn-outline-primary px-4">Back to Home</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

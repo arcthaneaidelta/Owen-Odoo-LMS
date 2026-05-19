@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="email_template_resignation_otp" model="mail.template">
+            <field name="name">Student Resignation OTP</field>
+            <field name="model_id" ref="university_registrar.model_university_student_resignation"/>
+            <field name="subject">OTP for Student Resignation Confirmation</field>
+            <field name="email_from">{{ object.company_id.email }}</field>
+            <field name="email_to">{{ object.student_id.email }}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear <t t-out="object.student_id.display_name_ar or object.student_id.name_en"/>,<br/><br/>
+                        You have initiated a resignation request for your studies at our university.
+                        <br/><br/>
+                        To confirm your resignation, please use the following One-Time Password (OTP):
+                        <br/><br/>
+                        <span style="font-size: 24px; font-weight: bold; color: #875A7B;">
+                            <t t-out="object.otp_code"/>
+                        </span>
+                        <br/><br/>
+                        This OTP acts as your digital signature and confirmation of consent to the resignation policy.
+                        If you did not initiate this request, please contact the Registrar's office immediately.
+                        <br/><br/>
+                        Best regards,<br/>
+                        The Registrar's Office
+                    </p>
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>

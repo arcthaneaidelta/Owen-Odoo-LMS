@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="admission_verification_pending" name="Admission Verification Pending">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <section class="s_text_block pt40 pb40">
+                    <div class="container text-center">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="card shadow-sm border-0 p-5">
+                                    <div id="pending-ui">
+                                        <div class="mb-4">
+                                            <i class="fa fa-envelope-o fa-5x text-primary animate__animated animate__pulse animate__infinite"></i>
+                                        </div>
+                                        <h2 class="mb-3">Verification Email Sent!</h2>
+                                        <p class="lead mb-4">
+                                            We've sent a verification link to <strong t-esc="admission.email"/>. 
+                                            Please click the link to complete your application.
+                                        </p>
+                                        
+                                        <div class="alert alert-warning border-0 bg-light p-4 mb-4">
+                                            <h4 class="text-danger mb-2">Verification Countdown</h4>
+                                            <div id="verification-timer" class="display-4 font-weight-bold">30:00</div>
+                                            <p class="mt-2 mb-0 text-muted">You must verify within 30 minutes or your application will be discarded.</p>
+                                        </div>
+                                    </div>
+
+                                    <div id="success-ui" style="display: none;" class="animate__animated animate__fadeIn">
+                                        <div class="mb-4">
+                                            <i class="fa fa-check-circle fa-5x text-success"></i>
+                                        </div>
+                                        <h2 class="mb-3 text-success">Application Submitted!</h2>
+                                        <p class="lead mb-4">
+                                            Your email has been verified and your application is now processing.
+                                        </p>
+                                        <div class="alert alert-success bg-light border-0 p-4 mb-4">
+                                            <p class="mb-0">You can now safely close this window or return home.</p>
+                                        </div>
+                                        <a href="/admission/apply" class="btn btn-success btn-lg px-5">Back to Home</a>
+                                    </div>
+
+                                    <script type="text/javascript">
+                                        (function() {
+                                            var timeLeft = 1800;
+                                            var admissionId = "<t t-esc="admission.id"/>";
+                                            var timerElement = document.getElementById('verification-timer');
+                                            var pendingUI = document.getElementById('pending-ui');
+                                            var successUI = document.getElementById('success-ui');
+                                            
+                                            // Handle countdown
+                                            var countdown = setInterval(function() {
+                                                timeLeft--;
+                                                var minutes = Math.floor(timeLeft / 60);
+                                                var seconds = timeLeft % 60;
+                                                timerElement.textContent = 
+                                                    (minutes &lt; 10 ? '0' : '') + minutes + ":" + 
+                                                    (seconds &lt; 10 ? '0' : '') + seconds;
+                                                
+                                                if (timeLeft &lt;= 0) {
+                                                    clearInterval(countdown);
+                                                    clearInterval(statusCheck);
+                                                    setTimeout(function() {
+                                                        window.location.reload();
+                                                    }, 1000);
+                                                }
+                                            }, 1000);
+
+                                            // Poll for status
+                                            var statusCheck = setInterval(function() {
+                                                fetch('/admission/check_status/' + admissionId, {
+                                                    method: 'POST',
+                                                    headers: {
+                                                        'Content-Type': 'application/json',
+                                                    },
+                                                    body: JSON.stringify({jsonrpc: "2.0", params: {}})
+                                                })
+                                                .then(response => response.json())
+                                                .then(data => {
+                                                    if (data.result &amp;&amp; data.result.status === 'verified') {
+                                                        clearInterval(statusCheck);
+                                                        clearInterval(countdown);
+                                                        pendingUI.style.display = 'none';
+                                                        successUI.style.display = 'block';
+                                                    } else if (data.result &amp;&amp; data.result.status === 'expired') {
+                                                        clearInterval(statusCheck);
+                                                        clearInterval(countdown);
+                                                        window.location.reload();
+                                                    }
+                                                })
+                                                .catch(err => console.error("Poll Error:", err));
+                                            }, 2000);
+                                        })();
+                                    </script>
+
+                                    <div class="mt-4">
+                                        <a href="/admission/apply" class="btn btn-outline-secondary">Start Over</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <template id="admission_verification_expired" name="Admission Verification Expired">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty text-center pt80 pb80">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6">
+                            <div class="alert alert-danger p-5 shadow">
+                                <i class="fa fa-clock-o fa-4x mb-4"></i>
+                                <h2>Verification Expired</h2>
+                                <p class="lead">For security reasons, your application session has expired (30-minute limit exceeded).</p>
+                                <hr class="my-4"/>
+                                <p>Your data was discarded. Please click below to start a new application.</p>
+                                <a href="/admission/apply" class="btn btn-danger btn-lg mt-3">Start New Application</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="admission_verification_success" name="Email Verified">
+        <t t-call="website.layout">
+            <div class="container mt-5 mb-5 text-center">
+                <div class="alert alert-success p-5" role="alert">
+                    <h4 class="alert-heading text-success mb-3">
+                         <i class="fa fa-check-circle fa-2x mb-3"></i><br/>
+                        Email Verified!
+                    </h4>
+                    <p class="lead"><t t-esc="message"/></p>
+                    <hr/>
+                    <a href="/admission/apply" class="btn btn-primary btn-lg mt-3">Go to Home</a>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="admission_verification_failed" name="Verification Failed">
+        <t t-call="website.layout">
+            <div class="container mt-5 mb-5 text-center">
+                <div class="alert alert-danger p-5" role="alert">
+                    <h4 class="alert-heading text-danger mb-3">
+                        <i class="fa fa-exclamation-triangle fa-2x mb-3"></i><br/>
+                        Verification Failed!
+                    </h4>
+                    <p class="lead"><t t-esc="error"/></p>
+                    <hr/>
+                    <a href="/admission/apply" class="btn btn-danger btn-lg mt-3">Try Again</a>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

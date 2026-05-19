@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Room Form View -->
+    <record id="view_university_room_form" model="ir.ui.view">
+        <field name="name">university.room.form</field>
+        <field name="model">university.room</field>
+        <field name="arch" type="xml">
+            <form string="Room">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="is_active"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="e.g. Hall A" required="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="room_type"/>
+                            <field name="capacity"/>
+                        </group>
+                        <group>
+                            <field name="is_active" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Room List View -->
+    <record id="view_university_room_list" model="ir.ui.view">
+        <field name="name">university.room.list</field>
+        <field name="model">university.room</field>
+        <field name="arch" type="xml">
+            <list string="Rooms">
+                <field name="name"/>
+                <field name="room_type"/>
+                <field name="capacity"/>
+                <field name="is_active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Room Action -->
+    <record id="action_university_room" model="ir.actions.act_window">
+        <field name="name">Rooms &amp; Facilities</field>
+        <field name="res_model">university.room</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

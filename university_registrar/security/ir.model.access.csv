@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_university_freeze_request,university.student.freeze.request,model_university_student_freeze_request,,1,1,1,1
+access_university_external_exam,university.student.external.exam,model_university_student_external_exam,,1,1,1,1
+access_university_document_request,university.document.request,model_university_document_request,,1,1,1,1
+access_university_timetable_template,university.timetable.template,model_university_timetable_template,,1,1,1,1
+access_university_timetable_template_line,university.timetable.template.line,model_university_timetable_template_line,,1,1,1,1
+access_university_timetable_apply_wizard,university.timetable.apply.wizard,model_university_timetable_apply_wizard,,1,1,1,1
+access_university_unfreeze_request,university.student.unfreeze.request,model_university_student_unfreeze_request,,1,1,1,1
+access_university_freeze_otp_wizard,university.freeze.otp.wizard,model_university_freeze_otp_wizard,,1,1,1,1
+access_university_student_resignation,university.student.resignation,model_university_student_resignation,,1,1,1,1

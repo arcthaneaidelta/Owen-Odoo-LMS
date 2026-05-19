@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Account Payment Register Wizard View -->
+    <record id="view_account_payment_register_form_inherit_bank_ref" model="ir.ui.view">
+        <field name="name">account.payment.register.form.inherit.bank.ref</field>
+        <field name="model">account.payment.register</field>
+        <field name="inherit_id" ref="account.view_account_payment_register_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='payment_date']" position="after">
+                <field name="bank_reference"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Account Payment Form View -->
+    <record id="view_account_payment_form_inherit_bank_ref" model="ir.ui.view">
+        <field name="name">account.payment.form.inherit.bank.ref</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='memo']" position="after">
+                <field name="bank_reference"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

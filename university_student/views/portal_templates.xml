@@ -1,0 +1,731 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ── Load Portal CSS ──────────────────────────────────────────────── -->
+    <!-- <template id="assets_portal_student" inherit_id="web.assets_frontend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/css" href="/university_student/static/src/css/student_portal.css"/>
+        </xpath>
+    </template> -->
+
+    <!-- ──────────────────────────────────────────────────────────────────
+         Hide commerce/finance portal blocks that student users shouldn't see.
+         These blocks use placeholder_count JS which throws a null error when
+         the server-side counter isn't registered for student portal users.
+    ─────────────────────────────────────────────────────────────────────── -->
+
+    <!-- Disable sale portal home block -->
+    <template id="hide_sale_portal_home" inherit_id="sale.portal_my_home_sale" active="False"/>
+
+    <!-- Disable account portal home block -->  
+    <template id="hide_account_portal_home" inherit_id="account.portal_my_home_invoice" active="False"/>
+    <!-- Override the sale counter template to emit nothing -->
+    <template id="suppress_sale_counter" inherit_id="sale.portal_my_home_sale" active="False"/>
+
+    <!-- Override the account counter template to emit nothing -->
+    <template id="suppress_account_counter" inherit_id="account.portal_my_home_invoice" active="False"/>
+
+    <!-- ── Breadcrumbs ──────────────────────────────────────────────────── -->
+    <template id="portal_my_home_menu_student" name="Portal layout : student profile menu entry"
+              inherit_id="portal.portal_breadcrumbs" priority="20">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'student_profile'" class="breadcrumb-item active">My Profile</li>
+            <li t-if="page_name == 'freeze_request'"  class="breadcrumb-item active">Freeze Request</li>
+            <li t-if="page_name == 'unfreeze_request'" class="breadcrumb-item active">Unfreeze Request</li>
+            <li t-if="page_name == 're_registration'" class="breadcrumb-item active">Re-Registration</li>
+        </xpath>
+    </template>
+
+
+    <!-- ── Portal Home: Student quick-action cards ──────────────────────── -->
+    <!-- ── Portal Home: Student quick-action cards ──────────────────────── -->
+    <template id="portal_my_home_student" name="Show Student Profile"
+              inherit_id="portal.portal_my_home" customize_show="True" priority="20">
+              
+        <!-- Disable the right sidebar (contact details section) by setting my_details to False -->
+        <xpath expr="//t[@t-set='my_details']" position="replace">
+            <t t-set="my_details" t-value="False"/>
+        </xpath>
+
+        <!-- Hide the infinite loading spinner from base template -->
+        <xpath expr="//div[hasclass('o_portal_doc_spinner')]" position="replace">
+        </xpath>
+
+        <!-- Add a modern Hero introduction to the home page before the cards -->
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
+            <div t-if="request.env.user.partner_id" class="lms-hero mb-4" style="padding: 32px 30px; border-radius: 20px;">
+                <div style="position: relative; z-index: 1;">
+                    <h2 class="mb-1" style="font-size: 1.8rem; font-weight: 800;">
+                        Welcome back, <t t-esc="request.env.user.name.split(' ')[0]"/>!
+                    </h2>
+                    <p style="opacity: 0.9; margin-bottom: 0; font-size: 0.95rem;">
+                        Manage your student profile, academic requests, and university services centrally from your personal LMS dashboard.
+                    </p>
+                </div>
+            </div>
+        </xpath>
+
+        <xpath expr="//div[@id='portal_common_category']" position="before">
+
+            <!-- My Profile card — plain markup, no portal count JS -->
+            <div class="col-md-6 mb-3">
+                <a href="/my/student_profile"
+                   class="lms-action-card profile d-flex flex-column align-items-center h-100 w-100">
+                    <div class="lms-action-icon">
+                        <i class="fa fa-user-circle"></i>
+                    </div>
+                    <div class="lms-action-label">My Profile</div>
+                    <div class="lms-action-desc">View and update your personal information</div>
+                </a>
+            </div>
+
+            <!-- Freeze Level -->
+            <div class="col-md-6 mb-3">
+                <a href="/my/student/freeze"
+                   class="lms-action-card freeze d-flex flex-column align-items-center h-100 w-100">
+                    <div class="lms-action-icon">
+                        <i class="fa fa-snowflake-o"></i>
+                    </div>
+                    <div class="lms-action-label">Freeze Level</div>
+                    <div class="lms-action-desc">Request an academic level freeze</div>
+                </a>
+            </div>
+
+            <!-- Return &amp; Unfreeze -->
+            <div class="col-md-6 mb-3">
+                <a href="/my/student/unfreeze"
+                   class="lms-action-card unfreeze d-flex flex-column align-items-center h-100 w-100">
+                    <div class="lms-action-icon">
+                        <i class="fa fa-unlock"></i>
+                    </div>
+                    <div class="lms-action-label">Return &amp; Unfreeze</div>
+                    <div class="lms-action-desc">Resume studies after a freeze</div>
+                </a>
+            </div>
+
+            <!-- Annual Re-Registration -->
+            <div class="col-md-6 mb-3">
+                <a href="/my/student/re-register"
+                   class="lms-action-card re-reg d-flex flex-column align-items-center h-100 w-100">
+                    <div class="lms-action-icon">
+                        <i class="fa fa-refresh"></i>
+                    </div>
+                    <div class="lms-action-label">Re-Registration</div>
+                    <div class="lms-action-desc">Complete your mandatory annual registration</div>
+                </a>
+            </div>
+
+        </xpath>
+    </template>
+
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         MY STUDENT PROFILE PAGE
+    ══════════════════════════════════════════════════════════════════════ -->
+    <template id="portal_my_student_profile" name="My Student Profile">
+        <t t-call="portal.portal_layout">
+            <t t-set="additional_title">My Profile</t>
+
+            <!-- Success flash -->
+            <div t-if="request.params.get('updated')"
+                 class="lms-alert lms-alert-success" role="alert">
+                <i class="fa fa-check-circle"></i>
+                <div>Your profile has been updated successfully.</div>
+            </div>
+
+            <!-- ── Hero Banner ────────────────────────────────────────── -->
+            <div class="lms-hero">
+                <div class="d-flex align-items-center gap-4 flex-wrap position-relative" style="z-index:1">
+                    <!-- Avatar -->
+                    <t t-if="student.photo">
+                        <img t-att-src="image_data_uri(student.photo)"
+                             class="lms-hero-avatar" alt="Student Photo"/>
+                    </t>
+                    <t t-else="">
+                        <div class="lms-hero-avatar-placeholder">
+                            <i class="fa fa-user"></i>
+                        </div>
+                    </t>
+
+                    <!-- Name + ID + Standing -->
+                    <div>
+                        <h2 t-esc="student.display_name_ar or student.name_en or 'Student'"/>
+                        <div class="lms-student-id mb-2" t-esc="student.student_id"/>
+                        <div class="lms-badge-standing">
+                            <i class="fa fa-graduation-cap me-1"></i>
+                            <t t-esc="dict(student.fields_get(allfields=['academic_standing'])['academic_standing']['selection'])[student.academic_standing]"/>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats row -->
+                <div class="lms-stats position-relative" style="z-index:1">
+                    <div class="lms-stat-item">
+                        <div class="stat-value" t-esc="student.current_level or '–'"/>
+                        <div class="stat-label">Level</div>
+                    </div>
+                    <div class="lms-stat-item">
+                        <div class="stat-value" t-esc="student.program_id.name or '–'"/>
+                        <div class="stat-label">Program</div>
+                    </div>
+                    <div class="lms-stat-item">
+                        <div class="stat-value">
+                            <t t-if="student.registration_status == 'registered'">
+                                <i class="fa fa-check-circle text-success"></i>
+                            </t>
+                            <t t-else="">
+                                <i class="fa fa-times-circle text-danger"></i>
+                            </t>
+                        </div>
+                        <div class="stat-label">Registered</div>
+                    </div>
+                    <div class="lms-stat-item">
+                        <div class="stat-value">
+                            <t t-if="student.financial_clearance">
+                                <i class="fa fa-check-circle text-success"></i>
+                            </t>
+                            <t t-else="">
+                                <i class="fa fa-times-circle text-danger"></i>
+                            </t>
+                        </div>
+                        <div class="stat-label">Financial</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Nav Tabs ────────────────────────────────────────────── -->
+            <div class="container">
+                <div class="lms-nav-tabs mb-4">
+                    <a href="/my/student_profile" class="lms-active">
+                        <i class="fa fa-user"></i> My Profile
+                    </a>
+                    <a href="/my/student/freeze">
+                        <i class="fa fa-snowflake-o"></i> Freeze Level
+                    </a>
+                    <a href="/my/student/unfreeze">
+                        <i class="fa fa-unlock"></i> Return &amp; Unfreeze
+                    </a>
+                </div>
+
+                <!-- ── Edit Form ─────────────────────────────────────── -->
+                <form action="/my/student_profile/update" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                    <!-- Personal Info card -->
+                    <div class="lms-card">
+                        <div class="lms-card-header">
+                            <div class="lms-card-icon indigo"><i class="fa fa-edit"></i></div>
+                            Personal Information
+                        </div>
+                        <div class="lms-card-body">
+                            <!-- Photo display (Read Only) -->
+                            <div class="d-flex align-items-center gap-4 mb-4 pb-3" style="border-bottom:1px solid var(--lms-border)">
+                                <t t-if="student.photo">
+                                    <img t-att-src="image_data_uri(student.photo)"
+                                         class="rounded-circle shadow-sm"
+                                         style="width:80px;height:80px;object-fit:cover;border:3px solid var(--lms-primary-light)"
+                                         alt="Photo"/>
+                                </t>
+                                <t t-else="">
+                                    <div style="width:80px;height:80px;border-radius:50%;background:var(--lms-primary-light);display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--lms-primary);">
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                </t>
+                                <div>
+                                    <div class="fw-bold" style="color:var(--lms-primary)">Profile Picture</div>
+                                    <div class="text-muted small mt-1">Contact registrar to update your photo.</div>
+                                </div>
+                            </div>
+
+                            <div class="row g-3">
+                                <div class="col-md-6 lms-form-group">
+                                    <label>English Name</label>
+                                    <input type="text" name="name_en" class="form-control"
+                                           t-att-value="student.name_en or ''"
+                                           placeholder="Your name in English"/>
+                                </div>
+                                <div class="col-md-6 lms-form-group">
+                                    <label>Primary Phone</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text" style="border:2px solid var(--lms-border);border-right:0;border-radius:10px 0 0 10px;background:#fff">
+                                            <i class="fa fa-phone text-muted"></i>
+                                        </span>
+                                        <input type="text" name="phone" class="form-control" style="border-radius:0 10px 10px 0"
+                                               t-att-value="student.phone or ''" required="1"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 lms-form-group">
+                                    <label>WhatsApp Number</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text" style="border:2px solid var(--lms-border);border-right:0;border-radius:10px 0 0 10px;background:#fff;color:#25d366">
+                                            <i class="fa fa-whatsapp"></i>
+                                        </span>
+                                        <input type="text" name="phone_whatsapp" class="form-control" style="border-radius:0 10px 10px 0"
+                                               t-att-value="student.phone_whatsapp or ''"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 lms-form-group">
+                                    <label>Email Address</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text" style="border:2px solid var(--lms-border);border-right:0;border-radius:10px 0 0 10px;background:#f8fafc">
+                                            <i class="fa fa-envelope text-muted"></i>
+                                        </span>
+                                        <input type="email" class="form-control" style="border-radius:0 10px 10px 0;background:#f8fafc"
+                                               t-att-value="student.email" readonly="1"/>
+                                    </div>
+                                    <small class="text-muted mt-1 d-block">
+                                        <i class="fa fa-lock me-1"></i> Email cannot be changed here.
+                                    </small>
+                                </div>
+                                <div class="col-12 lms-form-group">
+                                    <label>National ID Scan Update</label>
+                                    <input type="file" name="national_id_scan" class="form-control" accept="image/*,application/pdf"/>
+                                    <t t-if="student.national_id_scan">
+                                        <small class="text-success mt-2 d-block">
+                                            <i class="fa fa-check me-1"></i> Document currently on file
+                                        </small>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-4 py-3 d-flex justify-content-end" style="border-top:1px solid var(--lms-border)">
+                            <button type="submit" class="lms-btn lms-btn-primary">
+                                <i class="fa fa-save"></i> Save Changes
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- ── Academic Info ─────────────────────────────────── -->
+                <div class="lms-card">
+                    <div class="lms-card-header">
+                        <div class="lms-card-icon cyan"><i class="fa fa-book"></i></div>
+                        Academic Information
+                        <span class="ms-auto badge" style="background:var(--lms-primary-light);color:var(--lms-primary);font-size:0.72rem;">Read Only</span>
+                    </div>
+                    <div class="lms-card-body">
+                        <div class="lms-info-grid">
+                            <div class="lms-info-item">
+                                <div class="info-label">College</div>
+                                <div class="info-value" t-esc="student.college_id.name or '–'"/>
+                            </div>
+                            <div class="lms-info-item">
+                                <div class="info-label">Program</div>
+                                <div class="info-value" t-esc="student.program_id.name or '–'"/>
+                            </div>
+                            <div class="lms-info-item">
+                                <div class="info-label">Current Level</div>
+                                <div class="info-value">
+                                    <span style="background:var(--lms-primary);color:#fff;padding:3px 14px;border-radius:99px;font-size:0.88rem;"
+                                          t-esc="'Level ' + (student.current_level or '–')"/>
+                                </div>
+                            </div>
+                            <div class="lms-info-item">
+                                <div class="info-label">Admission Type</div>
+                                <div class="info-value text-capitalize" t-esc="student.admission_type or '–'"/>
+                            </div>
+                            <div class="lms-info-item">
+                                <div class="info-label">Registration</div>
+                                <div class="info-value">
+                                    <t t-if="student.registration_status == 'registered'">
+                                        <span class="lms-status good">
+                                            <span class="lms-status-dot"></span> Registered
+                                        </span>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="lms-status warning">
+                                            <span class="lms-status-dot"></span> Unregistered
+                                        </span>
+                                    </t>
+                                </div>
+                            </div>
+                            <div class="lms-info-item">
+                                <div class="info-label">Financial Clearance</div>
+                                <div class="info-value">
+                                    <t t-if="student.financial_clearance">
+                                        <span class="lms-status good"><span class="lms-status-dot"></span> Cleared</span>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="lms-status warning"><span class="lms-status-dot"></span> Pending</span>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Guardians ─────────────────────────────────────── -->
+                <div class="lms-card">
+                    <div class="lms-card-header">
+                        <div class="lms-card-icon green"><i class="fa fa-users"></i></div>
+                        Guardians
+                        <span class="ms-auto badge" style="background:var(--lms-primary-light);color:var(--lms-primary);font-size:0.72rem;">Read Only</span>
+                    </div>
+                    <div class="lms-card-body">
+                        <t t-if="not student.guardian_ids">
+                            <div class="text-center text-muted py-4">
+                                <i class="fa fa-info-circle fs-4 d-block mb-2"></i>
+                                No guardians found on record.
+                            </div>
+                        </t>
+                        <t t-foreach="student.guardian_ids" t-as="guardian">
+                            <div class="lms-guardian-item">
+                                <div class="lms-guardian-avatar">
+                                    <t t-esc="(guardian.name or 'G')[0].upper()"/>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="fw-bold" t-esc="guardian.name"/>
+                                    <div class="text-muted small text-capitalize" t-esc="guardian.relationship"/>
+                                </div>
+                                <div class="text-end">
+                                    <div class="small mb-1">
+                                        <i class="fa fa-phone me-1 text-muted"></i>
+                                        <t t-esc="guardian.phone_1"/>
+                                    </div>
+                                    <t t-if="guardian.email">
+                                        <a t-attf-href="mailto:#{guardian.email}"
+                                           class="lms-btn lms-btn-outline py-1 px-3" style="font-size:0.78rem;border-radius:8px;">
+                                            <i class="fa fa-envelope"></i> Email
+                                        </a>
+                                    </t>
+                                </div>
+                                <t t-if="guardian.is_emergency_contact">
+                                    <span style="position:absolute;top:10px;right:10px;background:#fef2f2;color:#dc2626;font-size:0.65rem;font-weight:700;padding:2px 8px;border-radius:99px;">EMERGENCY</span>
+                                </t>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+
+            </div><!-- /container -->
+        </t>
+    </template>
+
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         FREEZE REQUEST PAGE
+    ══════════════════════════════════════════════════════════════════════ -->
+    <template id="portal_my_freeze_request" name="My Freeze Request">
+        <t t-call="portal.portal_layout">
+            <t t-set="additional_title">Freeze Level</t>
+
+            <!-- Hero -->
+            <div class="lms-hero" style="background: linear-gradient(135deg, #0891b2 0%, #4f46e5 100%);">
+                <div class="position-relative" style="z-index:1">
+                    <h2 class="mb-1"><i class="fa fa-snowflake-o me-2"></i>Freeze Level</h2>
+                    <p class="mb-0 opacity-75">Submit a request to freeze your current academic level.</p>
+                </div>
+            </div>
+
+            <div class="container">
+
+                <!-- Nav Tabs -->
+                <div class="lms-nav-tabs mb-4">
+                    <a href="/my/student_profile">
+                        <i class="fa fa-user"></i> My Profile
+                    </a>
+                    <a href="/my/student/freeze" class="lms-active">
+                        <i class="fa fa-snowflake-o"></i> Freeze Level
+                    </a>
+                    <a href="/my/student/unfreeze">
+                        <i class="fa fa-unlock"></i> Return &amp; Unfreeze
+                    </a>
+                </div>
+
+                <!-- Alerts -->
+                <t t-if="request.params.get('error')">
+                    <div class="lms-error-card mb-4">
+                        <div class="lms-error-icon">
+                            <i class="fa fa-exclamation-circle"></i>
+                        </div>
+                        <div class="lms-error-content">
+                            <div class="lms-error-title">Freeze Application Error</div>
+                            <div class="lms-error-msg" t-esc="request.params.get('error')"/>
+                        </div>
+                    </div>
+                </t>
+                <t t-if="request.params.get('success')">
+                    <div class="lms-alert lms-alert-success">
+                        <i class="fa fa-check-circle"></i>
+                        <div t-esc="request.params.get('success')"/>
+                    </div>
+                </t>
+
+                <!-- Policy box -->
+                <div class="lms-alert lms-alert-warning">
+                    <i class="fa fa-warning"></i>
+                    <div>
+                        <div class="fw-bold mb-2">Important Freeze Policies</div>
+                        <ul>
+                            <li>A student can only freeze the same level <strong>twice</strong>.</li>
+                            <li>Maximum <strong>two</strong> total freezes allowed throughout the entire program.</li>
+                            <li><strong>Consecutive levels</strong> cannot be frozen (e.g. Level 2 then Level 3).</li>
+                            <li><strong>Level 1</strong> freezing is strictly prohibited without Dean approval.</li>
+                            <li>Freezing applies to the <strong>entire academic year</strong>. You will be unregistered.</li>
+                            <li><strong>Failure to return</strong> by the deadline may lead to <strong>expulsion</strong>.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Active request notice -->
+                <t t-if="existing_request">
+                    <div class="lms-card">
+                        <div class="lms-card-header">
+                            <div class="lms-card-icon amber"><i class="fa fa-clock-o"></i></div>
+                            Active / Pending Request
+                        </div>
+                        <div class="lms-card-body text-center py-5">
+                            <i class="fa fa-hourglass-half fa-3x text-warning mb-3 d-block"></i>
+                            <h5>Freeze request status:
+                                <span style="background:var(--lms-primary-light);color:var(--lms-primary);padding:4px 14px;border-radius:99px;font-size:0.85rem;">
+                                    <t t-esc="dict(existing_request.fields_get(['state'])['state']['selection']).get(existing_request.state, 'Draft')"/>
+                                </span>
+                            </h5>
+                            <p class="text-muted">Cannot initiate another freeze while one is processing or active.</p>
+                        </div>
+                    </div>
+                </t>
+                <t t-else="">
+                    <form action="/my/student/freeze/submit" method="post">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <div class="lms-card">
+                            <div class="lms-card-header">
+                                <div class="lms-card-icon cyan"><i class="fa fa-file-text-o"></i></div>
+                                Freeze Application Form
+                            </div>
+                            <div class="lms-card-body row g-3">
+                                <div class="col-md-6 lms-form-group">
+                                    <label>Level to Freeze</label>
+                                    <input type="text" class="form-control"
+                                           t-att-value="'Level ' + str(student.current_level)" readonly="1"/>
+                                </div>
+                                <div class="col-md-6 lms-form-group">
+                                    <label>Reason <span class="text-danger">*</span></label>
+                                    <select name="reason" class="form-select" required="1">
+                                        <option value="" disabled="1" selected="1">Select a Reason</option>
+                                        <option value="late_arrival">Late Arrival</option>
+                                        <option value="travel">Travel</option>
+                                        <option value="accident">Accident</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 lms-form-group">
+                                    <label>Additional Details</label>
+                                    <textarea name="reason_details" class="form-control" rows="4"
+                                              placeholder="Describe your situation in detail…"></textarea>
+                                </div>
+                            </div>
+                            <div class="px-4 py-3 d-flex justify-content-end" style="border-top:1px solid var(--lms-border)">
+                                <button type="submit" class="lms-btn lms-btn-primary">
+                                    Acknowledge Policies &amp; Send OTP
+                                    <i class="fa fa-arrow-right ms-1"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </t>
+
+            </div>
+        </t>
+    </template>
+
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         FREEZE OTP PAGE
+    ══════════════════════════════════════════════════════════════════════ -->
+    <template id="portal_my_freeze_otp" name="Freeze Application OTP">
+        <t t-call="portal.portal_layout">
+            <t t-set="additional_title">Verify OTP</t>
+            <div class="lms-otp-wrap">
+                <div class="lms-otp-card">
+                    <div class="lms-otp-icon" style="background:var(--lms-primary-light);">
+                        <i class="fa fa-envelope-o" style="color:var(--lms-primary);"></i>
+                    </div>
+                    <h3 class="fw-bold mb-2" style="color:var(--lms-text)">Check Your Email</h3>
+                    <p class="text-muted mb-4" style="font-size:0.9rem;">
+                        We sent a 6-digit OTP to your registered email to confirm this freeze request.
+                    </p>
+
+                    <t t-if="request.params.get('error')">
+                        <div class="lms-alert lms-alert-danger text-start mb-3">
+                            <i class="fa fa-times-circle"></i>
+                            <div t-esc="request.params.get('error')"/>
+                        </div>
+                    </t>
+
+                    <form action="/my/student/freeze/otp_verify" method="post">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="hidden" name="req_id" t-att-value="freeze_req.id"/>
+                        <div class="mb-4">
+                            <input type="text" name="otp_code" class="form-control lms-otp-input"
+                                   placeholder="000000" maxlength="6" required="1"/>
+                        </div>
+                        <button type="submit" class="lms-btn lms-btn-primary w-100 justify-content-center">
+                            <i class="fa fa-check"></i> Verify &amp; Confirm
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </t>
+    </template>
+
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         UNFREEZE REQUEST PAGE
+    ══════════════════════════════════════════════════════════════════════ -->
+    <template id="portal_my_unfreeze_request" name="My Unfreeze Request">
+        <t t-call="portal.portal_layout">
+            <t t-set="additional_title">Return &amp; Unfreeze</t>
+
+            <!-- Hero -->
+            <div class="lms-hero" style="background: linear-gradient(135deg, #059669 0%, #0891b2 100%);">
+                <div class="position-relative" style="z-index:1">
+                    <h2 class="mb-1"><i class="fa fa-unlock me-2"></i>Return &amp; Unfreeze</h2>
+                    <p class="mb-0 opacity-75">Resume your academic journey and reactivate your enrolment.</p>
+                </div>
+            </div>
+
+            <div class="container">
+
+                <!-- Nav Tabs -->
+                <div class="lms-nav-tabs mb-4">
+                    <a href="/my/student_profile">
+                        <i class="fa fa-user"></i> My Profile
+                    </a>
+                    <a href="/my/student/freeze">
+                        <i class="fa fa-snowflake-o"></i> Freeze Level
+                    </a>
+                    <a href="/my/student/unfreeze" class="lms-active">
+                        <i class="fa fa-unlock"></i> Return &amp; Unfreeze
+                    </a>
+                </div>
+
+                <!-- Alerts -->
+                <t t-if="request.params.get('error')">
+                    <div class="lms-error-card mb-4">
+                        <div class="lms-error-icon">
+                            <i class="fa fa-lock"></i>
+                        </div>
+                        <div class="lms-error-content">
+                            <div class="lms-error-title">Return Policy Restriction</div>
+                            <div class="lms-error-msg" t-esc="request.params.get('error')"/>
+                        </div>
+                    </div>
+                </t>
+                <t t-if="request.params.get('success')">
+                    <div class="lms-alert lms-alert-success">
+                        <i class="fa fa-check-circle"></i>
+                        <div t-esc="request.params.get('success')"/>
+                    </div>
+                </t>
+
+                <!-- Info box -->
+                <div class="lms-alert lms-alert-info">
+                    <i class="fa fa-info-circle"></i>
+                    <div>
+                        <strong>Return Process</strong><br/>
+                        Unfreezing reinstates your student status. You will be placed into the active batch
+                        for the level you froze. Remember to complete your financial registration afterwards.
+                    </div>
+                </div>
+
+                <!-- No active freeze -->
+                <t t-if="not active_freeze">
+                    <div class="lms-card">
+                        <div class="lms-card-body text-center py-5">
+                            <i class="fa fa-info-circle fa-3x text-muted mb-3 d-block"></i>
+                            <h5 class="text-muted">No active freeze record found.</h5>
+                            <p class="text-muted small">You currently have no approved freeze that requires returning.</p>
+                        </div>
+                    </div>
+                </t>
+                <!-- Pending unfreeze -->
+                <t t-elif="existing_unfreeze">
+                    <div class="lms-card">
+                        <div class="lms-card-body text-center py-5">
+                            <i class="fa fa-hourglass-half fa-3x text-info mb-3 d-block"></i>
+                            <h5>Unfreeze request status:
+                                <span style="background:#e0f2fe;color:#075985;padding:4px 14px;border-radius:99px;font-size:0.85rem;">
+                                    <t t-esc="dict(existing_unfreeze.fields_get(['state'])['state']['selection']).get(existing_unfreeze.state, 'Draft')"/>
+                                </span>
+                            </h5>
+                        </div>
+                    </div>
+                </t>
+                <!-- Submit form -->
+                <t t-else="">
+                    <form action="/my/student/unfreeze/submit" method="post">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="hidden" name="freeze_id" t-att-value="active_freeze.id"/>
+                        <div class="lms-card">
+                            <div class="lms-card-header">
+                                <div class="lms-card-icon green"><i class="fa fa-file-text-o"></i></div>
+                                Return Application Form
+                            </div>
+                            <div class="lms-card-body row g-3">
+                                <div class="col-12 lms-form-group">
+                                    <label>Original Freeze Subject</label>
+                                    <input type="text" class="form-control"
+                                           t-att-value="'Frozen at Level ' + str(active_freeze.level_to_freeze)" readonly="1"/>
+                                </div>
+                                <div class="col-12 lms-form-group">
+                                    <label>Notes / Comments</label>
+                                    <textarea name="reason_details" class="form-control" rows="4"
+                                              placeholder="Any additional information…"></textarea>
+                                </div>
+                            </div>
+                            <div class="px-4 py-3 d-flex justify-content-end" style="border-top:1px solid var(--lms-border)">
+                                <button type="submit" class="lms-btn lms-btn-success">
+                                    Initiate Return &amp; Send OTP
+                                    <i class="fa fa-unlock ms-1"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </t>
+
+            </div>
+        </t>
+    </template>
+
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         UNFREEZE OTP PAGE
+    ══════════════════════════════════════════════════════════════════════ -->
+    <template id="portal_my_unfreeze_otp" name="Unfreeze Application OTP">
+        <t t-call="portal.portal_layout">
+            <t t-set="additional_title">Verify Return OTP</t>
+            <div class="lms-otp-wrap">
+                <div class="lms-otp-card">
+                    <div class="lms-otp-icon" style="background:#d1fae5;">
+                        <i class="fa fa-unlock" style="color:var(--lms-success);"></i>
+                    </div>
+                    <h3 class="fw-bold mb-2" style="color:var(--lms-text)">Confirm Return</h3>
+                    <p class="text-muted mb-4" style="font-size:0.9rem;">
+                        We sent a 6-digit OTP to your registered email. Entering it confirms you wish to resume studies.
+                    </p>
+
+                    <t t-if="request.params.get('error')">
+                        <div class="lms-alert lms-alert-danger text-start mb-3">
+                            <i class="fa fa-times-circle"></i>
+                            <div t-esc="request.params.get('error')"/>
+                        </div>
+                    </t>
+
+                    <form action="/my/student/unfreeze/otp_verify" method="post">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="hidden" name="req_id" t-att-value="unfreeze_req.id"/>
+                        <div class="mb-4">
+                            <input type="text" name="otp_code" class="form-control lms-otp-input"
+                                   placeholder="000000" maxlength="6" required="1"/>
+                        </div>
+                        <button type="submit" class="lms-btn lms-btn-success w-100 justify-content-center">
+                            <i class="fa fa-check"></i> Verify &amp; Return
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

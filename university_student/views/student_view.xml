@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ═══ STUDENT FORM VIEW ════════════════════════════════════════════════ -->
+    <record id="view_student_form" model="ir.ui.view">
+        <field name="name">university.student.form</field>
+        <field name="model">university.student</field>
+        <field name="arch" type="xml">
+            <form string="Student">
+                <header>
+                    <button name="action_promote" string="Promote Level" type="object" class="btn-primary"
+                            invisible="academic_standing in ('graduated', 'suspended', 'expelled')"/>
+                    <field name="registration_status" widget="statusbar"
+                           statusbar_visible="registered"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <!-- <button name="action_view_rfid_cards"
+                                type="object" class="oe_stat_button" icon="fa-id-card">
+                            <span class="o_stat_text">RFID Cards</span>
+                        </button> -->
+                    </div>
+
+                    <!-- Student Photo -->
+                    <field name="photo" widget="image" class="oe_avatar"
+                           options="{'accepted_file_extensions': 'image/*'}"/>
+
+                    <!-- ─── Title Block ─── -->
+                    <div class="oe_title">
+                        <!-- Arabic full name (RTL) -->
+                        <label for="display_name_ar"/>
+                        <h1 class="o_rtl">
+                            <field name="display_name_ar" readonly="1"
+                                   placeholder="الاسم الرباعي"/>
+                        </h1>
+                        <h3>
+                            <field name="name_en" placeholder="Name in English"/>
+                        </h3>
+                    </div>
+
+                    <!-- ═══ MINISTRY DATA TAB ════════════════════════════════ -->
+                    <notebook>
+
+                        <!-- ─── Page 1: Ministry Import Fields ─── -->
+                        <page string="Ministry Data" name="ministry_data">
+                            <group string="Ministry Identifiers (Excel Import Fields)">
+                                <group>
+                                    <field name="ministry_form_number"/>
+                                    <field name="ministry_fac_code"/>
+                                    <field name="ministry_university_id_code"/>
+                                    <!-- <field name="ministry_university_number"/> -->
+                                    <field name="national_id"/>
+                                </group>
+                                <group>
+                                    <field name="academic_year_str"/>
+                                    <field name="gob_number"/>
+                                    <field name="admission_type_text"/>
+                                    <field name="gender_code"/>
+                                </group>
+                            </group>
+                            <group string="Four-Part Arabic Name (N1–N4)">
+                                <group>
+                                    <field name="name_part1_ar"/>
+                                    <field name="name_part2_ar"/>
+                                </group>
+                                <group>
+                                    <field name="name_part3_ar"/>
+                                    <field name="name_part4_ar"/>
+                                </group>
+                            </group>
+                            <group string="School &amp; Faculty Info from Ministry">
+                                <field name="school_name"/>
+                                <field name="faculty_name_ar"/>
+                                <field name="university_name_ar"/>
+                            </group>
+                        </page>
+
+                        <!-- ─── Page 2: Academic Placement ─── -->
+                        <page string="Academic" name="academic">
+                            <group>
+                                <group string="Identification">
+                                    <field name="student_id" readonly="1"/>
+                                    <field name="academic_standing" widget="badge"
+                                           decoration-success="academic_standing=='good_standing'"
+                                           decoration-warning="academic_standing in ('warning','probation')"
+                                           decoration-danger="academic_standing in ('suspended','expelled')"/>
+                                    <field name="is_repeater"/>
+                                </group>
+                                <group string="Placement">
+                                    <field name="university_id"/>
+                                    <field name="college_id"/>
+                                    <field name="program_id"/>
+                                    <field name="specialization_id"/>
+                                    <field name="original_batch_id" readonly="1" force_save="1"/>
+                                    <field name="batch_id"/>
+                                    <field name="academic_year_id"/>
+                                </group>
+                            </group>
+                            <group string="Admission">
+                                <group>
+                                     <field name="admission_type"/>
+                                     <field name="financial_type"/>
+                                     <field name="starting_level" readonly="1"/>
+                                     <field name="current_level"/>
+                                     <field name="admission_date"/>
+                                </group>
+                                <group>
+                                    <field name="registration_status"/>
+                                    <field name="is_id_and_exam_eligible" readonly="1" decoration-success="is_id_and_exam_eligible"/>
+                                    <field name="is_second_semester_eligible" readonly="1" decoration-success="is_second_semester_eligible"/>
+                                    <field name="registration_invoice_id"/>
+                                    <field name="tuition_invoice_id"/>
+                                    <field name="registration_date"/>
+                                    <field name="financial_clearance" widget="boolean_toggle"/>
+                                </group>
+                            </group>
+                            <group string="Previous Education">
+                                <group string="High School Data">
+                                    <field name="certificate_type"/>
+                                    <field name="high_school_grade"/>
+                                    <field name="high_school_name"/>
+                                    <field name="high_school_exam_number"/>
+                                </group>
+                                <group name="grp_previous_institution" string="Previous Institution" invisible="admission_type == 'regular'">
+                                    <field name="prev_institution_name"/>
+                                    <field name="prev_college_program"/>
+                                    <field name="prev_enrollment_year"/>
+                                    <field name="prev_years_completed"/>
+                                    <field name="prev_graduation_cert_type"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ─── Repetition History ─── -->
+                        <page string="Repetition" name="repetition_history">
+                            <group>
+                                <group string="Repeat Metrics">
+                                    <field name="total_repeat_years" readonly="1" decoration-danger="total_repeat_years &gt;= 2" decoration-warning="total_repeat_years == 1" widget="badge"/>
+                                </group>
+                            </group>
+                            <separator string="History" />
+                            <field name="repeat_history_ids">
+                                <list editable="bottom" create="0" delete="0">
+                                    <field name="academic_year_id" readonly="1"/>
+                                    <field name="level_repeated" readonly="1"/>
+                                    <field name="status" widget="badge" readonly="1"
+                                           decoration-success="status in ('passed', 'passed_as_external')" 
+                                           decoration-danger="status == 'failed_again'" 
+                                           decoration-info="status == 'ongoing'"/>
+                                    <field name="notes"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <!-- ─── Page 3: Personal Info ─── -->
+                        <page string="Personal" name="personal">
+                            <group>
+                                <group string="Identity">
+                                    <field name="gender"/>
+                                    <field name="date_of_birth"/>
+                                    <field name="place_of_birth"/>
+                                    <field name="country_of_birth" invisible="1"/>
+                                    <field name="country_of_birth_id"/>
+                                    <field name="nationality_id"/>
+                                    <field name="student_nationality" invisible="1"/>
+                                    <field name="passport_number"/>
+                                    <field name="id_document_number"/>
+                                    <field name="religion"/>
+                                    <field name="citizenship"/>
+                                </group>
+                                <group string="Contact">
+                                    <field name="phone"/>
+                                    <field name="phone_whatsapp"/>
+                                    <field name="phone_country_id" invisible="1"/>
+                                    <field name="whatsapp_country_id" invisible="1"/>
+                                    <field name="email"/>
+                                </group>
+                            </group>
+                            <group string="Address">
+                                <group>
+                                    <field name="governorate"/>
+                                    <field name="locality"/>
+                                    <field name="city_of_residence"/>
+                                    <field name="residence_country_id"/>
+                                </group>
+                                <group>
+                                    <field name="address"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ─── Medical History ─── -->
+                        <page string="Medical" name="medical">
+                            <group>
+                                <group string="A. Have You any of chronic following the diseases">
+                                    <field name="blood_type"/>
+                                    <field name="medical_diabetes" widget="boolean_toggle"/>
+                                    <field name="medical_diabetes_drug" invisible="not medical_diabetes"/>
+                                    <field name="medical_hypertension" widget="boolean_toggle"/>
+                                    <field name="medical_hypertension_drug" invisible="not medical_hypertension"/>
+                                    <field name="medical_asthma" widget="boolean_toggle"/>
+                                    <field name="medical_asthma_drug" invisible="not medical_asthma"/>
+                                    <field name="medical_hepatitis_b" widget="boolean_toggle"/>
+                                    <field name="medical_hepatitis_b_drug" invisible="not medical_hepatitis_b"/>
+                                </group>
+                                <group string="B. Have you any of the following diseases">
+                                    <field name="medical_heart_disease" widget="boolean_toggle"/>
+                                    <field name="medical_heart_disease_details" invisible="not medical_heart_disease"/>
+                                    <field name="medical_physical_disability" widget="boolean_toggle"/>
+                                    <field name="medical_physical_disability_details" invisible="not medical_physical_disability"/>
+                                    <field name="medical_psychiatric" widget="boolean_toggle"/>
+                                    <field name="medical_psychiatric_details" invisible="not medical_psychiatric"/>
+                                    <field name="medical_other_disease" widget="boolean_toggle"/>
+                                    <field name="medical_other_disease_details" invisible="not medical_other_disease"/>
+                                </group>
+                                <group string="C. Have you ...">
+                                    <field name="medical_admitted_hospital" widget="boolean_toggle"/>
+                                    <field name="medical_admitted_hospital_details" invisible="not medical_admitted_hospital"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ─── Page 4: Guardians ─── -->
+                        <page string="Guardians" name="guardians">
+                            <field name="guardian_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="relationship"/>
+                                    <field name="phone_1"/>
+                                    <field name="phone_1_country_id" column_invisible="1"/>
+                                    <field name="phone_2"/>
+                                    <field name="phone_whatsapp"/>
+                                    <field name="whatsapp_country_id" column_invisible="1"/>
+                                    <field name="email"/>
+                                    <field name="is_emergency_contact" widget="boolean_toggle"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <!-- ─── Page 5: Phone History ─── -->
+                        <page string="Phone History" name="phone_history">
+                            <field name="phone_history_ids">
+                                <list editable="bottom">
+                                    <field name="phone_number"/>
+                                    <field name="is_whatsapp"/>
+                                    <field name="is_active" widget="boolean_toggle"/>
+                                    <field name="date_added"/>
+                                    <field name="date_deprecated"/>
+                                    <field name="reason"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <!-- ─── Page 6: RFID Cards ─── -->
+                        <page string="RFID Cards" name="rfid">
+                            <field name="rfid_card_ids">
+                                <list>
+                                    <field name="card_uid"/>
+                                    <field name="status" widget="badge"
+                                           decoration-success="status=='active'"
+                                           decoration-danger="status in ('blocked','lost')"
+                                           decoration-muted="status in ('expired','cancelled')"/>
+                                    <field name="issue_date"/>
+                                    <field name="expiry_date"/>
+                                    <field name="block_reason"/>
+                                    <button name="action_activate" string="Activate" type="object"
+                                            icon="fa-check"
+                                            invisible="status == 'active'"/>
+                                    <button name="action_block" string="Block" type="object"
+                                            icon="fa-ban"
+                                            invisible="status != 'active'"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <!-- ─── Page 7: Documents ─── -->
+                        <page string="Documents" name="documents">
+                            <group>
+                                <field name="national_id_photo" widget="image"/>
+                                <field name="passport_photo" widget="image"/>
+                                <field name="high_school_cert" widget="image"/>
+                                <field name="prev_inst_cert" widget="image" invisible="admission_type not in ('transfer','bridging', 'mature')"/>
+                                <!-- <field name="national_id_scan" widget="binary"
+                                       filename="national_id_scan"/> -->
+                                <field name="google_drive_folder_url"
+                                       widget="url"/>
+                            </group>
+                        </page>
+
+                        <!-- ─── Page 8: Notes ─── -->
+                        <page string="Notes" name="notes">
+                            <field name="notes"/>
+                        </page>
+
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ═══ STUDENT KANBAN VIEW ══════════════════════════════════════════════ -->
+    <record id="view_student_kanban" model="ir.ui.view">
+        <field name="name">university.student.kanban</field>
+        <field name="model">university.student</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" sample="1">
+                <field name="id"/>
+                <field name="display_name_ar"/>
+                <field name="student_id"/>
+                <field name="academic_standing"/>
+                <field name="batch_id"/>
+                <field name="registration_status"/>
+                <field name="photo"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill" style="padding: 20px !important;">
+                            <!-- <widget name="web_ribbon" title="Registered" bg_color="text-bg-success" invisible="registration_status != 'registered'"/>
+                            <widget name="web_ribbon" title="Unregistered" bg_color="text-bg-danger" invisible="registration_status == 'registered'"/> -->
+                            
+                            <div class="o_kanban_image_fill_left o_kanban_image_full" t-attf-style="background-image: url(#{kanban_image('university.student', 'photo', record.id.raw_value)})" role="img"/>
+
+                            <div class="oe_kanban_details">
+                                <div class="o_kanban_record_top mb-2">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title h5">
+                                            <field name="display_name_ar"/>
+                                        </strong>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <div class="row">
+                                        <div class="col-7 text-muted" style="width: 100% !important;">
+                                            <div class="mb-1"><i class="fa fa-id-card me-1"/> <field name="student_id"/></div>
+                                            <div><i class="fa fa-users me-1"/> <field name="batch_id"/></div>
+                                            <field name="academic_standing" widget="badge" 
+                                                   decoration-success="academic_standing == 'good_standing'" 
+                                                   decoration-info="academic_standing == 'frozen'" 
+                                                   decoration-danger="academic_standing in ('warning', 'probation', 'suspended', 'expelled')"/>
+                                        </div>
+                                        <!-- <div class="col-5 text-end">
+                                            
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ═══ STUDENT LIST VIEW ════════════════════════════════════════════════ -->
+    <record id="view_student_list" model="ir.ui.view">
+        <field name="name">university.student.list</field>
+        <field name="model">university.student</field>
+        <field name="arch" type="xml">
+            <list string="Students"
+                  decoration-danger="academic_standing in ('suspended','expelled')"
+                  decoration-warning="academic_standing in ('warning','probation')"
+                  decoration-muted="not financial_clearance">
+                <field name="student_id"/>
+                <field name="display_name_ar"/>
+                <field name="ministry_form_number" optional="show"/>
+                <field name="ministry_university_id_code" optional="show"/>
+                <!-- <field name="ministry_university_number" optional="show"/> -->
+                
+                <!-- <field name="name_part1_ar"/>
+                <field name="name_part2_ar"/>
+                <field name="name_part3_ar"/>
+                <field name="name_part4_ar"/> -->
+                <field name="national_id" optional="show"/>
+                <!-- <field name="gender_code" optional="hide"/> -->
+                <field name="academic_year_str" optional="show"/>
+                <field name="gob_number" optional="hide"/>
+                <!-- <field name="faculty_name_ar" optional="show"/> -->
+                <!-- <field name="admission_type_text" optional="show"/> -->
+                <!-- <field name="school_name" optional="hide"/> -->
+                <!-- <field name="program_id" optional="show"/> -->
+                <field name="batch_id" optional="show"/>
+                <!-- <field name="academic_standing" optional="show"/> -->
+                <field name="financial_clearance" widget="boolean" optional="show"/>
+                <field name="registration_status" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ═══ STUDENT SEARCH VIEW ══════════════════════════════════════════════ -->
+    <record id="view_student_search" model="ir.ui.view">
+        <field name="name">university.student.search</field>
+        <field name="model">university.student</field>
+        <field name="arch" type="xml">
+            <search string="Search Students">
+                <field name="display_name_ar" string="Arabic Name"/>
+                <field name="name_en" string="English Name"/>
+                <field name="national_id"/>
+                <field name="ministry_form_number" string="FRMNO"/>
+                <!-- <field name="ministry_university_number"/> -->
+                <field name="student_id"/>
+                <field name="batch_id"/>
+                <field name="program_id"/>
+                <field name="college_id"/>
+
+                <separator/>
+                <filter string="Good Standing" name="good_standing"
+                        domain="[('academic_standing','=','good_standing')]"/>
+                <filter string="Warnings/Probation" name="at_risk"
+                        domain="[('academic_standing','in',['warning','probation'])]"/>
+                <filter string="Suspended" name="suspended"
+                        domain="[('academic_standing','=','suspended')]"/>
+                <filter string="Expelled" name="expelled"
+                        domain="[('active','=',False)]"/>
+                <separator/>
+                <filter string="Registered" name="registered"
+                        domain="[('registration_status','=','registered')]"/>
+                <filter string="Financially Clear" name="fin_clear"
+                        domain="[('financial_clearance','=',True)]"/>
+                <filter string="Financial Hold" name="fin_hold"
+                        domain="[('financial_clearance','=',False)]"/>
+                <separator/>
+                <filter string="Repeaters" name="repeaters"
+                        domain="[('is_repeater','=',True)]"/>
+
+                <group expand="1" string="Group By">
+                    <filter string="Program" name="grp_program"
+                            context="{'group_by':'program_id'}"/>
+                    <filter string="Batch" name="grp_batch"
+                            context="{'group_by':'batch_id'}"/>
+                    <filter string="College" name="grp_college"
+                            context="{'group_by':'college_id'}"/>
+                    <filter string="Academic Standing" name="grp_standing"
+                            context="{'group_by':'academic_standing'}"/>
+                    <filter string="Admission Year" name="grp_year"
+                            context="{'group_by':'academic_year_str'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ═══ ACTION ═══════════════════════════════════════════════════════════ -->
+    <record id="action_university_student" model="ir.actions.act_window">
+        <field name="name">Students</field>
+        <field name="res_model">university.student</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_student_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No students found. Import from Ministry Excel or create a new student.
+            </p>
+        </field>
+    </record>
+
+    <!-- Action for registered students -->
+    <record id="action_university_student_registered" model="ir.actions.act_window">
+        <field name="name">Registered Students</field>
+        <field name="res_model">university.student</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('registration_status','=','registered')]</field>
+        <field name="search_view_id" ref="view_student_search"/>
+    </record>
+
+</odoo>

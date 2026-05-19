@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_examination_cycle,examination.cycle,model_examination_cycle,university_core.group_university_manager,1,1,1,1
+access_examination_paper,examination.paper.upload,model_examination_paper_upload,university_core.group_teacher,1,1,1,0
+access_examination_room,examination.room,model_examination_room,university_core.group_university_manager,1,1,1,1
+access_examination_seating,examination.seating,model_examination_seating,university_core.group_university_manager,1,1,1,1
+access_examination_seating_line,examination.seating.line,model_examination_seating_line,university_core.group_university_manager,1,1,1,1
+access_examination_grade_entry,examination.grade.entry,model_examination_grade_entry,university_core.group_teacher,1,1,1,0
+access_examination_grade_entry_line,examination.grade.entry.line,model_examination_grade_entry_line,university_core.group_teacher,1,1,1,0
+access_examination_board_session,examination.board.session,model_examination_board_session,university_core.group_university_manager,1,1,1,1
+access_examination_board_adjustment,examination.board.adjustment,model_examination_board_adjustment,university_core.group_university_manager,1,1,1,1

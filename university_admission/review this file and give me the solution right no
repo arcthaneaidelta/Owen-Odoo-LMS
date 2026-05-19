@@ -1,0 +1,11 @@
+review this file and give me the solution right now for the application and databank.
+
+1-Databank for that what I can do is in the university module I will create a model called university bank and it will be mennuitemin top bar when open it a kanban record will be shown I can create the tiles with just names like Batch 2021/2022 etc. And when I click on the tile a tree view will be opened where I can import the data.
+
+2-The next thing is application form. Application form should have the fields that are present in the excel sheet I give you. in the application model there is a button ministry approved when click on it it will match the data from the application with the the record in the list view and updates the fields in the application form according to the imported data present in the list of university bank.
+
+3-How can we search in the pdf it says search with the FRM. no and Admission year.
+
+4-The apllication form should be somewhat similar to the student form view likr the tabs of Ministry data in both student form and apllication form willl be same. 
+
+The guardian tab present in the student will be in the application form as well.

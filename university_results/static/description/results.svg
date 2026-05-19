@@ -1,0 +1,65 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="64" y1="64" x2="448" y2="448" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#875A7B"/>
+      <stop offset="1" stop-color="#4E3549"/>
+    </linearGradient>
+
+    <linearGradient id="panel" x1="128" y1="128" x2="384" y2="384" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#EEE7EC"/>
+    </linearGradient>
+
+    <filter id="shadow" x="0" y="0" width="512" height="512">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect x="32" y="32" width="448" height="448" rx="100" fill="url(#bg)"/>
+
+  <!-- Analytics Card -->
+  <g filter="url(#shadow)">
+    <rect x="112" y="112" width="288" height="288" rx="42" fill="url(#panel)"/>
+  </g>
+
+  <!-- Header -->
+  <rect x="144" y="144" width="224" height="30" rx="15" fill="#875A7B"/>
+
+  <!-- Bar Chart -->
+  <rect x="164" y="286" width="42" height="68" rx="12" fill="#D5C0CF"/>
+  <rect x="234" y="242" width="42" height="112" rx="12" fill="#B892A9"/>
+  <rect x="304" y="198" width="42" height="156" rx="12" fill="#875A7B"/>
+
+  <!-- Upward Result Trend -->
+  <path d="M172 238L252 206L326 156"
+        stroke="#5A3D55"
+        stroke-width="12"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+
+  <circle cx="172" cy="238" r="10" fill="#5A3D55"/>
+  <circle cx="252" cy="206" r="10" fill="#5A3D55"/>
+  <circle cx="326" cy="156" r="10" fill="#5A3D55"/>
+
+  <!-- Trophy Badge -->
+  <g transform="translate(194 72)">
+    <circle cx="62" cy="62" r="54" fill="#FFFFFF" opacity="0.95"/>
+
+    <path d="M48 42H76V60C76 76 66 88 62 92C58 88 48 76 48 60V42Z"
+          fill="#875A7B"/>
+
+    <path d="M48 48H38C38 64 46 72 56 72"
+          stroke="#875A7B"
+          stroke-width="6"
+          stroke-linecap="round"/>
+
+    <path d="M76 48H86C86 64 78 72 68 72"
+          stroke="#875A7B"
+          stroke-width="6"
+          stroke-linecap="round"/>
+
+    <rect x="56" y="92" width="12" height="18" rx="4" fill="#875A7B"/>
+    <rect x="44" y="108" width="36" height="10" rx="5" fill="#875A7B"/>
+  </g>
+</svg>

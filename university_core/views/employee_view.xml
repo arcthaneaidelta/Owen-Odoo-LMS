@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Inherit Employee Form View -->
+    <record id="view_employee_form_inherit_university" model="ir.ui.view">
+        <field name="name">hr.employee.form.inherit.university</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <!-- Add Is Teacher Checkbox below the job_title or category fields -->
+            <xpath expr="//field[@name='category_ids']" position="after">
+                <field name="is_teacher" widget="boolean_toggle"/>
+            </xpath>
+
+            <!-- Add a new notebook page for University details if is_teacher is checked -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Academic Details" invisible="not is_teacher">
+                    <group>
+                        <group string="Academic Placement">
+                            <field name="university_department_id" required="is_teacher"/>
+                            <field name="university_program_id"/>
+                        </group>
+                        <group string="Qualifications">
+                            <field name="academic_qualification" required="is_teacher"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Filter for Teachers -->
+    <record id="view_employee_filter_inherit_university" model="ir.ui.view">
+        <field name="name">hr.employee.search.inherit.university</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='inactive']" position="after">
+                <separator/>
+                <filter string="Teachers" name="teachers" domain="[('is_teacher', '=', True)]"/>
+            </xpath>
+            <xpath expr="//group" position="inside">
+                <filter string="Academic Department" name="groupby_academic_department" domain="[]" context="{'group_by': 'university_department_id'}"/>
+                <filter string="Academic Qualification" name="groupby_academic_qualification" domain="[]" context="{'group_by': 'academic_qualification'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Inherit Employee Kanban View -->
+    <record id="view_employee_kanban_inherit_university" model="ir.ui.view">
+        <field name="name">hr.employee.kanban.inherit.university</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.hr_kanban_view_employees"/>
+        <field name="arch" type="xml">
+            <!-- Add is_teacher to the kanban fields so it can be evaluated -->
+            <xpath expr="//field[@name='image_128']" position="after">
+                <field name="is_teacher"/>
+            </xpath>
+            <!-- Replace job_title to style it as a badge if they are a teacher -->
+            <xpath expr="//field[@name='job_title']" position="replace">
+                <div t-if="record.job_title.raw_value">
+                    <t t-if="record.is_teacher.raw_value">
+                        <span class="badge text-bg-success mt-1 mb-1" title="Academic Teacher">
+                            <i class="fa fa-graduation-cap me-1"/> <field name="job_title"/>
+                        </span>
+                    </t>
+                    <t t-else="">
+                        <field name="job_title"/>
+                    </t>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Action for Teachers (Optional, but useful to add to University menu) -->
+    <record id="action_university_teachers" model="ir.actions.act_window">
+        <field name="name">Teachers</field>
+        <field name="res_model">hr.employee</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('is_teacher', '=', True)]</field>
+        <field name="context">{'default_is_teacher': True}</field>
+    </record>
+</odoo>

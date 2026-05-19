@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- ═══════════════════════════════════════════════════
+             Module Category
+        ═══════════════════════════════════════════════════ -->
+        <record id="module_category_university" model="ir.module.category">
+            <field name="name">University Management</field>
+            <field name="description">University Management System</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <!-- ═══════════════════════════════════════════════════
+             Security Groups
+        ═══════════════════════════════════════════════════ -->
+
+        <!-- Super Admin -->
+        <record id="group_university_super_admin" model="res.groups">
+            <field name="name">Super Admin</field>
+            <field name="category_id" ref="module_category_university"/>
+            <field name="comment">Full access to all university modules.</field>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+
+        <!-- University Manager -->
+        <record id="group_university_manager" model="res.groups">
+            <field name="name">University Manager</field>
+            <field name="category_id" ref="module_category_university"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Manages university-level configuration: hierarchy, batches, programs.</field>
+        </record>
+
+        <!-- Academic Coordinator -->
+        <record id="group_academic_coordinator" model="res.groups">
+            <field name="name">Academic Coordinator</field>
+            <field name="category_id" ref="module_category_university"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Manages curriculum, timetable, attendance. Read-only on finance.</field>
+        </record>
+
+        <!-- Head of Admissions -->
+        <record id="group_head_admissions" model="res.groups">
+            <field name="name">Head of Admissions</field>
+            <field name="category_id" ref="module_category_university"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Full access to admission module. Read-only on finance and academic.</field>
+        </record>
+
+        <!-- Finance Officer -->
+        <record id="group_finance_officer" model="res.groups">
+            <field name="name">Finance Officer</field>
+            <field name="category_id" ref="module_category_university"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Full access to finance module. Read-only student financial status.</field>
+        </record>
+
+        <!-- Teacher -->
+        <record id="group_teacher" model="res.groups">
+            <field name="name">Teacher</field>
+            <field name="category_id" ref="module_category_university"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Access to own sessions and grade entry only.</field>
+        </record>
+
+        <!-- Medical Committee -->
+        <record id="group_medical_committee" model="res.groups">
+            <field name="name">Medical Committee</field>
+            <field name="category_id" ref="module_category_university"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Medical clearance forms only.</field>
+        </record>
+
+        <!-- HR Manager -->
+        <record id="group_hr_manager_university" model="res.groups">
+            <field name="name">HR Manager</field>
+            <field name="category_id" ref="module_category_university"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Full HR/payroll access. Read-only on academic records.</field>
+        </record>
+
+        <!-- Student Portal User -->
+        <record id="group_student_portal" model="res.groups">
+            <field name="name">Student Portal User</field>
+            <field name="category_id" ref="module_category_university"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="comment">Students - access own record only via portal.</field>
+        </record>
+
+        <!-- Academic Affairs -->
+        <record id="group_academic_affairs" model="res.groups">
+            <field name="name">Academic Affairs</field>
+            <field name="category_id" ref="module_category_university"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Academic affairs team members.</field>
+        </record>
+
+        <!-- Registrar -->
+        <record id="group_registrar" model="res.groups">
+            <field name="name">Registrar</field>
+            <field name="category_id" ref="module_category_university"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Registrar office members managing student enrollment and records.</field>
+        </record>
+
+    </data>
+</odoo>

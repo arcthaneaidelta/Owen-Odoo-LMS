@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_specialization_form" model="ir.ui.view">
+        <field name="name">university.specialization.form</field>
+        <field name="model">university.specialization</field>
+        <field name="arch" type="xml">
+            <form string="Specialization">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name_ar" class="o_rtl"/></h1>
+                        <h2><field name="name_en"/></h2>
+                    </div>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="program_id"/>
+                        <field name="college_id"/>
+                        <field name="university_id"/>
+                    </group>
+                    <field name="notes"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="view_specialization_list" model="ir.ui.view">
+        <field name="name">university.specialization.list</field>
+        <field name="model">university.specialization</field>
+        <field name="arch" type="xml">
+            <list><field name="name_ar"/><field name="name_en"/><field name="code"/><field name="program_id"/></list>
+        </field>
+    </record>
+    <record id="action_university_specialization" model="ir.actions.act_window">
+        <field name="name">Specializations</field>
+        <field name="res_model">university.specialization</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

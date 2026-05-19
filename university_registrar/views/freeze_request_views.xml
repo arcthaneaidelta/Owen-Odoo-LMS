@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="view_university_freeze_request_form" model="ir.ui.view">
+        <field name="name">university.freeze.request.form</field>
+        <field name="model">university.student.freeze.request</field>
+        <field name="arch" type="xml">
+            <form string="Freeze Request">
+                <header>
+                    <button name="action_send_otp"
+                            string="Send OTP"
+                            type="object"
+                            invisible="state != 'draft'"
+                            class="oe_highlight"/>
+
+                    <button name="%(action_freeze_otp_verify)d"
+                            string="Verify OTP"
+                            type="action"
+                            invisible="state != 'otp_sent'"
+                            class="oe_highlight"/>
+
+                    <!-- No verify button here, verified by student on portal, or via a wizard, but we can have it for admins for testing -->
+
+                    <button name="action_dean_approve"
+                            string="Dean Approve (Lvl 1)"
+                            type="object"
+                            invisible="state != 'approved' or level_to_freeze != '1'"
+                            class="oe_highlight"
+                            groups="university_core.group_registrar"/> <!-- typically dean group, but assuming registrar or dean can see it -->
+
+                    <button name="action_registrar_approve"
+                            string="Registrar Approve"
+                            type="object"
+                            invisible="state != 'submitted'"
+                            class="oe_highlight"
+                            groups="university_core.group_registrar"/>
+
+                    <button name="action_head_approve"
+                            string="Academic Affairs Approve"
+                            type="object"
+                            invisible="state != 'registrar_approved'"
+                            class="oe_highlight"
+                            groups="university_core.group_head_admissions"/>
+
+                    <button name="action_activate_freeze"
+                            string="Activate Freeze"
+                            type="object"
+                            invisible="(level_to_freeze == '1' and state != 'dean_approved') or (level_to_freeze != '1' and state != 'approved')"
+                            class="oe_highlight"/>
+
+                    <!-- <button name="action_unfreeze"
+                            string="Unfreeze (Complete)"
+                            type="object"
+                            invisible="state != 'active'"
+                            class="oe_highlight"/> -->
+
+                    <button name="action_reject"
+                            string="Reject"
+                            type="object"
+                            invisible="state not in ['submitted', 'registrar_approved', 'approved', 'dean_approved']"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,otp_sent,submitted,registrar_approved,approved,dean_approved,active,completed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="student_id" readonly="state != 'draft'"/>
+                            <field name="program_id"/>
+                            <field name="academic_year_id" readonly="state != 'draft'"/>
+                            <field name="level_to_freeze" readonly="state != 'draft'"/>
+                            <field name="otp_verified" readonly="1"/>
+                        </group>
+
+                        <group>
+                            <field name="reason" readonly="state != 'draft'"/>
+                            <field name="reason_details" readonly="state != 'draft'"/>
+                            <field name="invoice_id"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_university_freeze_request_tree" model="ir.ui.view">
+        <field name="name">university.freeze.request.tree</field>
+        <field name="model">university.student.freeze.request</field>
+        <field name="arch" type="xml">
+            <list string="Freeze Requests">
+                <field name="name"/>
+                <field name="student_id"/>
+                <field name="academic_year_id"/>
+                <field name="level_to_freeze"/>
+                <field name="reason"/>
+                <field name="state" decoration-info="state == 'draft'" decoration-success="state == 'completed'" decoration-warning="state == 'active'" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_freeze_request" model="ir.actions.act_window">
+        <field name="name">Freeze Requests</field>
+        <field name="res_model">university.student.freeze.request</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_freeze_requests"
+              name="Freeze Requests"
+              parent="university_registrar.menu_student_affairs"
+              action="action_freeze_request"
+              sequence="10"/>
+</odoo>

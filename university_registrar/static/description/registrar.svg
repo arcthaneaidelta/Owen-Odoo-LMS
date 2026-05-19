@@ -1,0 +1,70 @@
+
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#875A7B"/>
+      <stop offset="100%" stop-color="#5B3E55"/>
+    </linearGradient>
+
+    <linearGradient id="bookGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E9DCE5"/>
+    </linearGradient>
+
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect x="32" y="32" width="448" height="448" rx="96" fill="url(#bgGradient)"/>
+
+  <!-- Academic Shield -->
+  <g filter="url(#shadow)">
+    <path d="M256 112L368 156V248C368 332 311 388 256 410C201 388 144 332 144 248V156L256 112Z"
+          fill="#6C4B65"/>
+  </g>
+
+  <!-- Open Book -->
+  <g>
+    <path d="M176 214C176 196 190 182 208 182H252V336H208C190 336 176 350 176 368V214Z"
+          fill="url(#bookGradient)"/>
+
+    <path d="M336 214C336 196 322 182 304 182H260V336H304C322 336 336 350 336 368V214Z"
+          fill="#F8F3F6"/>
+
+    <!-- Book Center Line -->
+    <line x1="256" y1="182" x2="256" y2="336"
+          stroke="#C9B2C1" stroke-width="4"/>
+
+    <!-- Text Lines Left -->
+    <line x1="194" y1="218" x2="238" y2="218"
+          stroke="#B892A9" stroke-width="6" stroke-linecap="round"/>
+    <line x1="194" y1="246" x2="238" y2="246"
+          stroke="#B892A9" stroke-width="6" stroke-linecap="round"/>
+    <line x1="194" y1="274" x2="230" y2="274"
+          stroke="#B892A9" stroke-width="6" stroke-linecap="round"/>
+
+    <!-- Text Lines Right -->
+    <line x1="274" y1="218" x2="318" y2="218"
+          stroke="#B892A9" stroke-width="6" stroke-linecap="round"/>
+    <line x1="274" y1="246" x2="318" y2="246"
+          stroke="#B892A9" stroke-width="6" stroke-linecap="round"/>
+    <line x1="274" y1="274" x2="310" y2="274"
+          stroke="#B892A9" stroke-width="6" stroke-linecap="round"/>
+  </g>
+
+  <!-- Registrar Checkmark -->
+  <circle cx="352" cy="352" r="52" fill="#FFFFFF"/>
+  <path d="M328 352L346 370L378 338"
+        stroke="#875A7B"
+        stroke-width="10"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+
+  <!-- Small Graduation Cap -->
+  <g transform="translate(190 108)">
+    <path d="M66 0L132 28L66 56L0 28L66 0Z" fill="#FFFFFF"/>
+    <path d="M28 42V72C28 84 46 94 66 94C86 94 104 84 104 72V42" fill="#E9DCE5"/>
+  </g>
+</svg>

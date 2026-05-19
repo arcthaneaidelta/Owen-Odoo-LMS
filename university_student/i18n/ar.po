@@ -1,0 +1,751 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: System Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-05 00:00+0000\n"
+"PO-Revision-Date: 2026-03-05 00:00+0000\n"
+"Last-Translator: University Dev Team\n"
+"Language-Team: Arabic <ar@li.org>\n"
+"Language: ar_001\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#. module: university_student
+#: model:ir.module.module,shortdesc:university_student.module_university_student
+msgid "University Student Information Module"
+msgstr "وحدة معلومات الطالب الجامعي"
+
+#. module: university_student
+#: model:ir.model,name:university_student.model_university_student
+msgid "Student"
+msgstr "الطالب"
+
+#. module: university_student
+#: model:ir.model,name:university_student.model_university_guardian
+msgid "Student Guardian"
+msgstr "ولي أمر الطالب"
+
+#. module: university_student
+#: model:ir.model,name:university_student.model_university_phone_history
+msgid "Student Phone History"
+msgstr "سجل هاتف الطالب"
+
+#. module: university_student
+#: model:ir.model,name:university_student.model_university_rfid_card
+msgid "Student RFID Card"
+msgstr "بطاقة RFID الطالب"
+
+#. module: university_student
+#: model:ir.actions.act_window,name:university_student.action_university_student
+msgid "Students"
+msgstr "الطلاب"
+
+#. module: university_student
+#: model:ir.ui.menu,name:university_student.menu_students_root
+msgid "Students"
+msgstr "الطلاب"
+
+#. module: university_student
+#: model:ir.ui.menu,name:university_student.menu_all_students
+msgid "All Students"
+msgstr "جميع الطلاب"
+
+#. module: university_student
+#: model:ir.ui.menu,name:university_student.menu_registered_students
+msgid "Registered Students"
+msgstr "الطلاب المسجلون"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__frmno
+msgid "FRMNO"
+msgstr "رقم الاستمارة (FRMNO)"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__fac
+msgid "FAC"
+msgstr "رمز الكلية (FAC)"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__univ_id
+msgid "UNIV_ID"
+msgstr "معرّف الجامعة (UNIV_ID)"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__n1
+msgid "N1 (First Name)"
+msgstr "الاسم الأول (N1)"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__n2
+msgid "N2 (Father's Name)"
+msgstr "اسم الأب (N2)"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__n3
+msgid "N3 (Grandfather's Name)"
+msgstr "اسم الجد (N3)"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__n4
+msgid "N4 (Family Name)"
+msgstr "اسم الأسرة (N4)"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__scname
+msgid "SCNAME (School)"
+msgstr "اسم المدرسة (SCNAME)"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__gobno
+msgid "GOBNO"
+msgstr "رقم الولاية (GOBNO)"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__facname
+msgid "FACNAME"
+msgstr "اسم الكلية (FACNAME)"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__gobols
+msgid "GOBOLS"
+msgstr "نوع القبول (GOBOLS)"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__year
+msgid "YEAR"
+msgstr "السنة الدراسية (YEAR)"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__national_id
+msgid "NATIONAL_ID"
+msgstr "الرقم الوطني (NATIONAL_ID)"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__sex
+msgid "SEX"
+msgstr "الجنس (SEX)"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__university_name
+msgid "UNIVERSITY"
+msgstr "اسم الجامعة (UNIVERSITY)"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__student_id
+msgid "Internal Student ID"
+msgstr "رقم الطالب الداخلي"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__ministry_university_number
+msgid "Ministry University Number"
+msgstr "الرقم الجامعي من الوزارة"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__name
+msgid "Full Arabic Name"
+msgstr "الاسم الرباعي الكامل"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__name_en
+msgid "Name (English)"
+msgstr "الاسم بالإنجليزية"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__gender
+msgid "Gender"
+msgstr "الجنس"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_student__gender__male
+msgid "Male"
+msgstr "ذكر"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_student__gender__female
+msgid "Female"
+msgstr "أنثى"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__date_of_birth
+msgid "Date of Birth"
+msgstr "تاريخ الميلاد"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__place_of_birth
+msgid "Place of Birth"
+msgstr "مكان الميلاد"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__admission_academic_year_id
+msgid "Admission Academic Year"
+msgstr "السنة الدراسية للقبول"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__batch_id
+msgid "Current Batch"
+msgstr "الفوج الحالي"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__admission_type
+msgid "Admission Type"
+msgstr "نوع القبول"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_student__admission_type__new
+msgid "New Student"
+msgstr "طالب جديد"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_student__admission_type__mature
+msgid "Mature Student"
+msgstr "طالب ناضج"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_student__admission_type__bridging
+msgid "Bridging"
+msgstr "التجسير"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_student__admission_type__transfer
+msgid "Transfer"
+msgstr "نقل"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__admission_date
+msgid "Admission Date"
+msgstr "تاريخ القبول"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__is_repeater
+msgid "Repeater"
+msgstr "معيد"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__academic_standing
+msgid "Academic Standing"
+msgstr "الوضع الأكاديمي"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_student__academic_standing__good
+msgid "Good Standing"
+msgstr "وضع جيد"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_student__academic_standing__warning
+msgid "Warning"
+msgstr "إنذار"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_student__academic_standing__probation
+msgid "Probation"
+msgstr "تحت المراقبة"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_student__academic_standing__suspended
+msgid "Suspended"
+msgstr "موقوف"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_student__academic_standing__expelled
+msgid "Expelled"
+msgstr "مفصول"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_student__academic_standing__graduated
+msgid "Graduated"
+msgstr "متخرج"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_student__academic_standing__withdrawn
+msgid "Withdrawn"
+msgstr "منسحب"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__registration_status
+msgid "Registration Status"
+msgstr "حالة التسجيل"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_student__registration_status__not_registered
+msgid "Not Registered"
+msgstr "غير مسجل"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_student__registration_status__pending
+msgid "Pending"
+msgstr "قيد الانتظار"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_student__registration_status__registered
+msgid "Registered"
+msgstr "مسجل"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_student__registration_status__unregistered
+msgid "Unregistered"
+msgstr "ألغي تسجيله"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__registration_date
+msgid "Registration Date"
+msgstr "تاريخ التسجيل"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__financial_clearance
+msgid "Financial Clearance"
+msgstr "التخليص المالي"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__primary_phone
+msgid "Primary Phone"
+msgstr "الهاتف الرئيسي"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__whatsapp
+msgid "WhatsApp Number"
+msgstr "رقم واتساب"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__email
+msgid "Email"
+msgstr "البريد الإلكتروني"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__phone_history_ids
+msgid "Phone History"
+msgstr "سجل أرقام الهاتف"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__guardian_ids
+msgid "Guardians"
+msgstr "أولياء الأمور"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__rfid_card_ids
+msgid "RFID Cards"
+msgstr "بطاقات RFID"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__active_rfid_card_id
+msgid "Active RFID Card"
+msgstr "بطاقة RFID النشطة"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__partner_id
+msgid "Contact (Portal)"
+msgstr "جهة الاتصال (البوابة)"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__nationality_id
+msgid "Nationality"
+msgstr "الجنسية"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__state_id
+msgid "Governorate / State"
+msgstr "الولاية / المحلية"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__locality
+msgid "Locality"
+msgstr "المنطقة"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__national_id_scan
+msgid "National ID Scan"
+msgstr "صورة الهوية الوطنية"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__birth_certificate_scan
+msgid "Birth Certificate Scan"
+msgstr "صورة شهادة الميلاد"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__photo
+msgid "Student Photo"
+msgstr "صورة الطالب"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__photo_filename
+msgid "Photo Filename"
+msgstr "اسم ملف الصورة"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__gdrive_folder_url
+msgid "Google Drive Folder URL"
+msgstr "رابط مجلد Google Drive"
+
+#. module: university_student
+#: code:addons/university_management/university_student/models/student.py:0
+#, python-format
+msgid "A student with this National ID already exists."
+msgstr "يوجد طالب بهذا الرقم الوطني مسبقاً."
+
+#. module: university_student
+#: code:addons/university_management/university_student/models/student.py:0
+#, python-format
+msgid "A student with this Ministry Form Number (FRMNO) already exists."
+msgstr "يوجد طالب بهذا الرقم (FRMNO) مسبقاً."
+
+#. module: university_student
+#: code:addons/university_management/university_student/models/student.py:0
+#, python-format
+msgid "Internal Student ID must be unique."
+msgstr "يجب أن يكون رقم الطالب الداخلي فريداً."
+
+#. module: university_student
+#: code:addons/university_management/university_student/models/student.py:0
+#, python-format
+msgid "Ministry University Number \"%s\" is already assigned to another student."
+msgstr "الرقم الجامعي \"%s\" مُعيَّن لطالب آخر مسبقاً."
+
+#. module: university_student
+#: code:addons/university_management/university_student/models/student.py:0
+#, python-format
+msgid "Financial clearance revoked. RFID card(s) blocked automatically."
+msgstr "تم إلغاء التخليص المالي. تم حظر بطاقة/بطاقات RFID تلقائياً."
+
+#. module: university_student
+#: code:addons/university_management/university_student/models/student.py:0
+#, python-format
+msgid "Financial clearance granted. RFID card(s) re-activated."
+msgstr "تم منح التخليص المالي. تم إعادة تفعيل بطاقة/بطاقات RFID."
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_guardian__name
+msgid "Guardian Name"
+msgstr "اسم ولي الأمر"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_guardian__relationship
+msgid "Relationship"
+msgstr "صلة القرابة"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_guardian__relationship__father
+msgid "Father"
+msgstr "الأب"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_guardian__relationship__mother
+msgid "Mother"
+msgstr "الأم"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_guardian__relationship__brother
+msgid "Brother"
+msgstr "الأخ"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_guardian__relationship__sister
+msgid "Sister"
+msgstr "الأخت"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_guardian__relationship__uncle
+msgid "Uncle"
+msgstr "العم / الخال"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_guardian__relationship__aunt
+msgid "Aunt"
+msgstr "العمة / الخالة"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_guardian__relationship__grandfather
+msgid "Grandfather"
+msgstr "الجد"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_guardian__relationship__grandmother
+msgid "Grandmother"
+msgstr "الجدة"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_guardian__relationship__legal_guardian
+msgid "Legal Guardian"
+msgstr "الوصي القانوني"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_guardian__relationship__other
+msgid "Other"
+msgstr "أخرى"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_guardian__phone1
+msgid "Phone 1"
+msgstr "هاتف 1"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_guardian__phone2
+msgid "Phone 2"
+msgstr "هاتف 2"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_guardian__is_emergency_contact
+msgid "Emergency Contact"
+msgstr "جهة الاتصال للطوارئ"
+
+#. module: university_student
+#: code:addons/university_management/university_student/models/guardian.py:0
+#, python-format
+msgid "Exactly one guardian must be marked as emergency contact."
+msgstr "يجب تحديد ولي أمر واحد بالضبط كجهة اتصال للطوارئ."
+
+#. module: university_student
+#: code:addons/university_management/university_student/models/guardian.py:0
+#, python-format
+msgid "Student \"%s\" already has an emergency contact. Only one guardian can be the emergency contact."
+msgstr "الطالب \"%s\" لديه جهة اتصال للطوارئ مسبقاً. يمكن تحديد ولي أمر واحد فقط كجهة اتصال للطوارئ."
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_phone_history__phone_number
+msgid "Phone Number"
+msgstr "رقم الهاتف"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_phone_history__whatsapp
+msgid "WhatsApp Number"
+msgstr "رقم واتساب"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_phone_history__date_added
+msgid "Date Added"
+msgstr "تاريخ الإضافة"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_phone_history__date_deprecated
+msgid "Date Deprecated"
+msgstr "تاريخ إيقاف التفعيل"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_phone_history__reason
+msgid "Reason / Note"
+msgstr "السبب / ملاحظة"
+
+#. module: university_student
+#: code:addons/university_management/university_student/models/phone_history.py:0
+#, python-format
+msgid "Phone history records cannot be deleted. Mark them as deprecated instead to preserve the audit trail."
+msgstr "لا يمكن حذف سجلات الهاتف. يرجى تحديدها كموقوفة للحفاظ على سجل التدقيق."
+
+#. module: university_student
+#: code:addons/university_management/university_student/models/phone_history.py:0
+#, python-format
+msgid "Phone number marked as deprecated."
+msgstr "تم تحديد رقم الهاتف كموقوف."
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_rfid_card__card_uid
+msgid "Card UID"
+msgstr "الرقم التعريفي للبطاقة (UID)"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_rfid_card__issue_date
+msgid "Issue Date"
+msgstr "تاريخ الإصدار"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_rfid_card__expiry_date
+msgid "Expiry Date"
+msgstr "تاريخ الانتهاء"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_rfid_card__block_reason
+msgid "Block Reason"
+msgstr "سبب الحظر"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_rfid_card__state
+msgid "Status"
+msgstr "الحالة"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_rfid_card__state__active
+msgid "Active"
+msgstr "نشطة"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_rfid_card__state__blocked
+msgid "Blocked"
+msgstr "محظورة"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_rfid_card__state__lost
+msgid "Lost"
+msgstr "مفقودة"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_rfid_card__state__expired
+msgid "Expired"
+msgstr "منتهية الصلاحية"
+
+#. module: university_student
+#: model:ir.model.fields.selection,name:university_student.selection__university_rfid_card__state__cancelled
+msgid "Cancelled"
+msgstr "ملغاة"
+
+#. module: university_student
+#: code:addons/university_management/university_student/models/rfid_card.py:0
+#, python-format
+msgid "RFID Card UID must be unique."
+msgstr "يجب أن يكون الرقم التعريفي للبطاقة فريداً."
+
+#. module: university_student
+#: code:addons/university_management/university_student/models/rfid_card.py:0
+#, python-format
+msgid "Cannot activate RFID card. Student \"%s\" does not have financial clearance."
+msgstr "لا يمكن تفعيل بطاقة RFID. الطالب \"%s\" لا يملك التخليص المالي."
+
+#. module: university_student
+#: view:university.student:university_student.view_university_student_form
+msgid "Search Students"
+msgstr "بحث في الطلاب"
+
+#. module: university_student
+#: view:university.student:university_student.view_university_student_form
+msgid "Ministry Data"
+msgstr "بيانات الوزارة"
+
+#. module: university_student
+#: view:university.student:university_student.view_university_student_form
+msgid "Ministry Identifiers (Excel Import Fields)"
+msgstr "معرّفات الوزارة (حقول الاستيراد من Excel)"
+
+#. module: university_student
+#: view:university.student:university_student.view_university_student_form
+msgid "Four-Part Arabic Name (N1–N4)"
+msgstr "الاسم الرباعي (N1–N4)"
+
+#. module: university_student
+#: view:university.student:university_student.view_university_student_form
+msgid "School & Faculty Info from Ministry"
+msgstr "معلومات المدرسة والكلية من الوزارة"
+
+#. module: university_student
+#: view:university.student:university_student.view_university_student_form
+msgid "Academic"
+msgstr "الأكاديمي"
+
+#. module: university_student
+#: view:university.student:university_student.view_university_student_form
+msgid "Personal"
+msgstr "المعلومات الشخصية"
+
+#. module: university_student
+#: view:university.student:university_student.view_university_student_form
+msgid "Documents"
+msgstr "المستندات"
+
+#. module: university_student
+#: view:university.student:university_student.view_university_student_list
+msgid "Good Standing"
+msgstr "وضع جيد"
+
+#. module: university_student
+#: view:university.student:university_student.view_university_student_list
+msgid "Warning/Probation"
+msgstr "إنذار / تحت المراقبة"
+
+#. module: university_student
+#: view:university.student:university_student.view_university_student_list
+msgid "Suspended/Expelled"
+msgstr "موقوف / مفصول"
+
+#. module: university_student
+#: view:university.student:university_student.view_university_student_list
+msgid "Financially Clear"
+msgstr "مكتمل التخليص المالي"
+
+#. module: university_student
+#: view:university.student:university_student.view_university_student_list
+msgid "Financial Hold"
+msgstr "حجز مالي"
+
+#. module: university_student
+#: view:university.student:university_student.view_university_student_list
+msgid "Repeaters"
+msgstr "المعيدون"
+
+#. module: university_student
+#: view:university.student:university_student.view_university_student_list
+msgid "Admission Year"
+msgstr "سنة القبول"
+
+#. module: university_student
+#: view:university.rfid_card:university_student.view_university_rfid_card_form
+msgid "Block"
+msgstr "حظر"
+
+#. module: university_student
+#: view:university.rfid_card:university_student.view_university_rfid_card_form
+msgid "Block Card"
+msgstr "حظر البطاقة"
+
+#. module: university_student
+#: view:university.rfid_card:university_student.view_university_rfid_card_form
+msgid "Report Lost"
+msgstr "الإبلاغ عن فقدان"
+
+#. module: university_student
+#: view:university.rfid_card:university_student.view_university_rfid_card_form
+msgid "Activate"
+msgstr "تفعيل"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_batch__student_ids
+msgid "Students"
+msgstr "الطلاب"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_batch__student_count
+msgid "Student Count"
+msgstr "عدد الطلاب"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__program_id
+msgid "Program"
+msgstr "البرنامج الأكاديمي"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__college_id
+msgid "College"
+msgstr "الكلية"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__university_id
+msgid "University"
+msgstr "الجامعة"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_guardian__student_id
+msgid "Student"
+msgstr "الطالب"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_phone_history__student_id
+msgid "Student"
+msgstr "الطالب"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_rfid_card__student_id
+msgid "Student"
+msgstr "الطالب"
+
+#. module: university_student
+#: model:ir.model.fields,field_description:university_student.field_university_student__notes
+msgid "Notes"
+msgstr "ملاحظات"
+
+#. module: university_student
+#: view:university.batch:university_student.view_university_batch_form
+msgid "Students"
+msgstr "الطلاب"
+
+#. module: university_student
+#: view:university.batch:university_student.view_university_batch_form
+msgid "Student Count"
+msgstr "عدد الطلاب"

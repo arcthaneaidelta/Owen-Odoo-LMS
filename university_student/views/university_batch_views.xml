@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_batch_form_inherit_student" model="ir.ui.view">
+        <field name="name">university.batch.form.inherit.student</field>
+        <field name="model">university.batch</field>
+        <field name="inherit_id" ref="university_core.view_batch_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_promote" string="Promote Batch" type="object"
+                        class="btn-primary"
+                        invisible="state != 'active'"/>
+            </xpath>
+            <xpath expr="//field[@name='academic_year_id']" position="after">
+                <field name="current_level" optional="show"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Students" name="students">
+                    <field name="student_ids">
+                        <list>
+                            <!-- <field name="ministry_university_number"/> -->
+                            <field name="name_part1_ar"/>
+                            <field name="name_part2_ar"/>
+                            <field name="name_part3_ar"/>
+                            <field name="name_part4_ar"/>
+                            <field name="national_id"/>
+                            <field name="academic_standing"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_batch_list_inherit_student" model="ir.ui.view">
+        <field name="name">university.batch.list.inherit.student</field>
+        <field name="model">university.batch</field>
+        <field name="inherit_id" ref="university_core.view_batch_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='academic_year_id']" position="after">
+                <field name="current_level"/>
+                <field name="student_count"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

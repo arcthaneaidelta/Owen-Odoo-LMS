@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_curriculum_root"
+              name="Curriculum"
+              web_icon="university_curriculum,static/description/curriculum.svg"
+              sequence="20"
+              groups="university_core.group_university_manager,university_core.group_academic_coordinator,university_core.group_teacher,university_core.group_university_super_admin"/>
+
+    <menuitem id="menu_curriculum_blueprints"
+              name="Curriculum Blueprints"
+              parent="menu_curriculum_root"
+              action="action_university_curriculum"
+              sequence="10"/>
+
+    <menuitem id="menu_subjects"
+              name="Subjects"
+              parent="menu_curriculum_root"
+              action="action_university_subject"
+              sequence="20"/>
+
+    <menuitem id="menu_timetable"
+              name="Timetable"
+              parent="menu_curriculum_root"
+              action="action_university_timetable"
+              sequence="30"/>
+
+    <menuitem id="menu_timetable_print_grid"
+              name="Print Timetable Grid"
+              parent="menu_curriculum_root"
+              action="action_timetable_grid_wizard"
+              sequence="40"
+              groups="university_core.group_university_manager,university_core.group_academic_coordinator,university_core.group_university_super_admin"/>
+</odoo>

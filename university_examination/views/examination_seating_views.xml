@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_examination_room_form" model="ir.ui.view">
+        <field name="name">examination.room.form</field>
+        <field name="model">examination.room</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="capacity"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_examination_room_tree" model="ir.ui.view">
+        <field name="name">examination.room.tree</field>
+        <field name="model">examination.room</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="capacity"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_examination_room" model="ir.actions.act_window">
+        <field name="name">Examination Rooms</field>
+        <field name="res_model">examination.room</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_examination_room" name="Examination Rooms" parent="menu_university_examination_root" action="action_examination_room" sequence="25"/>
+
+    <record id="view_examination_seating_form" model="ir.ui.view">
+        <field name="name">examination.seating.form</field>
+        <field name="model">examination.seating</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="generate_seating" type="object" string="Generate Seating" class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="cycle_id"/>
+                            <field name="subject_id"/>
+                        </group>
+                        <group>
+                            <field name="exam_date"/>
+                            <field name="start_time" widget="float_time"/>
+                            <field name="end_time" widget="float_time"/>
+                            <field name="room_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Seating Lines">
+                            <field name="seating_line_ids">
+                                <list editable="bottom">
+                                    <field name="student_id"/>
+                                    <field name="seat_number"/>
+                                    <field name="room_id"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_examination_seating_tree" model="ir.ui.view">
+        <field name="name">examination.seating.tree</field>
+        <field name="model">examination.seating</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="cycle_id"/>
+                <field name="subject_id"/>
+                <field name="exam_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_examination_seating" model="ir.actions.act_window">
+        <field name="name">Examination Seating</field>
+        <field name="res_model">examination.seating</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_examination_seating" name="Seating &amp; Sitting Lists" parent="menu_university_examination_root" action="action_examination_seating" sequence="30"/>
+</odoo>

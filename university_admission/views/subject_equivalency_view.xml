@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_subject_equivalency_list" model="ir.ui.view">
+        <field name="name">university.subject.equivalency.list</field>
+        <field name="model">university.subject.equivalency</field>
+        <field name="arch" type="xml">
+            <list string="Subject Equivalencies" editable="bottom">
+                <field name="admission_id"/>
+                <field name="previous_subject_name"/>
+                <field name="previous_subject_code"/>
+                <field name="previous_credit_hours"/>
+                <field name="previous_grade"/>
+                <field name="current_subject_id"/>
+                <field name="equivalency_status" widget="badge"/>
+                <field name="awarded_credit_hours"/>
+                <field name="reviewer_id"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_subject_equivalency" model="ir.actions.act_window">
+        <field name="name">Subject Equivalencies</field>
+        <field name="res_model">university.subject.equivalency</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>

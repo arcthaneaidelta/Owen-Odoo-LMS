@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- College Form -->
+    <record id="view_college_form" model="ir.ui.view">
+        <field name="name">university.college.form</field>
+        <field name="model">university.college</field>
+        <field name="arch" type="xml">
+            <form string="College">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(university_core.action_university_program)d"
+                                type="action" class="oe_stat_button" icon="fa-graduation-cap">
+                            <field name="program_count" widget="statinfo" string="Programs"/>
+                        </button>
+                        <button name="%(university_core.action_university_department)d"
+                                type="action" class="oe_stat_button" icon="fa-sitemap">
+                            <field name="department_count" widget="statinfo" string="Departments"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name_ar" placeholder="اسم الكلية" class="o_rtl"/></h1>
+                        <h2><field name="name_en" placeholder="College Name (English)"/></h2>
+                    </div>
+                    <group>
+                        <group string="Basic Info">
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="university_id"/>
+                        </group>
+                        <group string="Management">
+                            <field name="dean_name"/>
+                            <field name="dean_employee_id"/>
+                            <field name="phone"/>
+                            <field name="email"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Programs"><field name="program_ids"/></page>
+                        <page string="Departments"><field name="department_ids"/></page>
+                        <page string="Notes"><field name="notes"/></page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_college_list" model="ir.ui.view">
+        <field name="name">university.college.list</field>
+        <field name="model">university.college</field>
+        <field name="arch" type="xml">
+            <list string="Colleges">
+                <field name="name_ar"/>
+                <field name="name_en"/>
+                <field name="code"/>
+                <field name="university_id"/>
+                <field name="dean_name"/>
+                <field name="program_count"/>
+                <field name="department_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_university_college" model="ir.actions.act_window">
+        <field name="name">Colleges</field>
+        <field name="res_model">university.college</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_university_program_form_inherit_curriculum" model="ir.ui.view">
+        <field name="name">university.program.form.inherit.curriculum</field>
+        <field name="model">university.program</field>
+        <field name="inherit_id" ref="university_core.view_program_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Subjects">
+                    <field name="free_subject_ids" domain="['|', ('program_id', '=', False), ('program_id', '=', id)]">
+                        <list>
+                            <field name="code"/>
+                            <field name="name"/>
+                            <field name="subject_type"/>
+                            <field name="credit_hours"/>
+                            <field name="year_level"/>
+                            <field name="semester"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_program_kanban_inherit_curriculum" model="ir.ui.view">
+        <field name="name">university.program.kanban.inherit.curriculum</field>
+        <field name="model">university.program</field>
+        <field name="inherit_id" ref="university_core.view_program_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='department_id']" position="after">
+                <field name="subject_count"/>
+            </xpath>
+            <xpath expr="//div[hasclass('o_kanban_record_body')]/div" position="after">
+                <div class="mt-1">
+                    <span class="badge text-bg-info">
+                        <field name="subject_count"/> Subjects
+                    </span>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

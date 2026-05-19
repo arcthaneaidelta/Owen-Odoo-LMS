@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_university_batch_form_inherit_examination" model="ir.ui.view">
+        <field name="name">university.batch.form.inherit.examination</field>
+        <field name="model">university.batch</field>
+        <field name="inherit_id" ref="university_core.view_batch_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='academic_year_id']" position="after">
+                <field name="evaluation_method"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

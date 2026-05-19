@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="seq_university_freeze_request" model="ir.sequence">
+            <field name="name">Freeze Request</field>
+            <field name="code">university.freeze.request</field>
+            <field name="prefix">FR-</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_university_external_exam" model="ir.sequence">
+            <field name="name">External Exam Request</field>
+            <field name="code">university.external.exam</field>
+            <field name="prefix">EXT-</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_university_document_request" model="ir.sequence">
+            <field name="name">Document Request</field>
+            <field name="code">university.document.request</field>
+            <field name="prefix">DOC-</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_university_re_registration" model="ir.sequence">
+            <field name="name">Re-Registration</field>
+            <field name="code">university.re.registration</field>
+            <field name="prefix">RR/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_university_student_resignation" model="ir.sequence">
+            <field name="name">Student Resignation</field>
+            <field name="code">university.student.resignation</field>
+            <field name="prefix">RES/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

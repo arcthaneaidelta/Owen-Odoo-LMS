@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Root Menu -->
+    <menuitem id="menu_university_results_root"
+              name="Results"
+              web_icon="university_results,static/description/results.svg"
+              sequence="15"/>
+
+    <!-- Category Menus -->
+    <menuitem id="menu_results_configuration"
+              name="Configuration"
+              parent="menu_university_results_root"
+              sequence="100"/>
+</odoo>

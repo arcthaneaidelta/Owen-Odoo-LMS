@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ════════════════════════════════════════════════════════════════════════
+         MAIN MULTI-STEP RE-REGISTRATION FORM
+         Uses portal.portal_layout — auth='user', accessed via token link
+    ═════════════════════════════════════════════════════════════════════════ -->
+    <template id="re_registration_form" name="Re-Registration Form">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <!-- Breadcrumb -->
+            <t t-set="additional_title">Re-Registration</t>
+
+            <div class="container py-4">
+
+                <!-- ── Header Card ────────────────────────────────────────── -->
+                <div class="card border-0 shadow-sm mb-4 overflow-hidden">
+                    <div class="card-header text-white py-3 px-4"
+                         style="background: linear-gradient(135deg, #4338ca 0%, #6366f1 100%);">
+                        <div class="d-flex align-items-center gap-3">
+                            <i class="fa fa-refresh fa-2x opacity-75"/>
+                            <div>
+                                <h4 class="mb-0 fw-bold">Annual Re-Registration</h4>
+                                <small class="opacity-75">
+                                    <t t-if="student.batch_id.academic_year_id"><t t-esc="student.batch_id.academic_year_id.name"/></t>
+                                    <t t-else=""><t t-esc="student.academic_year_id.name"/></t> ·
+                                    Level <t t-esc="student.current_level"/> ·
+                                    Ref: <strong><t t-esc="student.student_id"/></strong>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step Progress Bar -->
+                    <div class="card-body p-3 bg-light">
+                        <div class="d-flex justify-content-between align-items-center px-2">
+                            <t t-set="step_labels" t-value="['Personal Info', 'Guardians', 'Documents', 'Medical Declaration']"/>
+                            <t t-foreach="range(1, total_steps + 1)" t-as="s">
+                                <div class="d-flex flex-column align-items-center" style="flex:1;">
+                                    <div t-attf-class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold mb-1
+                                         #{' bg-indigo text-white' if s == step else (' bg-success' if s &lt; step else ' bg-secondary opacity-50')}"
+                                         style="width:36px; height:36px; font-size:0.85rem;">
+                                        <t t-if="s &lt; step"><i class="fa fa-check"/></t>
+                                        <t t-else=""><t t-esc="s"/></t>
+                                    </div>
+                                    <small t-attf-class="text-center #{'fw-bold text-primary' if s == step else 'text-muted'}"
+                                           style="font-size:0.72rem; max-width:80px;">
+                                        <t t-esc="step_labels[s-1]"/>
+                                    </small>
+                                </div>
+                                <t t-if="s &lt; total_steps">
+                                    <div class="flex-grow-0 px-1" style="width:30px;">
+                                        <hr t-attf-class="my-0 #{'border-success' if s &lt; step else 'border-secondary opacity-25'}"/>
+                                    </div>
+                                </t>
+                            </t>
+                        </div>
+                    </div>
+
+                    <!-- Deadline Warning -->
+                    <t t-if="student.re_registration_token_expiry">
+                        <div class="px-4 py-2 text-center"
+                             style="background:#fff3cd; border-top:1px solid #ffc107;">
+                            <small class="text-warning-emphasis fw-semibold">
+                                <i class="fa fa-clock-o me-1"/>
+                                Registration deadline:
+                                <strong><t t-esc="student.re_registration_token_expiry"/></strong>
+                            </small>
+                        </div>
+                    </t>
+                </div>
+
+                <!-- Error Alert -->
+                <t t-if="error">
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <i class="fa fa-exclamation-triangle me-2"/>
+                        <t t-esc="error"/>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"/>
+                    </div>
+                </t>
+
+                <!-- ── FORM ──────────────────────────────────────────────── -->
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+
+                        <form t-attf-action="/re-register/form/#{student.re_registration_token}/save"
+                              method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="step" t-att-value="step"/>
+
+                            <!-- ════ STEP 1: Personal Information ════ -->
+                            <t t-if="step == 1">
+                                <h5 class="text-primary mb-4">
+                                    <i class="fa fa-user me-2"/>Step 1: Personal &amp; Contact Information
+                                </h5>
+                                <p class="text-muted small mb-4">
+                                    Your name and identification info are displayed from our records.
+                                    Please update your contact and address details if they have changed.
+                                </p>
+
+                                <!-- Name Display (read-only) -->
+                                <div class="card border-0 bg-light rounded-3 p-3 mb-4">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <small class="text-muted text-uppercase fw-semibold" style="font-size:0.7rem;">Arabic Name</small>
+                                            <div class="fw-bold fs-6 mt-1" dir="rtl">
+                                                <t t-esc="student.display_name_ar or '–'"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <small class="text-muted text-uppercase fw-semibold" style="font-size:0.7rem;">English Name</small>
+                                            <div class="fw-bold fs-6 mt-1">
+                                                <t t-esc="student.name_en or '–'"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mt-2">
+                                            <small class="text-muted text-uppercase fw-semibold" style="font-size:0.7rem;">National ID</small>
+                                            <div class="fw-semibold mt-1"><t t-esc="student.national_id or '–'"/></div>
+                                        </div>
+                                        <div class="col-md-4 mt-2">
+                                            <small class="text-muted text-uppercase fw-semibold" style="font-size:0.7rem;">Date of Birth</small>
+                                            <div class="fw-semibold mt-1"><t t-esc="student.date_of_birth or '–'"/></div>
+                                        </div>
+                                        <div class="col-md-4 mt-2">
+                                            <small class="text-muted text-uppercase fw-semibold" style="font-size:0.7rem;">Program</small>
+                                            <div class="fw-semibold mt-1"><t t-esc="student.program_id.name or '–'"/></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Editable Contact Fields -->
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Phone Number *</label>
+                                        <input type="tel" name="phone" class="form-control"
+                                               required="required"
+                                               t-att-value="draft.get('phone') or student.phone"
+                                               placeholder="Primary contact number"/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">WhatsApp Number</label>
+                                        <input type="tel" name="phone_whatsapp" class="form-control"
+                                               t-att-value="draft.get('phone_whatsapp') or student.phone_whatsapp"
+                                               placeholder="WhatsApp number"/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Email Address</label>
+                                        <input type="email" name="email" class="form-control"
+                                               t-att-value="draft.get('email') or student.email"
+                                               placeholder="Your email address"/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">City of Residence</label>
+                                        <input type="text" name="city_of_residence" class="form-control"
+                                               t-att-value="draft.get('city_of_residence') or student.city_of_residence"
+                                               placeholder="e.g. Khartoum"/>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="form-label fw-semibold">Detailed Address</label>
+                                        <textarea name="address" class="form-control" rows="2"
+                                                  placeholder="Street, Block, House number...">
+                                            <t t-esc="draft.get('address') or student.address"/>
+                                        </textarea>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Religion</label>
+                                        <input type="text" name="religion" class="form-control"
+                                               t-att-value="draft.get('religion') or student.religion"
+                                               placeholder="e.g. Islam / Christianity"/>
+                                    </div>
+                                </div>
+                            </t>
+
+                            <!-- ════ STEP 2: Guardian Information (READ ONLY) ════ -->
+                            <t t-if="step == 2">
+                                <h5 class="text-primary mb-4">
+                                    <i class="fa fa-users me-2"/>Step 2: Guardian Information
+                                </h5>
+                                <div class="alert alert-info mb-4" role="alert">
+                                    <i class="fa fa-info-circle me-2"/>
+                                    Your guardian information is displayed from our records.
+                                    To update guardian details, please contact the Registrar's Office.
+                                </div>
+
+                                <t t-if="guardians">
+                                    <t t-foreach="guardians" t-as="g">
+                                        <div class="card border-0 bg-light rounded-3 p-3 mb-3">
+                                            <div class="d-flex align-items-center gap-2 mb-2">
+                                                <span class="badge bg-indigo rounded-pill">G<t t-esc="g_index + 1"/></span>
+                                                <span class="fw-bold"><t t-esc="g.get('name', '–')"/></span>
+                                                <span class="text-muted small">(<t t-esc="g.get('relationship', '').title()"/>)</span>
+                                            </div>
+                                            <div class="row g-2">
+                                                <div class="col-md-4">
+                                                    <small class="text-muted">Phone</small>
+                                                    <div class="fw-semibold"><t t-esc="g.get('phone_1', '–')"/></div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <small class="text-muted">WhatsApp</small>
+                                                    <div class="fw-semibold"><t t-esc="g.get('phone_whatsapp', '–')"/></div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <small class="text-muted">Email</small>
+                                                    <div class="fw-semibold"><t t-esc="g.get('email', '–')"/></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <div class="text-center py-5 text-muted">
+                                        <i class="fa fa-users fa-3x mb-3 opacity-25"/>
+                                        <p>No guardian records found in our system.</p>
+                                    </div>
+                                </t>
+                            </t>
+
+                            <!-- ════ STEP 3: Document Upload ════ -->
+                            <t t-if="step == 3">
+                                <h5 class="text-primary mb-4">
+                                    <i class="fa fa-upload me-2"/>Step 3: Document Update
+                                </h5>
+                                <p class="text-muted small mb-4">
+                                    You may upload updated versions of your documents. All fields are optional —
+                                    if no new file is uploaded, your existing document on file will be used.
+                                </p>
+
+                                <div class="row g-4">
+                                    <div class="col-md-4">
+                                        <div class="card border-0 bg-light p-3 text-center h-100">
+                                            <i class="fa fa-user-circle fa-3x text-primary mb-2"/>
+                                            <label class="form-label fw-semibold">Student Photo</label>
+                                            <input type="file" name="photo" class="form-control form-control-sm" accept="image/*"/>
+                                            <small class="text-muted mt-1">
+                                                <t t-if="student.photo">✓ Current photo on file</t>
+                                                <t t-else="">No photo yet</t>
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card border-0 bg-light p-3 text-center h-100">
+                                            <i class="fa fa-id-card fa-3x text-primary mb-2"/>
+                                            <label class="form-label fw-semibold">National ID Scan</label>
+                                            <input type="file" name="national_id_scan" class="form-control form-control-sm" accept="image/*,application/pdf"/>
+                                            <small class="text-muted mt-1">
+                                                <t t-if="student.national_id_scan">✓ Current scan on file</t>
+                                                <t t-else="">No scan yet</t>
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card border-0 bg-light p-3 text-center h-100">
+                                            <i class="fa fa-camera fa-3x text-primary mb-2"/>
+                                            <label class="form-label fw-semibold">National ID Photo</label>
+                                            <input type="file" name="national_id_photo" class="form-control form-control-sm" accept="image/*"/>
+                                            <small class="text-muted mt-1">
+                                                <t t-if="student.national_id_photo">✓ Current photo on file</t>
+                                                <t t-else="">No photo yet</t>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+
+                            <!-- ════ STEP 4: Medical Declaration ════ -->
+                            <t t-if="step == 4">
+                                <h5 class="text-primary mb-4">
+                                    <i class="fa fa-heartbeat me-2"/>Step 4: Medical Report Declaration
+                                </h5>
+
+                                <!-- Summary card -->
+                                <div class="card border-0 bg-dark text-white mb-4">
+                                    <div class="card-body py-3 px-4 text-center">
+                                        <h6 class="mb-0 opacity-75">Personal Declaration Data</h6>
+                                    </div>
+                                </div>
+                                <div class="row text-center mb-4 g-3">
+                                    <div class="col-4">
+                                        <small class="text-muted d-block">Date</small>
+                                        <strong id="medical-date"/>
+                                    </div>
+                                    <div class="col-4">
+                                        <small class="text-muted d-block">Student ID</small>
+                                        <strong><t t-esc="student.student_id or '–'"/></strong>
+                                    </div>
+                                    <div class="col-4">
+                                        <small class="text-muted d-block">Program</small>
+                                        <strong><t t-esc="student.program_id.name or '–'"/></strong>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table class="table table-bordered align-middle">
+                                        <thead class="table-secondary text-center">
+                                            <tr>
+                                                <th colspan="2">Fill the following data</th>
+                                                <th style="width:80px;">Yes</th>
+                                                <th>If Yes, specify / explain</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Section A -->
+                                            <tr class="table-light">
+                                                <th colspan="4" class="text-muted">A. Have you any of the following chronic diseases</th>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center" style="width:40px;">1.</td>
+                                                <td>Diabetes Mellitus?</td>
+                                                <td class="text-center">
+                                                    <input type="checkbox" name="medical_diabetes" class="form-check-input"
+                                                           t-att-checked="'checked' if draft.get('medical_diabetes') or (not draft and student.medical_diabetes) else None"/>
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="medical_diabetes_drug" class="form-control form-control-sm"
+                                                           placeholder="Write the type of drug"
+                                                           t-att-value="draft.get('medical_diabetes_drug') or student.medical_diabetes_drug"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">2.</td>
+                                                <td>Hypertension?</td>
+                                                <td class="text-center">
+                                                    <input type="checkbox" name="medical_hypertension" class="form-check-input"
+                                                           t-att-checked="'checked' if draft.get('medical_hypertension') or (not draft and student.medical_hypertension) else None"/>
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="medical_hypertension_drug" class="form-control form-control-sm"
+                                                           placeholder="Write the type of drug"
+                                                           t-att-value="draft.get('medical_hypertension_drug') or student.medical_hypertension_drug"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">3.</td>
+                                                <td>Bronchial Asthma?</td>
+                                                <td class="text-center">
+                                                    <input type="checkbox" name="medical_asthma" class="form-check-input"
+                                                           t-att-checked="'checked' if draft.get('medical_asthma') or (not draft and student.medical_asthma) else None"/>
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="medical_asthma_drug" class="form-control form-control-sm"
+                                                           placeholder="Write the type of drug"
+                                                           t-att-value="draft.get('medical_asthma_drug') or student.medical_asthma_drug"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">4.</td>
+                                                <td>Hepatitis B?</td>
+                                                <td class="text-center">
+                                                    <input type="checkbox" name="medical_hepatitis_b" class="form-check-input"
+                                                           t-att-checked="'checked' if draft.get('medical_hepatitis_b') or (not draft and student.medical_hepatitis_b) else None"/>
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="medical_hepatitis_b_drug" class="form-control form-control-sm"
+                                                           placeholder="Write the type of drug"
+                                                           t-att-value="draft.get('medical_hepatitis_b_drug') or student.medical_hepatitis_b_drug"/>
+                                                </td>
+                                            </tr>
+                                            <!-- Section B -->
+                                            <tr class="table-light">
+                                                <th colspan="4" class="text-muted">B. Have you any of the following diseases</th>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">1.</td>
+                                                <td>Heart Disease?</td>
+                                                <td class="text-center">
+                                                    <input type="checkbox" name="medical_heart_disease" class="form-check-input"
+                                                           t-att-checked="'checked' if draft.get('medical_heart_disease') or (not draft and student.medical_heart_disease) else None"/>
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="medical_heart_disease_details" class="form-control form-control-sm"
+                                                           placeholder="Determine"
+                                                           t-att-value="draft.get('medical_heart_disease_details') or student.medical_heart_disease_details"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">2.</td>
+                                                <td>Physical Disability?</td>
+                                                <td class="text-center">
+                                                    <input type="checkbox" name="medical_physical_disability" class="form-check-input"
+                                                           t-att-checked="'checked' if draft.get('medical_physical_disability') or (not draft and student.medical_physical_disability) else None"/>
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="medical_physical_disability_details" class="form-control form-control-sm"
+                                                           placeholder="Determine"
+                                                           t-att-value="draft.get('medical_physical_disability_details') or student.medical_physical_disability_details"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">3.</td>
+                                                <td>Psychiatric Disease?</td>
+                                                <td class="text-center">
+                                                    <input type="checkbox" name="medical_psychiatric" class="form-check-input"
+                                                           t-att-checked="'checked' if draft.get('medical_psychiatric') or (not draft and student.medical_psychiatric) else None"/>
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="medical_psychiatric_details" class="form-control form-control-sm"
+                                                           placeholder="Determine"
+                                                           t-att-value="draft.get('medical_psychiatric_details') or student.medical_psychiatric_details"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">4.</td>
+                                                <td>Any Other Disease?</td>
+                                                <td class="text-center">
+                                                    <input type="checkbox" name="medical_other_disease" class="form-check-input"
+                                                           t-att-checked="'checked' if draft.get('medical_other_disease') or (not draft and student.medical_other_disease) else None"/>
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="medical_other_disease_details" class="form-control form-control-sm"
+                                                           placeholder="Determine"
+                                                           t-att-value="draft.get('medical_other_disease_details') or student.medical_other_disease_details"/>
+                                                </td>
+                                            </tr>
+                                            <!-- Section C -->
+                                            <tr class="table-light">
+                                                <th colspan="4" class="text-muted">C. Have you...</th>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">1.</td>
+                                                <td>Admitted in Hospital Before?</td>
+                                                <td class="text-center">
+                                                    <input type="checkbox" name="medical_admitted_hospital" class="form-check-input"
+                                                           t-att-checked="'checked' if draft.get('medical_admitted_hospital') or (not draft and student.medical_admitted_hospital) else None"/>
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="medical_admitted_hospital_details" class="form-control form-control-sm"
+                                                           placeholder="Explain"
+                                                           t-att-value="draft.get('medical_admitted_hospital_details') or student.medical_admitted_hospital_details"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </t>
+
+                            <!-- ════ Navigation Buttons ════ -->
+                            <div class="d-flex justify-content-between align-items-center mt-5 pt-3 border-top">
+                                <div>
+                                    <t t-if="step > 1">
+                                        <a t-attf-href="/re-register/form/#{student.re_registration_token}?step=#{step - 1}"
+                                           class="btn btn-outline-secondary px-4">
+                                            <i class="fa fa-chevron-left me-2"/>Back
+                                        </a>
+                                    </t>
+                                </div>
+                                <div>
+                                    <t t-if="step == total_steps">
+                                        <button type="submit" class="btn btn-success px-5 fw-bold">
+                                            <i class="fa fa-paper-plane me-2"/>Submit Re-Registration
+                                        </button>
+                                    </t>
+                                    <t t-else="">
+                                        <button type="submit" class="btn btn-primary px-5 fw-bold">
+                                            Next <i class="fa fa-chevron-right ms-2"/>
+                                        </button>
+                                    </t>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Date script -->
+            <script type="text/javascript">
+                (function() {
+                    var el = document.getElementById('medical-date');
+                    if (el) el.textContent = new Date().toISOString().split('T')[0];
+                })();
+            </script>
+        </t>
+    </template>
+
+    <!-- ════════════════════════════════════════════════════════════════════════
+         STATUS PAGE  (submitted / in_review / rejected / expired)
+    ═════════════════════════════════════════════════════════════════════════ -->
+    <template id="re_registration_status_page" name="Re-Registration Status">
+        <t t-call="portal.portal_layout">
+            <div class="container py-5">
+                <div class="row justify-content-center">
+                    <div class="col-lg-7">
+                        <t t-if="status_key == 'expired'">
+                            <div class="card border-0 shadow-sm text-center p-5">
+                                <i class="fa fa-calendar-times-o fa-4x text-danger mb-3"/>
+                                <h4 class="fw-bold text-danger">Registration Deadline Has Passed</h4>
+                                <p class="text-muted mt-2">
+                                    The re-registration deadline of <strong><t t-esc="student.re_registration_token_expiry"/></strong>
+                                    has passed or you have already completed registration.
+                                </p>
+                                <div class="mt-4">
+                                    <a href="/my" class="btn btn-outline-secondary">Back to Home</a>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ════════════════════════════════════════════════════════════════════════
+         SUCCESS PAGE
+    ═════════════════════════════════════════════════════════════════════════ -->
+    <template id="re_registration_success" name="Re-Registration Success">
+        <t t-call="portal.portal_layout">
+            <div class="container py-5">
+                <div class="row justify-content-center">
+                    <div class="col-lg-7">
+                        <div class="card border-0 shadow-sm text-center p-5">
+                            <div class="mb-3">
+                                <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-success text-white"
+                                      style="width:80px;height:80px;">
+                                    <i class="fa fa-check fa-2x"/>
+                                </span>
+                            </div>
+                            <h3 class="fw-bold text-success">Form Submitted Successfully!</h3>
+                            <p class="text-muted mt-2">
+                                Thank you, <strong><t t-esc="student.display_name_ar or student.name_en"/></strong>!
+                                Your form data for <strong>Level <t t-esc="student.current_level"/></strong>
+                                has been received and updated in your file.
+                            </p>
+                            <p class="text-muted small">
+                                You can now pay your generated invoices to complete the re-registration process.
+                            </p>
+                            <div class="mt-4 d-flex gap-3 justify-content-center">
+                                <a href="/my" class="btn btn-outline-primary px-4">
+                                    <i class="fa fa-home me-2"/>Back to Home
+                                </a>
+                                <a href="/my/student_profile" class="btn btn-primary px-4">
+                                    <i class="fa fa-user me-2"/>My Profile
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ════════════════════════════════════════════════════════════════════════
+         NOT FOUND / INVALID TOKEN
+    ═════════════════════════════════════════════════════════════════════════ -->
+    <template id="re_registration_not_found" name="Re-Registration Not Found">
+        <t t-call="portal.portal_layout">
+            <div class="container py-5 text-center">
+                <i class="fa fa-unlink fa-4x text-secondary mb-3"/>
+                <h4 class="text-muted">Invalid or Expired Link</h4>
+                <p class="text-muted">The re-registration link is invalid or has already been used. Please contact your Registrar's Office.</p>
+                <a href="/my" class="btn btn-outline-secondary mt-3">Back to Home</a>
+            </div>
+        </t>
+    </template>
+
+    <!-- ════════════════════════════════════════════════════════════════════════
+         NO PENDING RE-REGISTRATION
+    ═════════════════════════════════════════════════════════════════════════ -->
+    <template id="re_registration_no_pending" name="No Pending Re-Registration">
+        <t t-call="portal.portal_layout">
+            <div class="container py-5">
+                <div class="row justify-content-center">
+                    <div class="col-lg-7 text-center">
+                        <i class="fa fa-check-circle fa-4x text-success mb-3"/>
+                        <h4 class="fw-bold">You Are All Set!</h4>
+                        <p class="text-muted">
+                            There are no pending re-registration requests for your account at this time.
+                            If you believe this is incorrect, please contact the Registrar's Office.
+                        </p>
+                        <a href="/my/student_profile" class="btn btn-primary mt-3">
+                            <i class="fa fa-user me-2"/>View My Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

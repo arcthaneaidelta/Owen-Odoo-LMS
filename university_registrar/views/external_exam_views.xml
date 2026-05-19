@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="view_university_external_exam_form" model="ir.ui.view">
+        <field name="name">university.external.exam.form</field>
+        <field name="model">university.student.external.exam</field>
+        <field name="arch" type="xml">
+            <form string="External Exam Request">
+                <header>
+                    <button name="action_submit"
+                            string="Submit"
+                            type="object"
+                            invisible="state != 'draft'"
+                            class="oe_highlight"/>
+
+                    <button name="action_approve"
+                            string="Approve &amp; Rejoin"
+                            type="object"
+                            invisible="state != 'submitted'"
+                            class="oe_highlight"/>
+
+                    <button name="action_reject"
+                            string="Reject"
+                            type="object"
+                            invisible="state != 'submitted'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="student_id" readonly="state != 'draft'" context="{'active_test': False}"/>
+                            <field name="program_id"/>
+                            <field name="academic_year_id" readonly="state != 'draft'"/>
+                        </group>
+
+                        <group>
+                            <field name="subject_ids" widget="many2many_tags" readonly="state != 'draft'"/>
+                            <field name="invoice_id"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_university_external_exam_tree" model="ir.ui.view">
+        <field name="name">university.external.exam.tree</field>
+        <field name="model">university.student.external.exam</field>
+        <field name="arch" type="xml">
+            <list string="External Exam Requests">
+                <field name="name"/>
+                <field name="student_id"/>
+                <field name="academic_year_id"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_external_exam" model="ir.actions.act_window">
+        <field name="name">External Exam Requests</field>
+        <field name="res_model">university.student.external.exam</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_external_exam"
+              name="External Exams"
+              parent="university_registrar.menu_student_affairs"
+              action="action_external_exam"
+              sequence="30"/>
+</odoo>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Resignation Acceptance Letter Report -->
+    <record id="action_report_resignation_letter" model="ir.actions.report">
+        <field name="name">Resignation Acceptance Letter</field>
+        <field name="model">university.student.resignation</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">university_registrar.report_resignation_letter_template</field>
+        <field name="report_file">university_registrar.report_resignation_letter_template</field>
+        <field name="print_report_name">'Resignation_Letter_%s' % (object.student_id.student_id)</field>
+        <field name="binding_model_id" ref="model_university_student_resignation"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_resignation_letter_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page" style="font-family: 'Helvetica', 'Arial', sans-serif; color: #333;">
+                        <div class="text-end mb-4">
+                            <strong>Date:</strong> <span t-esc="datetime.datetime.now().strftime('%Y-%m-%d')"/><br/>
+                            <strong>Ref:</strong> <span t-esc="o.name"/>
+                        </div>
+
+                        <div class="text-center mb-5">
+                            <h2 style="text-transform: uppercase; border-bottom: 2px solid #333; display: inline-block; padding-bottom: 10px;">
+                                Resignation Acceptance Letter
+                            </h2>
+                        </div>
+
+                        <div class="mb-4">
+                            <p><strong>To:</strong> <span t-esc="o.student_id.name_en or o.student_id.name"/></p>
+                            <p><strong>Student ID:</strong> <span t-esc="o.student_id.student_id"/></p>
+                            <p><strong>Program:</strong> <span t-esc="o.student_id.program_id.name"/></p>
+                        </div>
+
+                        <div class="mb-5" style="line-height: 1.6; text-align: justify;">
+                            <p>Dear <t t-esc="o.student_id.name_en or o.student_id.name"/>,</p>
+                            
+                            <p>We are writing to formally acknowledge and accept your request for resignation from the <t t-esc="o.student_id.program_id.name"/> program at our University, effective from <strong><span t-esc="o.resignation_date"/></strong>.</p>
+                            
+                            <p>Your request has undergone the necessary departmental clearances (Library, Laboratory, Finance, and Admissions) and has been approved by the University Registrar and the Office of Academic Affairs.</p>
+                            
+                            <p>As per the University policy, your academic record has been updated to <strong>"Withdrawn"</strong>, and your student portal access will be deactivated shortly. We have also noted your refund eligibility status: 
+                                <strong>
+                                    <t t-if="o.is_refund_eligible">Approved for Tuition Refund</t>
+                                    <t t-else="">Not Eligible for Tuition Refund (Deadline Passed)</t>
+                                </strong>.
+                            </p>
+
+                            <p>We wish you the very best in your future endeavors. Should you decide to return to the university in the future, you will need to undergo the standard re-admission process as per the then-current regulations.</p>
+                        </div>
+
+                        <div class="row mt-5 pt-5">
+                            <div class="col-6 text-center">
+                                <div style="border-top: 1px solid #333; width: 200px; margin: 0 auto; padding-top: 5px;">
+                                    <strong>Registrar Office</strong>
+                                    <p class="small text-muted"><t t-esc="o.registrar_approver_id.name or 'Official Signature'"/></p>
+                                </div>
+                            </div>
+                            <div class="col-6 text-center">
+                                <div style="border-top: 1px solid #333; width: 200px; margin: 0 auto; padding-top: 5px;">
+                                    <strong>Academic Affairs</strong>
+                                    <p class="small text-muted"><t t-esc="o.academic_approver_id.name or 'Official Signature'"/></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-5 p-3" style="background-color: #f8f9fa; border-radius: 5px; font-size: 0.85rem;">
+                            <p class="mb-1"><strong>Note:</strong> This is a digitally signed document generated by the University LMS. Digital consent was verified via OTP on <span t-esc="o.create_date" t-options='{"widget": "date"}'/>.</p>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- Academic Transcript Report -->
+    <record id="action_report_student_transcript" model="ir.actions.report">
+        <field name="name">Official Academic Transcript</field>
+        <field name="model">university.student.resignation</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">university_registrar.report_transcript_template</field>
+        <field name="report_file">university_registrar.report_transcript_template</field>
+        <field name="print_report_name">'Transcript_%s' % (object.student_id.student_id)</field>
+        <field name="binding_model_id" ref="model_university_student_resignation"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_transcript_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <!-- Fetch scores -->
+                <!-- Fetch scores if the results module is present -->
+                <t t-set="scores" t-value="request.env.get('university.student.subject.score') and request.env['university.student.subject.score'].sudo().search([('student_id', '=', o.student_id.id)], order='academic_year_id asc, level asc') or []"/>
+                
+                <t t-call="web.external_layout">
+                    <div class="page" style="font-family: 'Helvetica', 'Arial', sans-serif;">
+                        <div class="text-center mb-4">
+                            <h2 style="font-weight: 800; color: #1e293b;">OFFICIAL ACADEMIC TRANSCRIPT</h2>
+                            <p class="text-muted">Issued upon Resignation Approval</p>
+                        </div>
+
+                        <div style="background: #f1f5f9; padding: 20px; border-radius: 10px; margin-bottom: 30px;">
+                            <div class="row">
+                                <div class="col-6">
+                                    <p class="mb-1"><strong>Student Name:</strong> <span t-esc="o.student_id.name_en or o.student_id.name"/></p>
+                                    <p class="mb-1"><strong>Student ID:</strong> <span t-esc="o.student_id.student_id"/></p>
+                                    <p class="mb-1"><strong>Nationality:</strong> <span t-esc="o.student_id.nationality_id.name"/></p>
+                                </div>
+                                <div class="col-6">
+                                    <p class="mb-1"><strong>College:</strong> <span t-esc="o.student_id.college_id.name"/></p>
+                                    <p class="mb-1"><strong>Program:</strong> <span t-esc="o.student_id.program_id.name"/></p>
+                                    <p class="mb-1"><strong>Graduation Standing:</strong> <span class="badge bg-danger">WITHDRAWN</span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <table class="table table-sm table-bordered mt-4">
+                            <thead style="background-color: #334155; color: #fff;">
+                                <tr>
+                                    <th>Level</th>
+                                    <th>Academic Year</th>
+                                    <th>Subject Code</th>
+                                    <th>Subject Name</th>
+                                    <th class="text-center">Score</th>
+                                    <th class="text-center">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="scores" t-as="score">
+                                    <tr>
+                                        <td>Level <t t-esc="score.level"/></td>
+                                        <td><t t-esc="score.academic_year_id.name"/></td>
+                                        <td><t t-esc="score.subject_id.code"/></td>
+                                        <td><t t-esc="score.subject_id.name"/></td>
+                                        <td class="text-center"><t t-esc="score.score"/></td>
+                                        <td class="text-center">
+                                            <span t-attf-class="fw-bold #{'text-success' if score.result_status == 'pass' else 'text-danger'}">
+                                                <t t-esc="score.result_status.upper()"/>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </t>
+                                <t t-if="not scores">
+                                    <tr>
+                                        <td colspan="6" class="text-center text-muted py-4">No academic records found for this student.</td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <div class="mt-5 text-end small text-muted">
+                            <p>End of Academic Transcript</p>
+                            <p>Validated on: <span t-esc="datetime.datetime.now().strftime('%Y-%m-%d')"/></p>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

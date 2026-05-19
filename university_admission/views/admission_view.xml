@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ═══ ADMISSION FORM VIEW ══════════════════════════════════════════════ -->
+    <record id="view_admission_form" model="ir.ui.view">
+        <field name="name">university.admission.form</field>
+        <field name="model">university.admission</field>
+        <field name="arch" type="xml">
+            <form string="Admission Application">
+                <header>
+                    <button name="action_validate" string="Validate Application"
+                            type="object" class="btn-primary"
+                            invisible="state != 'draft'"/>
+
+                    <button name="action_send_to_medical" string="Send to Medical Committee"
+                            type="object" class="btn-primary"
+                            invisible="state != 'validated'"/>
+
+                    <button name="action_medical_approve" string="Medical Approved"
+                            type="object" class="btn-success"
+                            invisible="state != 'medical_review'"/>
+
+                    <button name="action_program_approve" string="Program Approved"
+                            type="object" class="btn-success"
+                            invisible="state != 'program_review'"/>
+
+                    <button name="action_ministry_approve" string="Ministry Approved"
+                            type="object" class="btn-primary"
+                            invisible="state != 'ministry_approved'"
+                            confirm="This will scan the Ministry Bank using FRMNO + Entry Year and overwrite name/Ministry fields with official data. Continue?"/>
+
+                    <button name="action_head_approve" string="Head Approval"
+                            type="object" class="btn-primary"
+                            invisible="state != 'head_approval'"
+                            groups="university_core.group_head_admissions,university_core.group_university_super_admin"/>
+
+                    <button name="action_academic_affair_approval" string="Academic Affair Approval"
+                            type="object" class="btn-primary"
+                            invisible="state != 'academic_affair'"
+                            groups="university_core.group_academic_affairs,university_core.group_university_super_admin"/>
+
+                    <!-- <button name="action_confirm_payment" string="Confirm Payment"
+                            type="object" class="btn-success"
+                            invisible="state != 'invoice_generated'"
+                            groups="university_core.group_finance_officer,university_core.group_university_super_admin"/> -->
+
+
+
+                    <button name="action_verify_whatsapp" string="Verify WhatsApp" type="object"
+                            invisible="is_whatsapp_verified or not phone_whatsapp" class="btn-info"/>
+
+                    <button name="action_verify_email" string="Verify Email" type="object"
+                            invisible="is_email_verified or not email" class="btn-info"/>
+
+                    <button name="action_create_portal_user" string="Create Portal User" type="object"
+                            invisible="state != 'registered' or not is_whatsapp_verified" class="btn-primary"/>
+
+                    <button name="action_reject" string="Reject"
+                            type="object" class="btn-danger"
+                            invisible="state in ('registered','rejected','cancelled')"/>
+
+                    <button name="action_reset_to_draft" string="Reset to Draft"
+                            type="object"
+                            invisible="state not in ('validated','rejected')"/>
+
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,validated,medical_review,program_review,ministry_approved"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_student"
+                                type="object" class="oe_stat_button" icon="fa-user"
+                                invisible="not student_id">
+                            <span class="o_stat_text">Student</span>
+                        </button>
+                        <button name="%(university_admission.action_ministry_batch)d"
+                                type="action" class="oe_stat_button" icon="fa-bank"
+                                invisible="ministry_bank_id != False">
+                            <span class="o_stat_text">Ministry Bank</span>
+                        </button>
+                    </div>
+
+                    <!-- Ministry Bank match indicator -->
+                    <div class="alert alert-success mb-2"
+                         invisible="not ministry_bank_id">
+                        ✔ Ministry data synced from bank record (FRMNO: <field name="ministry_form_number" readonly="1"/> / Year: <field name="entry_year" readonly="1"/>)
+                    </div>
+
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                        <h2 class="o_rtl">
+                            <field name="display_name_ar" readonly="1"
+                                   placeholder="Full Arabic Name (auto-computed)"/>
+                        </h2>
+                    </div>
+
+                    <notebook>
+
+                        <!-- ─── Applicant Info ─── -->
+                        <page string="Applicant" name="applicant">
+                            <group>
+                                <group string="Identity">
+                                    <field name="name_en"/>
+                                    <field name="gender"/>
+                                    <field name="date_of_birth"/>
+                                    <field name="national_id"/>
+                                    <field name="passport_number"/>
+                                    <field name="id_document_number"/>
+                                    <field name="student_nationality" invisible="1"/>
+                                    <field name="nationality_id" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="country_of_birth" invisible="1"/>
+                                    <field name="country_of_birth_id" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="religion"/>
+                                    <field name="citizenship"/>
+                                </group>
+                                <group string="Contact">
+                                    <field name="phone"/>
+                                    <field name="phone_whatsapp"/>
+                                    <field name="phone_country_id" invisible="1"/>
+                                    <field name="whatsapp_country_id" invisible="1"/>
+                                    <field name="is_whatsapp_verified" readonly="1"/>
+                                    <field name="email"/>
+                                    <field name="is_email_verified" readonly="1"/>
+                                    <field name="address"/>
+                                    <field name="city_of_residence"/>
+                                    <field name="residence_country_id" options="{'no_create': True, 'no_open': True}"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ─── Academic Placement ─── -->
+                        <page string="Academic" name="academic">
+                            <group>
+                                <group string="Placement Info">
+                                    <field name="program_id"/>
+                                    <field name="college_id"/>
+                                    <field name="admission_type"/>
+                                    <field name="financial_type"/>
+                                    <field name="starting_level" readonly="state == 'ministry_approved'"/>
+                                    <field name="academic_year_id"/>
+                                    <field name="application_date"/>
+                                    <field name="currency_id" invisible="1"/>
+                                    <!-- <field name="admission_fee"/> -->
+                                    <field name="registration_fee"/>
+                                    <field name="tuition_fee"/>
+                                </group>
+                                <group string="High School Data">
+                                    <field name="certificate_type"/>
+                                    <field name="high_school_name"/>
+                                    <field name="high_school_grade"/>
+                                    <field name="high_school_exam_number"/>
+                                </group>
+                            </group>
+                            <group string="Previous Institution Details" invisible="admission_type == 'regular'">
+                                <group>
+                                    <field name="prev_institution_name"/>
+                                    <field name="prev_college_program"/>
+                                    <field name="prev_graduation_cert_type"/>
+                                </group>
+                                <group>
+                                    <field name="prev_enrollment_year"/>
+                                    <field name="prev_years_completed"/>
+                                </group>
+                            </group>
+                            <group string="Assigned Subjects (Max 4)" invisible="admission_type == 'regular'">
+                                <field name="assigned_subject_ids" widget="many2many_tags" placeholder="Select up to 4 subjects max..."/>
+                            </group>
+                        </page>
+
+                        <!-- ─── Ministry Data ─── (same layout as student form) -->
+                        <page string="Ministry Data" name="ministry">
+
+                            <!-- Unique Key box — prominent, filled by student on form -->
+                            <group string="🔑 Unique Search Key (FRMNO + Entry Year)">
+                                <group>
+                                    <field name="ministry_form_number"
+                                           required="state in ('validated', 'ministry_submitted', 'ministry_approved')"/>
+                                    <field name="entry_year"
+                                           required="state in ('validated', 'ministry_submitted', 'ministry_approved')"/>
+                                </group>
+                                <group>
+                                    <field name="ministry_bank_id" readonly="1"/>
+                                </group>
+                            </group>
+
+                            <group string="Ministry Identifiers">
+                                <group>
+                                    <field name="ministry_fac_code" readonly="state == 'ministry_approved'"/>
+                                    <field name="ministry_university_id_code" readonly="state == 'ministry_approved'"/>
+                                    <!-- <field name="ministry_university_number"/> -->
+                                    <field name="academic_year_str" readonly="state == 'ministry_approved'"/>
+                                    <field name="batch_id" readonly="state == 'ministry_approved'"/>
+                                </group>
+                                <group>
+                                    <field name="gob_number" readonly="state == 'ministry_approved'"/>
+                                    <field name="admission_type_text" readonly="state == 'ministry_approved'"/>
+                                    <field name="internal_admission_type" readonly="state == 'ministry_approved'"/>
+                                    <field name="citizenship" readonly="state == 'ministry_approved'"/>
+                                    <field name="fin_position" readonly="state == 'ministry_approved'"/>
+                                    <field name="gender_code" readonly="state == 'ministry_approved'"/>
+                                </group>
+                            </group>
+
+                            <group string="Four-Part Arabic Name (N1–N4)">
+                                <group>
+                                    <field name="name_part1_ar"/>
+                                    <field name="name_part2_ar"/>
+                                </group>
+                                <group>
+                                    <field name="name_part3_ar"/>
+                                    <field name="name_part4_ar"/>
+                                </group>
+                            </group>
+
+                            <group string="School &amp; Faculty Info from Ministry">
+                                <field name="school_name" readonly="state == 'ministry_approved'"/>
+                                <field name="faculty_name_ar" readonly="state == 'ministry_approved'"/>
+                                <field name="university_name_ar" readonly="state == 'ministry_approved'"/>
+                            </group>
+
+                        </page>
+
+                        <!-- ─── Guardians ─── (same as student form) -->
+                        <page string="Guardians" name="guardians">
+                            <field name="guardian_ids" context="{'default_admission_id': id}">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="relationship"/>
+                                    <field name="phone_1"/>
+                                    <field name="phone_1_country_id" column_invisible="1"/>
+                                    <field name="phone_2"/>
+                                    <field name="phone_whatsapp"/>
+                                    <field name="whatsapp_country_id" column_invisible="1"/>
+                                    <field name="email"/>
+                                    <field name="is_emergency_contact" widget="boolean_toggle"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <!-- ─── Medical Review ─── -->
+                        <page string="Medical" name="medical">
+                            <group string="Medical Review Details">
+                                <group>
+                                    <field name="medical_reviewer_id"/>
+                                    <field name="medical_review_date"/>
+                                    <field name="medical_result"/>
+                                    <field name="color_blindness_result"/>
+                                </group>
+                                <group>
+                                    <field name="health_book_scan" widget="binary"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group string="A. Have You any of chronic following the diseases">
+                                    <field name="blood_type"/>
+                                    <field name="medical_diabetes" widget="boolean_toggle"/>
+                                    <field name="medical_diabetes_drug" invisible="not medical_diabetes"/>
+                                    <field name="medical_hypertension" widget="boolean_toggle"/>
+                                    <field name="medical_hypertension_drug" invisible="not medical_hypertension"/>
+                                    <field name="medical_asthma" widget="boolean_toggle"/>
+                                    <field name="medical_asthma_drug" invisible="not medical_asthma"/>
+                                    <field name="medical_hepatitis_b" widget="boolean_toggle"/>
+                                    <field name="medical_hepatitis_b_drug" invisible="not medical_hepatitis_b"/>
+                                </group>
+                                <group string="B. Have you any of the following diseases">
+                                    <field name="medical_heart_disease" widget="boolean_toggle"/>
+                                    <field name="medical_heart_disease_details" invisible="not medical_heart_disease"/>
+                                    <field name="medical_physical_disability" widget="boolean_toggle"/>
+                                    <field name="medical_physical_disability_details" invisible="not medical_physical_disability"/>
+                                    <field name="medical_psychiatric" widget="boolean_toggle"/>
+                                    <field name="medical_psychiatric_details" invisible="not medical_psychiatric"/>
+                                    <field name="medical_other_disease" widget="boolean_toggle"/>
+                                    <field name="medical_other_disease_details" invisible="not medical_other_disease"/>
+                                </group>
+                                <group string="C. Have you ...">
+                                    <field name="medical_admitted_hospital" widget="boolean_toggle"/>
+                                    <field name="medical_admitted_hospital_details" invisible="not medical_admitted_hospital"/>
+                                </group>
+                            </group>
+                            <field name="medical_notes" placeholder="Additional Notes..."/>
+                        </page>
+
+                        <!-- ─── Finance ─── -->
+                        <page string="Finance" name="finance"
+                              invisible="state not in ('invoice_generated','payment_received','registered')">
+                            <group>
+                                <field name="invoice_id"/>
+                                <field name="invoice_state"/>
+                                <field name="bank_reference"/>
+                            </group>
+                        </page>
+
+                        <!-- ─── Subject Equivalency (Transfer/Bridging only) ─── -->
+                        <page string="Subject Equivalency" name="equivalency"
+                              invisible="admission_type not in ('transfer','bridging')">
+                            <field name="subject_equivalency_ids">
+                                <list editable="bottom">
+                                    <field name="previous_subject_name"/>
+                                    <field name="previous_subject_code"/>
+                                    <field name="previous_credit_hours"/>
+                                    <field name="previous_grade"/>
+                                    <field name="previous_institution"/>
+                                    <field name="current_subject_id"/>
+                                    <field name="equivalency_status" widget="badge"/>
+                                    <field name="awarded_credit_hours"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <!-- ─── Documents ─── -->
+                        <page string="Documents" name="documents">
+                            <group>
+                                <field name="photo" widget="image" class="oe_avatar"/>
+                                <field name="passport_photo" widget="image"/>
+                                <field name="national_id_photo" widget="image"/>
+                                <field name="high_school_cert" widget="image"/>
+                                <field name="prev_inst_cert" widget="image" invisible="admission_type not in ('transfer','bridging','mature')"/>
+                                <!-- <field name="national_id_scan" widget="binary"/> -->
+                                <!-- <field name="previous_transcript" widget="binary"/> -->
+                            </group>
+                        </page>
+
+                        <!-- ─── Notes ─── -->
+                        <page string="Notes" name="notes">
+                            <field name="rejection_reason"
+                                   invisible="state not in ('rejected',)"/>
+                            <field name="notes"/>
+                        </page>
+
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ═══ LIST VIEW ════════════════════════════════════════════════════════ -->
+    <record id="view_admission_list" model="ir.ui.view">
+        <field name="name">university.admission.list</field>
+        <field name="model">university.admission</field>
+        <field name="arch" type="xml">
+            <list string="Admissions"
+                  decoration-success="state=='registered'"
+                  decoration-danger="state in ('rejected','cancelled')"
+                  decoration-warning="state=='ministry_submitted'">
+                <field name="name"/>
+                <field name="display_name_ar"/>
+                <field name="national_id"/>
+                <field name="ministry_form_number"/>
+                <field name="entry_year"/>
+                <field name="program_id"/>
+                <field name="admission_type"/>
+                <field name="academic_year_id"/>
+                <field name="application_date"/>
+                <field name="state" widget="badge"
+                       decoration-success="state=='registered'"
+                       decoration-info="state in ('validated','ministry_submitted','ministry_approved')"
+                       decoration-warning="state in ('medical_review','program_review','head_approval','invoice_generated','payment_received')"
+                       decoration-danger="state in ('rejected','cancelled')"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ═══ SEARCH VIEW ══════════════════════════════════════════════════════ -->
+    <record id="view_admission_search" model="ir.ui.view">
+        <field name="name">university.admission.search</field>
+        <field name="model">university.admission</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="display_name_ar"/>
+                <field name="national_id"/>
+                <field name="name"/>
+                <field name="program_id"/>
+                <field name="ministry_form_number" string="FRMNO"/>
+                <field name="entry_year" string="Entry Year"/>
+                <!-- <field name="ministry_university_number"/> -->
+                <separator/>
+                <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Awaiting Ministry" name="ministry"
+                        domain="[('state','=','ministry_submitted')]"/>
+                <filter string="Ministry Approved" name="min_approved"
+                        domain="[('state','=','ministry_approved')]"/>
+                <filter string="Medical Review" name="medical"
+                        domain="[('state','=','medical_review')]"/>
+                <filter string="Registered" name="registered"
+                        domain="[('state','=','registered')]"/>
+                <filter string="Rejected" name="rejected"
+                        domain="[('state','=','rejected')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Stage" name="grp_state" context="{'group_by':'state'}"/>
+                    <filter string="Program" name="grp_program" context="{'group_by':'program_id'}"/>
+                    <filter string="Academic Year" name="grp_year" context="{'group_by':'academic_year_id'}"/>
+                    <filter string="Entry Year" name="grp_entry_year" context="{'group_by':'entry_year'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ═══ ACTIONS ══════════════════════════════════════════════════════════ -->
+    <record id="action_university_admission" model="ir.actions.act_window">
+        <field name="name">Admission Applications</field>
+        <field name="res_model">university.admission</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_admission_search"/>
+    </record>
+
+    <record id="action_admission_medical_review" model="ir.actions.act_window">
+        <field name="name">Medical Review Queue</field>
+        <field name="res_model">university.admission</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('state','=','medical_review')]</field>
+    </record>
+
+</odoo>

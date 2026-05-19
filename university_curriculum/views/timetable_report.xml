@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ═══ TIMETABLE GRID REPORT ════════════════════════════════════════════ -->
+    <template id="report_timetable_grid_document">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page" style="font-family: Arial, sans-serif;">
+                    <div class="text-center mb-4">
+                        <h2 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 8px;">
+                            Weekly Timetable Schedule
+                        </h2>
+                        <t t-if="batch_name">
+                            <p class="text-muted">Batch: <strong><t t-esc="batch_name"/></strong></p>
+                        </t>
+                        <t t-if="year_name">
+                            <p class="text-muted">Academic Year: <strong><t t-esc="year_name"/></strong></p>
+                        </t>
+                    </div>
+
+                    <!-- Weekly Grid Table -->
+                    <table class="table table-bordered" style="width: 100%; border-collapse: collapse; font-size: 9pt;">
+                        <tbody>
+                            <!-- Day-per-row layout -->
+                            <t t-foreach="active_days" t-as="day">
+                                <t t-if="grid[day]">
+                                    <tr style="vertical-align: top;">
+                                        <td style="background: #2c3e50; color: white; font-weight: bold; padding: 8px; border: 1px solid #bdc3c7; text-align: center; width: 90px;">
+                                            <t t-esc="day_labels[day]"/>
+                                        </td>
+                                        <td style="border: 1px solid #bdc3c7; padding: 4px;">
+                                            <table style="width: 100%; border-collapse: collapse;">
+                                                <t t-foreach="grid[day]" t-as="s">
+                                                    <tr style="border-bottom: 1px solid #ecf0f1;">
+                                                        <td style="width: 90px; padding: 4px; font-weight: bold; color: #7f8c8d; font-size: 8pt; white-space: nowrap;">
+                                                            <t t-esc="'%02d:%02d' % (int(s.start_time), int((s.start_time % 1) * 60))"/>
+                                                            –
+                                                            <t t-esc="'%02d:%02d' % (int(s.end_time), int((s.end_time % 1) * 60))"/>
+                                                        </td>
+                                                        <td style="padding: 4px; min-width: 140px;">
+                                                            <strong style="color: #2c3e50;"><t t-esc="s.subject_id.name"/></strong>
+                                                        </td>
+                                                        <td style="padding: 4px; min-width: 120px; color: #555;">
+                                                            👤 <t t-esc="s.teacher_id.name"/>
+                                                        </td>
+                                                        <td style="padding: 4px; min-width: 100px; color: #555;">
+                                                            📍 <t t-esc="s.room_id.name"/>
+                                                        </td>
+                                                        <td style="padding: 4px;">
+                                                            <t t-set="stype_color" t-value="{'theory': '#3498db', 'practical': '#e67e22', 'lab': '#27ae60', 'tutorial': '#9b59b6'}"/>
+                                                            <span t-att-style="'background: %s; color: white; padding: 2px 6px; border-radius: 3px; font-size: 8pt;' % stype_color.get(s.session_type, '#95a5a6')">
+                                                                <t t-esc="session_type_labels.get(s.session_type, s.session_type)"/>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <!-- Legend -->
+                    <div class="mt-3" style="font-size: 8pt; color: #666;">
+                        <strong>Session Types: </strong>
+                        <span style="background: #3498db; color: white; padding: 2px 6px; border-radius: 3px; margin-right: 5px;">Theoretical Lecture</span>
+                        <span style="background: #e67e22; color: white; padding: 2px 6px; border-radius: 3px; margin-right: 5px;">Practical Session</span>
+                        <span style="background: #27ae60; color: white; padding: 2px 6px; border-radius: 3px; margin-right: 5px;">Laboratory</span>
+                        <span style="background: #9b59b6; color: white; padding: 2px 6px; border-radius: 3px; margin-right: 5px;">Tutorial</span>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_timetable_grid" model="ir.actions.report">
+        <field name="name">Timetable Grid</field>
+        <field name="model">university.timetable.grid.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">university_curriculum.report_timetable_grid_document</field>
+        <field name="report_file">university_curriculum.report_timetable_grid_document</field>
+        <field name="binding_model_id" ref="base.model_res_users"/>
+        <field name="print_report_name">'Timetable_Grid'</field>
+    </record>
+
+    <!-- ═══ GRID WIZARD VIEW ═════════════════════════════════════════════════ -->
+    <record id="view_timetable_grid_wizard" model="ir.ui.view">
+        <field name="name">university.timetable.grid.wizard.form</field>
+        <field name="model">university.timetable.grid.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Weekly Timetable Grid">
+                <field name="state" invisible="1"/>
+
+                <!-- ── Filter Panel (shown when state = filter) ── -->
+                <group invisible="state == 'grid'" string="Select Filters">
+                    <field name="batch_id"/>
+                    <field name="academic_year_id"/>
+                </group>
+
+                <!-- ── Grid Display (shown when state = grid) ── -->
+                <div invisible="state != 'grid'" style="min-width:800px;">
+                    <field name="grid_html" widget="html" nolabel="1"/>
+                </div>
+
+                <footer>
+                    <!-- Filter state buttons -->
+                    <button name="action_view_grid" string="View Grid" type="object"
+                            class="oe_highlight" invisible="state == 'grid'"/>
+                    <button name="action_print_grid" string="Export PDF" type="object"
+                            invisible="state == 'grid'"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"
+                            invisible="state == 'grid'"/>
+
+                    <!-- Grid state buttons -->
+                    <button name="action_print_grid" string="Export to PDF" type="object"
+                            class="oe_highlight" invisible="state != 'grid'"/>
+                    <button name="action_back" string="← Change Filters" type="object"
+                            invisible="state != 'grid'"/>
+                    <button string="Close" class="btn-secondary" special="cancel"
+                            invisible="state != 'grid'"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_timetable_grid_wizard" model="ir.actions.act_window">
+        <field name="name">Print Timetable Grid</field>
+        <field name="res_model">university.timetable.grid.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

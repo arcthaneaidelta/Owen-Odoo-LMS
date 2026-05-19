@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        ADD THESE MENU ITEMS to your existing admission menu_views.xml
+        Assumes you have a top-level menu item with id="menu_university_admission_root"
+        Adjust the parent ref to match your actual top menu id.
+    -->
+
+    <!-- Ministry Bank top-bar menu item -->
+    <menuitem id="menu_ministry_bank_root"
+              name="Ministry Bank"
+              parent="university_core.menu_university_root"
+              sequence="5"/>
+
+    <menuitem id="menu_ministry_batch"
+              name="Import Batches"
+              parent="menu_ministry_bank_root"
+              action="action_ministry_batch"
+              sequence="1"/>
+
+    <menuitem id="menu_ministry_bank_all"
+              name="All Ministry Records"
+              parent="menu_ministry_bank_root"
+              action="action_ministry_bank_all"
+              sequence="2"/>
+
+</odoo>

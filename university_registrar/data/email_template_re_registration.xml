@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="email_template_re_registration" model="mail.template">
+            <field name="name">Re-Registration: Promotion Notification</field>
+            <field name="model_id" ref="university_student.model_university_student"/>
+            <field name="subject">Action Required: Re-Registration for Level {{ object.current_level }} – {{ object.display_name_ar or object.name_en }}</field>
+            <field name="email_from">{{ (object.company_id.email or user.company_id.email or 'noreply@university.edu') }}</field>
+            <field name="email_to">{{ object.email }}</field>
+            <field name="body_html" type="html">
+<div style="font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6fb; padding: 0; margin: 0;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="max-width:640px; margin: 30px auto; background:#fff; border-radius:12px; box-shadow:0 4px 24px rgba(67,56,202,0.10); overflow:hidden;">
+
+    <!-- Header Banner -->
+    <tr>
+      <td style="background: linear-gradient(135deg, #4338ca 0%, #6366f1 100%); padding: 36px 40px 28px; text-align:center;">
+        <div style="font-size: 2.5rem; margin-bottom: 10px;">🎓</div>
+        <h1 style="color:#fff; margin:0; font-size:1.45rem; font-weight:800; letter-spacing:-0.5px;">
+          Annual Re-Registration Required
+        </h1>
+        <p style="color:rgba(255,255,255,0.85); margin:8px 0 0; font-size:0.95rem;">
+          Academic Year <strong t-esc="object.academic_year_id.name"/>
+        </p>
+      </td>
+    </tr>
+
+    <!-- Body -->
+    <tr>
+      <td style="padding: 36px 40px;">
+
+        <!-- Greeting -->
+        <p style="font-size:1rem; color:#374151; margin:0 0 16px;">
+          Dear <strong><t t-esc="object.display_name_ar or object.name_en"/></strong>,
+        </p>
+        <p style="font-size:0.95rem; color:#4b5563; line-height:1.7; margin:0 0 20px;">
+          Congratulations on your promotion!
+          You have been successfully advanced to <strong>Level <t t-esc="object.current_level"/></strong>
+          in the <strong><t t-esc="object.program_id.name or ''"/></strong> program.
+        </p>
+        <p style="font-size:0.95rem; color:#4b5563; line-height:1.7; margin:0 0 24px;">
+          As part of the new academic year, <strong>re-registration is mandatory</strong>.
+          Please complete the online re-registration form by clicking the button below.
+        </p>
+
+        <!-- Student Info Card -->
+        <table width="100%" cellpadding="0" cellspacing="0"
+               style="background:#f3f4f6; border-radius:10px; padding:20px; margin-bottom:28px;">
+          <tr>
+            <td width="50%" style="padding:6px 12px;">
+              <span style="font-size:0.76rem; color:#6b7280; text-transform:uppercase; letter-spacing:0.5px;">Student ID</span><br/>
+              <strong style="color:#1f2937; font-size:0.95rem;"><t t-esc="object.student_id"/></strong>
+            </td>
+            <td width="50%" style="padding:6px 12px;">
+              <span style="font-size:0.76rem; color:#6b7280; text-transform:uppercase; letter-spacing:0.5px;">New Level</span><br/>
+              <strong style="color:#1f2937; font-size:0.95rem;">Level <t t-esc="object.current_level"/></strong>
+            </td>
+          </tr>
+          <tr>
+            <td width="50%" style="padding:6px 12px;">
+              <span style="font-size:0.76rem; color:#6b7280; text-transform:uppercase; letter-spacing:0.5px;">Program</span><br/>
+              <strong style="color:#1f2937; font-size:0.95rem;"><t t-esc="object.program_id.name or '–'"/></strong>
+            </td>
+            <td width="50%" style="padding:6px 12px;">
+              <span style="font-size:0.76rem; color:#6b7280; text-transform:uppercase; letter-spacing:0.5px;">Registration Deadline</span><br/>
+              <strong style="color:#dc2626; font-size:0.95rem;">
+                <t t-if="object.re_registration_token_expiry"><t t-esc="object.re_registration_token_expiry"/></t>
+                <t t-else="">Contact Registrar</t>
+              </strong>
+            </td>
+          </tr>
+        </table>
+
+        <!-- CTA Button -->
+        <div style="text-align:center; margin: 28px 0;">
+          <a t-att-href="object.get_base_url() + '/re-register/form/' + object.re_registration_token"
+             style="display:inline-block; background: linear-gradient(135deg,#4338ca,#6366f1);
+                    color:#fff; text-decoration:none; font-weight:700; font-size:1rem;
+                    padding:15px 42px; border-radius:99px;
+                    box-shadow:0 4px 14px rgba(67,56,202,0.35); letter-spacing:0.3px;">
+            Complete Re-Registration →
+          </a>
+        </div>
+
+        <!-- Warning box -->
+        <table width="100%" cellpadding="0" cellspacing="0"
+               style="background:#fef2f2; border-left:4px solid #ef4444; border-radius:0 8px 8px 0; padding:16px 20px; margin-bottom:24px;">
+          <tr>
+            <td>
+              <p style="color:#991b1b; margin:0; font-size:0.88rem; line-height:1.6;">
+                <strong>⚠ Important:</strong> Failure to re-register by the deadline may result in
+                your semester being frozen or, if neither freeze nor registration is completed,
+                <strong>expulsion from the university</strong>. You will then need to re-apply
+                for admission from the beginning.
+              </p>
+            </td>
+          </tr>
+        </table>
+
+        <!-- Link fallback -->
+        <p style="font-size:0.82rem; color:#6b7280; margin:0 0 8px;">
+          If the button above does not work, copy and paste this link into your browser:
+        </p>
+        <p style="font-size:0.82rem; margin:0;">
+          <a t-att-href="object.get_base_url() + '/re-register/form/' + object.re_registration_token" style="color:#4338ca; word-break:break-all;">
+            <t t-esc="object.get_base_url() + '/re-register/form/' + object.re_registration_token"/>
+          </a>
+        </p>
+        <p style="font-size:0.78rem; color:#9ca3af; margin:16px 0 0;">
+          This link is valid until the registration deadline.
+        </p>
+
+      </td>
+    </tr>
+
+    <!-- Footer -->
+    <tr>
+      <td style="background:#f9fafb; padding:20px 40px; border-top:1px solid #e5e7eb; text-align:center;">
+        <p style="color:#9ca3af; font-size:0.78rem; margin:0;">
+          This is an automated message from the University Registrar Office.<br/>
+          Please do not reply to this email.
+        </p>
+      </td>
+    </tr>
+
+  </table>
+</div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

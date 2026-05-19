@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_student_form_curriculum_inherit" model="ir.ui.view">
+        <field name="name">university.student.form.curriculum.inherit</field>
+        <field name="model">university.student</field>
+        <field name="inherit_id" ref="university_student.view_student_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='batch_id']" position="after">
+                <field name="curriculum_id" readonly="1" force_save="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

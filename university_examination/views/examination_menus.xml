@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Parent menu is likely in university_core or university_results, let's create a new main menu -->
+    <menuitem id="menu_university_examination_root" name="Examinations" sequence="50" web_icon="university_examination,static/description/icon.png"/>
+</odoo>

@@ -1,0 +1,638 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: System Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-05 00:00+0000\n"
+"PO-Revision-Date: 2026-03-05 00:00+0000\n"
+"Last-Translator: University Dev Team\n"
+"Language-Team: Arabic <ar@li.org>\n"
+"Language: ar_001\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#. module: university_core
+#: model:ir.model,name:university_core.model_university_university
+msgid "University"
+msgstr "الجامعة"
+
+#. module: university_core
+#: model:ir.model,name:university_core.model_university_college
+msgid "College"
+msgstr "الكلية"
+
+#. module: university_core
+#: model:ir.model,name:university_core.model_university_program
+msgid "Academic Program"
+msgstr "البرنامج الأكاديمي"
+
+#. module: university_core
+#: model:ir.model,name:university_core.model_university_specialization
+msgid "Program Specialization"
+msgstr "تخصص البرنامج"
+
+#. module: university_core
+#: model:ir.model,name:university_core.model_university_department
+msgid "University Department"
+msgstr "قسم جامعي"
+
+#. module: university_core
+#: model:ir.model,name:university_core.model_university_batch
+msgid "Student Batch"
+msgstr "فوج الطلاب"
+
+#. module: university_core
+#: model:ir.model,name:university_core.model_university_academic_year
+msgid "Academic Year"
+msgstr "السنة الدراسية"
+
+#. module: university_core
+#: model:ir.ui.menu,name:university_core.menu_university_root
+msgid "University Management"
+msgstr "إدارة الجامعة"
+
+#. module: university_core
+#: model:ir.ui.menu,name:university_core.menu_university_config
+msgid "Configuration"
+msgstr "الإعدادات"
+
+#. module: university_core
+#: model:ir.ui.menu,name:university_core.menu_university_list
+msgid "University"
+msgstr "الجامعة"
+
+#. module: university_core
+#: model:ir.ui.menu,name:university_core.menu_college_list
+msgid "College"
+msgstr "الكلية"
+
+#. module: university_core
+#: model:ir.ui.menu,name:university_core.menu_program_list
+msgid "Program"
+msgstr "البرنامج الأكاديمي"
+
+#. module: university_core
+#: model:ir.ui.menu,name:university_core.menu_specialization_list
+msgid "Specialization"
+msgstr "التخصص"
+
+#. module: university_core
+#: model:ir.ui.menu,name:university_core.menu_department_list
+msgid "Department"
+msgstr "القسم"
+
+#. module: university_core
+#: model:ir.ui.menu,name:university_core.menu_batch_list
+msgid "All Batches"
+msgstr "جميع الأفواج"
+
+#. module: university_core
+#: model:ir.ui.menu,name:university_core.menu_academic_year_list
+msgid "Academic Years"
+msgstr "السنوات الدراسية"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_university__name
+msgid "University Name"
+msgstr "اسم الجامعة"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_university__name_ar
+msgid "Arabic Name"
+msgstr "الاسم بالعربية"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_university__name_en
+msgid "English Name"
+msgstr "الاسم بالإنجليزية"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_university__code
+msgid "University Code"
+msgstr "رمز الجامعة"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_university__ministry_registration_number
+msgid "Ministry Registration Number"
+msgstr "رقم تسجيل الوزارة"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_university__logo
+msgid "University Logo"
+msgstr "شعار الجامعة"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_university__logo_filename
+msgid "Logo Filename"
+msgstr "اسم ملف الشعار"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_university__address
+msgid "Address"
+msgstr "العنوان"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_university__city
+msgid "City"
+msgstr "المدينة"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_university__state_id
+msgid "State"
+msgstr "الولاية"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_university__country_id
+msgid "Country"
+msgstr "الدولة"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_university__phone
+#: model:ir.model.fields,field_description:university_core.field_university_college__phone
+#: model:ir.model.fields,field_description:university_core.field_university_department__phone
+msgid "Phone"
+msgstr "الهاتف"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_university__email
+#: model:ir.model.fields,field_description:university_core.field_university_college__email
+#: model:ir.model.fields,field_description:university_core.field_university_department__email
+msgid "Email"
+msgstr "البريد الإلكتروني"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_university__website
+msgid "Website"
+msgstr "الموقع الإلكتروني"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_university__college_ids
+msgid "Colleges"
+msgstr "الكليات"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_university__college_count
+msgid "College Count"
+msgstr "عدد الكليات"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_university__notes
+#: model:ir.model.fields,field_description:university_core.field_university_college__notes
+#: model:ir.model.fields,field_description:university_core.field_university_program__notes
+#: model:ir.model.fields,field_description:university_core.field_university_specialization__notes
+#: model:ir.model.fields,field_description:university_core.field_university_department__notes
+#: model:ir.model.fields,field_description:university_core.field_university_batch__notes
+msgid "Notes"
+msgstr "ملاحظات"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_college__name
+msgid "College Name"
+msgstr "اسم الكلية"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_college__code
+msgid "College Code"
+msgstr "رمز الكلية"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_college__dean_name
+msgid "Dean Name"
+msgstr "اسم العميد"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_college__dean_employee_id
+msgid "Dean (Employee)"
+msgstr "العميد (موظف)"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_college__program_ids
+#: model:ir.model.fields,field_description:university_core.field_university_specialization__program_id
+msgid "Programs"
+msgstr "البرامج"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_college__department_ids
+msgid "Departments"
+msgstr "الأقسام"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_college__program_count
+msgid "Program Count"
+msgstr "عدد البرامج"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_college__department_count
+msgid "Department Count"
+msgstr "عدد الأقسام"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_program__name
+msgid "Program Name"
+msgstr "اسم البرنامج"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_program__code
+msgid "Program Code"
+msgstr "رمز البرنامج"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_program__degree_type
+msgid "Degree Type"
+msgstr "نوع الدرجة العلمية"
+
+#. module: university_core
+#: model:ir.model.fields.selection,name:university_core.selection__university_program__degree_type__bachelor
+msgid "Bachelor"
+msgstr "بكالوريوس"
+
+#. module: university_core
+#: model:ir.model.fields.selection,name:university_core.selection__university_program__degree_type__diploma
+msgid "Diploma"
+msgstr "دبلوم"
+
+#. module: university_core
+#: model:ir.model.fields.selection,name:university_core.selection__university_program__degree_type__higher_diploma
+msgid "Higher Diploma"
+msgstr "دبلوم عالٍ"
+
+#. module: university_core
+#: model:ir.model.fields.selection,name:university_core.selection__university_program__degree_type__master
+msgid "Master"
+msgstr "ماجستير"
+
+#. module: university_core
+#: model:ir.model.fields.selection,name:university_core.selection__university_program__degree_type__phd
+msgid "PhD"
+msgstr "دكتوراه"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_program__duration_years
+msgid "Duration (Years)"
+msgstr "مدة الدراسة (سنوات)"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_program__attendance_threshold_pct
+msgid "Attendance Threshold (%)"
+msgstr "الحد الأدنى للحضور (%)"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_program__attendance_warning_pct
+msgid "Attendance Warning (%)"
+msgstr "نسبة تحذير الحضور (%)"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_program__practical_credit_ratio
+msgid "Practical Credit Ratio"
+msgstr "نسبة الساعات المعتمدة للعملي"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_program__specialization_ids
+msgid "Specializations"
+msgstr "التخصصات"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_program__batch_ids
+#: model:ir.model.fields,field_description:university_core.field_university_batch__program_id
+msgid "Batches"
+msgstr "الأفواج"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_specialization__name
+msgid "Specialization Name"
+msgstr "اسم التخصص"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_specialization__code
+msgid "Specialization Code"
+msgstr "رمز التخصص"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_department__name
+msgid "Department Name"
+msgstr "اسم القسم"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_department__code
+msgid "Department Code"
+msgstr "رمز القسم"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_department__head_name
+msgid "Head of Department"
+msgstr "رئيس القسم"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_department__head_employee_id
+msgid "Head (Employee)"
+msgstr "الرئيس (موظف)"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_academic_year__name
+msgid "Academic Year"
+msgstr "السنة الدراسية"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_academic_year__date_start
+msgid "Start Date"
+msgstr "تاريخ البداية"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_academic_year__date_end
+msgid "End Date"
+msgstr "تاريخ الانتهاء"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_academic_year__is_current
+msgid "Current Year"
+msgstr "السنة الحالية"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_batch__name
+msgid "Batch Name"
+msgstr "اسم الفوج"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_batch__batch_year
+msgid "Batch Year"
+msgstr "سنة الفوج"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_batch__code
+msgid "Batch Code"
+msgstr "رمز الفوج"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_batch__capacity
+msgid "Maximum Capacity"
+msgstr "الطاقة الاستيعابية القصوى"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_batch__state
+msgid "Status"
+msgstr "الحالة"
+
+#. module: university_core
+#: model:ir.model.fields.selection,name:university_core.selection__university_batch__state__draft
+#: model:ir.model.fields.selection,name:university_core.selection__university_academic_year__state__draft
+msgid "Draft"
+msgstr "مسودة"
+
+#. module: university_core
+#: model:ir.model.fields.selection,name:university_core.selection__university_batch__state__active
+#: model:ir.model.fields.selection,name:university_core.selection__university_academic_year__state__active
+msgid "Active"
+msgstr "نشط"
+
+#. module: university_core
+#: model:ir.model.fields.selection,name:university_core.selection__university_batch__state__completed
+msgid "Completed"
+msgstr "مكتمل"
+
+#. module: university_core
+#: model:ir.model.fields.selection,name:university_core.selection__university_batch__state__archived
+msgid "Archived"
+msgstr "مؤرشف"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_academic_year__state
+msgid "State"
+msgstr "الحالة"
+
+#. module: university_core
+#: model:ir.model.fields.selection,name:university_core.selection__university_academic_year__state__closed
+msgid "Closed"
+msgstr "مغلق"
+
+#. module: university_core
+#: code:addons/university_management/university_core/models/academic_year.py:0
+#, python-format
+msgid "Only one academic year can be marked as current."
+msgstr "يمكن تحديد سنة دراسية واحدة فقط كسنة حالية."
+
+#. module: university_core
+#: code:addons/university_management/university_core/models/academic_year.py:0
+#, python-format
+msgid "End date must be after start date."
+msgstr "يجب أن يكون تاريخ الانتهاء بعد تاريخ البداية."
+
+#. module: university_core
+#: code:addons/university_management/university_core/models/program.py:0
+#, python-format
+msgid "Attendance threshold must be between 0 and 100."
+msgstr "يجب أن يكون الحد الأدنى للحضور بين 0 و 100."
+
+#. module: university_core
+#: code:addons/university_management/university_core/models/program.py:0
+#, python-format
+msgid "Attendance warning percentage must be between 0 and 100."
+msgstr "يجب أن تكون نسبة تحذير الحضور بين 0 و 100."
+
+#. module: university_core
+#: code:addons/university_management/university_core/models/program.py:0
+#, python-format
+msgid "Warning percentage must be greater than or equal to the threshold percentage."
+msgstr "يجب أن تكون نسبة التحذير أكبر من أو تساوي نسبة الحد الأدنى."
+
+#. module: university_core
+#: code:addons/university_management/university_core/models/batch.py:0
+#, python-format
+msgid "Batch activated. Curriculum blueprint is now locked."
+msgstr "تم تفعيل الفوج. تم قفل مخطط المنهج الدراسي."
+
+#. module: university_core
+#: code:addons/university_management/university_core/models/batch.py:0
+#, python-format
+msgid "Cannot activate a batch without a curriculum blueprint."
+msgstr "لا يمكن تفعيل الفوج بدون مخطط منهج دراسي."
+
+#. module: university_core
+#: code:addons/university_management/university_core/models/batch.py:0
+#, python-format
+msgid "A batch for this program and year already exists."
+msgstr "يوجد فوج لهذا البرنامج وهذه السنة مسبقاً."
+
+#. module: university_core
+#: code:addons/university_management/university_core/models/batch.py:0
+#, python-format
+msgid "Batch year must be a valid year after 2000."
+msgstr "يجب أن تكون سنة الفوج سنة صحيحة بعد عام 2000."
+
+#. module: university_core
+#: model:ir.actions.act_window,name:university_core.action_university_university
+msgid "Universities"
+msgstr "الجامعات"
+
+#. module: university_core
+#: model:ir.actions.act_window,name:university_core.action_university_college
+msgid "Colleges"
+msgstr "الكليات"
+
+#. module: university_core
+#: model:ir.actions.act_window,name:university_core.action_university_program
+msgid "Programs"
+msgstr "البرامج"
+
+#. module: university_core
+#: model:ir.actions.act_window,name:university_core.action_university_specialization
+msgid "Specializations"
+msgstr "التخصصات"
+
+#. module: university_core
+#: model:ir.actions.act_window,name:university_core.action_university_department
+msgid "Departments"
+msgstr "الأقسام"
+
+#. module: university_core
+#: model:ir.actions.act_window,name:university_core.action_university_batch
+msgid "Student Batch"
+msgstr "فوج الطلاب"
+
+#. module: university_core
+#: model:ir.actions.act_window,name:university_core.action_university_academic_year
+msgid "Academic Years"
+msgstr "السنوات الدراسية"
+
+#. module: university_core
+#: view:university.university:university_core.university_university_form_view
+msgid "Basic Info"
+msgstr "المعلومات الأساسية"
+
+#. module: university_core
+#: view:university.university:university_core.university_university_form_view
+msgid "Contact"
+msgstr "معلومات التواصل"
+
+#. module: university_core
+#: view:university.university:university_core.university_university_form_view
+msgid "Management"
+msgstr "الإدارة"
+
+#. module: university_core
+#: view:university.batch:university_core.university_batch_form_view
+msgid "Identification"
+msgstr "التعريف"
+
+#. module: university_core
+#: view:university.batch:university_core.university_batch_form_view
+msgid "Placement"
+msgstr "التوزيع"
+
+#. module: university_core
+#: view:university.program:university_core.university_program_form_view
+msgid "Attendance Rules"
+msgstr "قواعد الحضور"
+
+#. module: university_core
+#: view:university.batch:university_core.university_batch_list_view
+msgid "Group By"
+msgstr "تجميع حسب"
+
+#. module: university_core
+#: view:university.batch:university_core.university_batch_list_view
+msgid "Year"
+msgstr "السنة"
+
+#. module: university_core
+#: view:university.university:university_core.university_university_list_view
+msgid "Search Universities"
+msgstr "بحث في الجامعات"
+
+#. module: university_core
+#: view:university.batch:university_core.university_batch_form_view
+msgid "Activate"
+msgstr "تفعيل"
+
+#. module: university_core
+#: view:university.batch:university_core.university_batch_form_view
+msgid "Mark Completed"
+msgstr "تحديد كمكتمل"
+
+#. module: university_core
+#: view:university.batch:university_core.university_batch_form_view
+msgid "Archive"
+msgstr "أرشفة"
+
+#. module: university_core
+#: view:university.academic_year:university_core.university_academic_year_form_view
+msgid "Close Year"
+msgstr "إغلاق السنة"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_college__university_id
+#: model:ir.model.fields,field_description:university_core.field_university_program__college_id
+#: model:ir.model.fields,field_description:university_core.field_university_department__college_id
+#: model:ir.model.fields,field_description:university_core.field_university_specialization__college_id
+msgid "College"
+msgstr "الكلية"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_program__college_id
+msgid "Program"
+msgstr "البرنامج الأكاديمي"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_batch__academic_year_id
+msgid "Academic Year"
+msgstr "السنة الدراسية"
+
+#. module: university_core
+#: model:ir.model.fields,field_description:university_core.field_university_university__active
+#: model:ir.model.fields,field_description:university_core.field_university_college__active
+#: model:ir.model.fields,field_description:university_core.field_university_program__active
+#: model:ir.model.fields,field_description:university_core.field_university_specialization__active
+#: model:ir.model.fields,field_description:university_core.field_university_department__active
+msgid "Active"
+msgstr "نشط"
+
+#. module: university_core
+#: model:res.groups,name:university_core.group_university_super_admin
+msgid "Super Admin"
+msgstr "المدير الأعلى"
+
+#. module: university_core
+#: model:res.groups,name:university_core.group_university_manager
+msgid "University Manager"
+msgstr "مدير الجامعة"
+
+#. module: university_core
+#: model:res.groups,name:university_core.group_university_academic_coordinator
+msgid "Academic Coordinator"
+msgstr "المنسق الأكاديمي"
+
+#. module: university_core
+#: model:res.groups,name:university_core.group_university_head_admissions
+msgid "Head of Admissions"
+msgstr "رئيس القبول والتسجيل"
+
+#. module: university_core
+#: model:res.groups,name:university_core.group_university_finance_officer
+msgid "Finance Officer"
+msgstr "مسؤول المالية"
+
+#. module: university_core
+#: model:res.groups,name:university_core.group_university_teacher
+msgid "Teacher"
+msgstr "المحاضر"
+
+#. module: university_core
+#: model:res.groups,name:university_core.group_university_medical_committee
+msgid "Medical Committee"
+msgstr "اللجنة الطبية"
+
+#. module: university_core
+#: model:res.groups,name:university_core.group_university_hr_manager
+msgid "HR Manager"
+msgstr "مدير الموارد البشرية"
+
+#. module: university_core
+#: model:res.groups,name:university_core.group_university_student_portal
+msgid "Student Portal User"
+msgstr "مستخدم بوابة الطالب"
+
+#. module: university_core
+#: model:ir.module.module,shortdesc:university_core.module_university_core
+msgid "University Core"
+msgstr "النواة الجامعية"

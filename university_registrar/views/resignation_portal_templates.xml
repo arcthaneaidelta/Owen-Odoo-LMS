@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- breadcrumbs -->
+    <template id="portal_my_home_menu_resignation" name="Portal layout : resignation menu entry"
+              inherit_id="portal.portal_breadcrumbs" priority="30">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'resignation'" class="breadcrumb-item active">Student Resignation</li>
+        </xpath>
+    </template>
+
+    <!-- portal home card -->
+    <template id="portal_my_home_resignation" name="Show Resignation"
+              inherit_id="portal.portal_my_home" customize_show="True" priority="30">
+        <xpath expr="//div[@id='portal_common_category']" position="before">
+            <div class="col-md-6 mb-3">
+                <a href="/my/resignation"
+                   class="lms-action-card resignation d-flex flex-column align-items-center h-100 w-100">
+                    <div class="lms-action-icon" style="background: #fee2e2; color: #dc2626;">
+                        <i class="fa fa-sign-out"></i>
+                    </div>
+                    <div class="lms-action-label">Student Resignation</div>
+                    <div class="lms-action-desc">Permanently withdraw from the university</div>
+                </a>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- Main Resignation Page -->
+    <template id="portal_my_resignation" name="My Resignation">
+        <t t-call="portal.portal_layout">
+            <t t-set="additional_title">Student Resignation</t>
+
+            <!-- Hero -->
+            <div class="lms-hero" style="background: linear-gradient(135deg, #b91c1c 0%, #7f1d1d 100%);">
+                <div class="position-relative" style="z-index:1">
+                    <h2 class="mb-1"><i class="fa fa-warning me-2"></i>Student Resignation</h2>
+                    <p class="mb-0 opacity-75">Submit a formal request to withdraw from your studies.</p>
+                </div>
+            </div>
+
+            <div class="container pb-5">
+                <!-- Alerts -->
+                <t t-if="request.params.get('error')">
+                    <div class="lms-alert lms-alert-danger mb-4">
+                        <i class="fa fa-times-circle"></i>
+                        <div t-esc="request.params.get('error')"/>
+                    </div>
+                </t>
+
+                <!-- Case 1: No Resignation exists or Draft -->
+                <t t-if="not resignation or resignation.state == 'draft'">
+                    <div class="lms-alert lms-alert-warning">
+                        <i class="fa fa-exclamation-triangle"></i>
+                        <div>
+                            <div class="fw-bold mb-2">Withdrawal Policy &amp; Consequences</div>
+                            <ul>
+                                <li><strong>Permanent Action:</strong> Resignation is a permanent withdrawal. You will lose your seat in the current program.</li>
+                                <li><strong>Access:</strong> Your student portal and university email will be deactivated upon final approval.</li>
+                                <li><strong>Financials:</strong> Refunds are only eligible if the request is submitted before the registration deadline (<t t-esc="student.academic_year_id.registration_deadline or 'N/A'"/>).</li>
+                                <li><strong>Clearance:</strong> You must be cleared by the Library, Laboratory, and Finance departments.</li>
+                                <li><strong>Documents:</strong> Official resignation letters and transcripts will be provided only after full approval and clearance.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <form action="/my/resignation/submit" method="post" class="mt-4">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <div class="lms-card">
+                            <div class="lms-card-header">
+                                <div class="lms-card-icon red"><i class="fa fa-file-text-o"></i></div>
+                                Resignation Application Form
+                            </div>
+                            <div class="lms-card-body">
+                                <div class="row g-3">
+                                    <div class="col-md-6 lms-form-group">
+                                        <label>Student Name</label>
+                                        <input type="text" class="form-control" t-att-value="student.name_en" readonly="1"/>
+                                    </div>
+                                    <div class="col-md-6 lms-form-group">
+                                        <label>Student ID</label>
+                                        <input type="text" class="form-control" t-att-value="student.student_id" readonly="1"/>
+                                    </div>
+                                    <div class="col-12 lms-form-group">
+                                        <label>Reason for Resignation <span class="text-danger">*</span></label>
+                                        <textarea name="reason" class="form-control" rows="4" required="1"
+                                                  placeholder="Please provide a detailed reason for your withdrawal..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="px-4 py-3 d-flex justify-content-end gap-2" style="border-top:1px solid var(--lms-border)">
+                                <a href="/my" class="lms-btn lms-btn-outline">Cancel</a>
+                                <button type="submit" class="lms-btn lms-btn-danger">
+                                    Confirm &amp; Request OTP
+                                    <i class="fa fa-arrow-right ms-1"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </t>
+
+                <!-- Case 2: OTP Sent (Verification Step) -->
+                <t t-elif="resignation.state == 'otp_sent'">
+                    <div class="lms-otp-wrap mt-4">
+                        <div class="lms-otp-card shadow-lg border-0" style="max-width: 500px; margin: 0 auto;">
+                            <div class="lms-otp-icon" style="background: #fee2e2;">
+                                <i class="fa fa-envelope-open-o" style="color: #dc2626;"></i>
+                            </div>
+                            <h3 class="fw-bold mb-2">Digital Signature Required</h3>
+                            <p class="text-muted mb-4">
+                                A 6-digit One-Time Password (OTP) has been sent to <strong><t t-esc="student.email"/></strong>.
+                                Entering this code acts as your official digital consent for resignation.
+                            </p>
+
+                            <form action="/my/resignation/verify" method="post">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="hidden" name="resignation_id" t-att-value="resignation.id"/>
+                                <div class="mb-4">
+                                    <input type="text" name="otp_code" class="form-control lms-otp-input text-center fs-2 fw-bold"
+                                           placeholder="000000" maxlength="6" required="1" autofocus="autofocus"
+                                           style="letter-spacing: 12px; height: 80px; border: 2px solid #e2e8f0; border-radius: 15px;"/>
+                                </div>
+                                <button type="submit" class="lms-btn lms-btn-danger w-100 justify-content-center py-3 fs-5">
+                                    <i class="fa fa-check-circle me-2"></i> Verify &amp; Sign Digitally
+                                </button>
+                            </form>
+                            
+                            <div class="mt-4 text-center">
+                                <p class="small text-muted mb-0">Didn't receive the code?</p>
+                                <form action="/my/resignation/submit" method="post">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <input type="hidden" name="reason" t-att-value="resignation.reason"/>
+                                    <button type="submit" class="btn btn-link text-danger p-0" style="font-size: 0.85rem;">Resend OTP</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+
+                <!-- Case 3: Progress (OTP Verified, Clearance, Approval) -->
+                <t t-else="">
+                    <div class="lms-card mt-4">
+                        <div class="lms-card-header d-flex align-items-center">
+                            <div class="lms-card-icon indigo"><i class="fa fa-info-circle"></i></div>
+                            Resignation Request: <t t-esc="resignation.name"/>
+                            <span t-attf-class="ms-auto badge rounded-pill px-3 py-2 #{'bg-warning text-dark' if resignation.state != 'approved' else 'bg-success'}">
+                                <t t-esc="dict(resignation.fields_get(allfields=['state'])['state']['selection'])[resignation.state]"/>
+                            </span>
+                        </div>
+                        <div class="lms-card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h5 class="fw-bold mb-4">Process Timeline</h5>
+                                    <div class="lms-timeline">
+                                        <!-- Step 1: Request -->
+                                        <div class="lms-timeline-item active">
+                                            <div class="lms-timeline-icon"><i class="fa fa-check"></i></div>
+                                            <div class="lms-timeline-content">
+                                                <div class="fw-bold">Request Submitted</div>
+                                                <div class="small text-muted" t-esc="resignation.create_date" t-options='{"widget": "date"}'/>
+                                            </div>
+                                        </div>
+                                        <!-- Step 2: OTP -->
+                                        <div class="lms-timeline-item active">
+                                            <div class="lms-timeline-icon"><i class="fa fa-check"></i></div>
+                                            <div class="lms-timeline-content">
+                                                <div class="fw-bold">Digital Consent Verified</div>
+                                                <div class="small text-muted">Signed via OTP confirmation</div>
+                                            </div>
+                                        </div>
+                                        <!-- Step 3: Clearance -->
+                                        <div t-attf-class="lms-timeline-item #{'active' if resignation.state not in ['otp_verified'] else ''}">
+                                            <div class="lms-timeline-icon"><i t-attf-class="fa #{'fa-check' if resignation.state in ['registrar_approval', 'academic_affairs', 'approved'] else 'fa-circle-o'}"></i></div>
+                                            <div class="lms-timeline-content">
+                                                <div class="fw-bold">Departmental Clearance</div>
+                                                <div class="small text-muted">Library, Lab, Finance, &amp; Admission</div>
+                                                
+                                                <div class="mt-3 row g-2">
+                                                    <div class="col-6 col-sm-3">
+                                                        <div t-attf-class="p-2 border rounded text-center #{'bg-success-light text-success border-success' if resignation.library_clearance == 'cleared' else 'bg-light text-muted'}">
+                                                            <div class="small fw-bold">Library</div>
+                                                            <i t-attf-class="fa #{'fa-check-circle' if resignation.library_clearance == 'cleared' else 'fa-clock-o'}"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6 col-sm-3">
+                                                        <div t-attf-class="p-2 border rounded text-center #{'bg-success-light text-success border-success' if resignation.lab_clearance == 'cleared' else 'bg-light text-muted'}">
+                                                            <div class="small fw-bold">Laboratory</div>
+                                                            <i t-attf-class="fa #{'fa-check-circle' if resignation.lab_clearance == 'cleared' else 'fa-clock-o'}"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6 col-sm-3">
+                                                        <div t-attf-class="p-2 border rounded text-center #{'bg-success-light text-success border-success' if resignation.finance_clearance == 'cleared' else 'bg-light text-muted'}">
+                                                            <div class="small fw-bold">Finance</div>
+                                                            <i t-attf-class="fa #{'fa-check-circle' if resignation.finance_clearance == 'cleared' else 'fa-clock-o'}"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6 col-sm-3">
+                                                        <div t-attf-class="p-2 border rounded text-center #{'bg-success-light text-success border-success' if resignation.admission_clearance == 'cleared' else 'bg-light text-muted'}">
+                                                            <div class="small fw-bold">Admission</div>
+                                                            <i t-attf-class="fa #{'fa-check-circle' if resignation.admission_clearance == 'cleared' else 'fa-clock-o'}"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Step 4: Final Approval -->
+                                        <div t-attf-class="lms-timeline-item #{'active' if resignation.state == 'approved' else ''}">
+                                            <div class="lms-timeline-icon"><i t-attf-class="fa #{'fa-check' if resignation.state == 'approved' else 'fa-circle-o'}"></i></div>
+                                            <div class="lms-timeline-content">
+                                                <div class="fw-bold">Administrative Approval</div>
+                                                <div class="small text-muted">Registrar and Academic Affairs review</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="p-4 bg-light rounded shadow-sm border">
+                                        <h6 class="fw-bold text-uppercase small text-muted mb-3">Request Details</h6>
+                                        <div class="mb-3">
+                                            <label class="small text-muted d-block">Submitted On</label>
+                                            <span t-esc="resignation.resignation_date"/>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="small text-muted d-block">Academic Year</label>
+                                            <span t-esc="resignation.academic_year_id.name"/>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="small text-muted d-block">Current Level</label>
+                                            <span t-attf-class="badge bg-primary">Level <t t-esc="resignation.level"/></span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="small text-muted d-block">Refund Eligibility</label>
+                                            <t t-if="resignation.is_refund_eligible">
+                                                <span class="text-success"><i class="fa fa-check-circle"></i> Eligible for refund</span>
+                                            </t>
+                                            <t t-else="">
+                                                <span class="text-secondary"><i class="fa fa-times-circle"></i> Not eligible for refund</span>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <t t-if="resignation.state == 'approved'">
+                            <div class="px-4 py-4 bg-success-light border-top d-flex flex-column flex-sm-row align-items-center justify-content-between gap-3">
+                                <span class="text-success fw-bold"><i class="fa fa-check-double me-2"></i> Your resignation has been finalized.</span>
+                                <div class="d-flex gap-2">
+                                    <a t-attf-href="/report/pdf/university_registrar.report_resignation_letter_template/#{resignation.id}" 
+                                       class="lms-btn lms-btn-outline" target="_blank">
+                                        <i class="fa fa-file-pdf-o"></i> Resignation Letter
+                                    </a>
+                                    <a t-attf-href="/report/pdf/university_registrar.report_transcript_template/#{resignation.id}" 
+                                       class="lms-btn lms-btn-primary" target="_blank">
+                                        <i class="fa fa-graduation-cap"></i> Academic Transcript
+                                    </a>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+            </div>
+
+            <style>
+                .lms-timeline { position: relative; padding-left: 40px; }
+                .lms-timeline::before { content: ''; position: absolute; left: 14px; top: 0; bottom: 0; width: 2px; background: #e2e8f0; }
+                .lms-timeline-item { position: relative; padding-bottom: 30px; }
+                .lms-timeline-icon { 
+                    position: absolute; left: -40px; width: 30px; height: 30px; 
+                    border-radius: 50%; background: #fff; border: 2px solid #e2e8f0;
+                    display: flex; align-items: center; justify-content: center; z-index: 1;
+                    color: #94a3b8; font-size: 0.8rem;
+                }
+                .lms-timeline-item.active .lms-timeline-icon { background: var(--lms-primary); border-color: var(--lms-primary); color: #fff; }
+                .lms-timeline-item.active:last-child .lms-timeline-icon { background: #10b981; border-color: #10b981; }
+                .bg-success-light { background-color: #f0fdf4; }
+            </style>
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_program_form" model="ir.ui.view">
+        <field name="name">university.program.form</field>
+        <field name="model">university.program</field>
+        <field name="arch" type="xml">
+            <form string="Program">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name_ar" placeholder="اسم البرنامج" class="o_rtl"/></h1>
+                        <h2><field name="name_en" placeholder="Program Name (English)"/></h2>
+                    </div>
+                    <group>
+                        <group string="Basic Info">
+                            <!-- <field name="name"/> -->
+                            <field name="code"/>
+                            <field name="college_id"/>
+                            <field name="department_id"/>
+                            <field name="university_id"/>
+                            <field name="degree_type"/>
+                            <field name="duration_years"/>
+                            <field name="max_duration_years"/>
+                            <field name="has_specialization"/>
+                        </group>
+                        <group string="Attendance Rules">
+                            <field name="attendance_threshold_pct"/>
+                            <field name="attendance_warning_pct"/>
+                            <field name="practical_credit_ratio"/>
+                        </group>
+                        <group string="Fees">
+                            <field name="currency_id" invisible="1"/>
+                            <field name="registration_fee"/>
+                            <field name="tuition_fee"/>
+                            <field name="repetition_fee_per_subject"/>
+                            <field name="external_exam_fee"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Specializations"><field name="specialization_ids"/></page>
+                        <page string="Batches"><field name="batch_ids"/></page>
+                        <page string="Notes"><field name="notes"/></page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_program_list" model="ir.ui.view">
+        <field name="name">university.program.list</field>
+        <field name="model">university.program</field>
+        <field name="arch" type="xml">
+            <list string="Programs">
+                <field name="name_ar"/>
+                <field name="name_en"/>
+                <field name="code"/>
+                <field name="college_id"/>
+                <field name="degree_type"/>
+                <field name="duration_years"/>
+                <field name="max_duration_years" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_program_kanban" model="ir.ui.view">
+        <field name="name">university.program.kanban</field>
+        <field name="model">university.program</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="id"/>
+                <field name="name_ar"/>
+                <field name="name_en"/>
+                <field name="department_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title h5">
+                                            <field name="name_en" invisible="not name_en"/>
+                                            <t t-if="!record.name_en.raw_value"><field name="name_ar"/></t>
+                                        </strong>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_body mt-2">
+                                    <div class="text-muted">
+                                        <i class="fa fa-building me-1"/> <field name="department_id"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_program_search" model="ir.ui.view">
+        <field name="name">university.program.search</field>
+        <field name="model">university.program</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name_en"/>
+                <field name="name_ar"/>
+                <field name="code"/>
+                <field name="college_id"/>
+                <group expand="1" string="Group By">
+                    <filter string="College" name="group_college" context="{'group_by':'college_id'}"/>
+                    <filter string="Degree Type" name="group_degree" context="{'group_by':'degree_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_university_program" model="ir.actions.act_window">
+        <field name="name">Programs</field>
+        <field name="res_model">university.program</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="view_id" ref="view_program_kanban"/>
+    </record>
+</odoo>

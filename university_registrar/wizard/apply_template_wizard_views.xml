@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_apply_template_wizard_form" model="ir.ui.view">
+        <field name="name">university.timetable.apply.wizard.form</field>
+        <field name="model">university.timetable.apply.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generate Timetable">
+                <group>
+                    <field name="template_id"/>
+                </group>
+                <div class="alert alert-info" role="alert">
+                    This wizard will take the structure from the blueprint and generate real class schedules for the specified Batch and Academic Year.
+                </div>
+                <group>
+                    <group>
+                        <field name="program_id" invisible="1"/>
+                        <field name="batch_id" domain="[('program_id', '=', program_id)]"/>
+                        <field name="academic_year_id"/>
+                    </group>
+                    <group>
+                        <field name="default_teacher_id" required="1"/>
+                        <field name="default_room"/>
+                    </group>
+                </group>
+                <footer>
+                    <button string="Generate Schedule" type="object" name="action_generate_timetable" class="oe_highlight"/>
+                    <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_apply_template_wizard" model="ir.actions.act_window">
+        <field name="name">Generate Timetable from Template</field>
+        <field name="res_model">university.timetable.apply.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="university_registrar.model_university_timetable_template"/>
+    </record>
+</odoo>

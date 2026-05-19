@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_student_form_inherit_registrar" model="ir.ui.view">
+        <field name="name">university.student.form.inherit.registrar</field>
+        <field name="model">university.student</field>
+        <field name="inherit_id" ref="university_student.view_student_form"/>
+        <field name="arch" type="xml">
+            <!-- Add Study Duration Metrics back to Repetition page -->
+            <xpath expr="//page[@name='repetition_history']/group/group[1]" position="after">
+                <group string="Study Duration Metrics (Years)">
+                    <field name="total_freeze_years" readonly="1" widget="badge" decoration-info="total_freeze_years &gt; 0"/>
+                    <field name="net_study_duration" readonly="1"/>
+                </group>
+            </xpath>
+
+            <!-- Add Freeze History Tab -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Freeze History" name="freeze_history">
+                    <field name="freeze_request_ids">
+                        <list create="0" delete="0">
+                            <field name="name"/>
+                            <field name="academic_year_id"/>
+                            <field name="level_to_freeze"/>
+                            <field name="reason"/>
+                            <field name="state" widget="badge" 
+                                   decoration-success="state in ('completed', 'active')"
+                                   decoration-info="state in ('approved', 'invoiced')"
+                                   decoration-muted="state == 'draft'"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

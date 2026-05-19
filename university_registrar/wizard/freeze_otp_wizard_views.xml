@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_university_freeze_otp_wizard_form" model="ir.ui.view">
+        <field name="name">university.freeze.otp.wizard.form</field>
+        <field name="model">university.freeze.otp.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Verify OTP">
+                <p>Please enter the OTP provided by the student to verify their consent.</p>
+                <group>
+                    <field name="freeze_request_id" invisible="1"/>
+                    <field name="unfreeze_request_id" invisible="1"/>
+                    <field name="otp_code"/>
+                </group>
+                <footer>
+                    <button name="action_verify" string="Verify &amp; Confirm" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action to open the wizard for FREEZE requests -->
+    <record id="action_freeze_otp_verify" model="ir.actions.act_window">
+        <field name="name">Verify Freeze OTP</field>
+        <field name="res_model">university.freeze.otp.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_freeze_request_id': active_id}</field>
+    </record>
+
+    <!-- Action to open the wizard for UNFREEZE requests -->
+    <record id="action_unfreeze_otp_verify" model="ir.actions.act_window">
+        <field name="name">Verify Unfreeze OTP</field>
+        <field name="res_model">university.freeze.otp.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_unfreeze_request_id': active_id}</field>
+    </record>
+</odoo>

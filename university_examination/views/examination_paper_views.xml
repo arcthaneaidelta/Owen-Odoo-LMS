@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_examination_paper_upload_form" model="ir.ui.view">
+        <field name="name">examination.paper.upload.form</field>
+        <field name="model">examination.paper.upload</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_send_otp" type="object" string="Send OTP" class="btn-primary" invisible="is_verified"/>
+                    <button name="action_verify_otp" type="object" string="Verify OTP" class="btn-primary" invisible="is_verified"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group >
+                            <field name="subject_id" readonly="'is_verified', '=' , True"/>
+                            <field name="teacher_id" readonly="'is_verified', '=' , True"/>
+                            <field name="exam_type" readonly="'is_verified', '=' , True"/>
+                        </group>
+                        <group>
+                            <field name="is_verified" readonly="1"/>
+                            <field name="otp_code" invisible="is_verified"/>
+                        </group>
+                    </group>
+                    <group string="Exam Files">
+                        <group>
+                            <field name="question_paper_pdf" filename="question_paper_pdf_name" readonly="'is_verified', '=' , True"/>
+                            <field name="question_paper_word" filename="question_paper_word_name" readonly="'is_verified', '=' , True"/>
+                        </group>
+                        <group>
+                            <field name="answer_sheet_pdf" filename="answer_sheet_pdf_name" readonly="'is_verified', '=' , True"/>
+                            <field name="answer_sheet_word" filename="answer_sheet_word_name" readonly="'is_verified', '=' , True"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_examination_paper_upload" model="ir.actions.act_window">
+        <field name="name">Exam Paper Uploads</field>
+        <field name="res_model">examination.paper.upload</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_examination_paper" name="Paper Uploads" parent="menu_university_examination_root" action="action_examination_paper_upload" sequence="20"/>
+</odoo>
