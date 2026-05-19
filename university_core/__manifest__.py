@@ -33,7 +33,9 @@
         'views/academic_year_view.xml',
         'views/room_view.xml',
         'views/employee_view.xml',
+        'views/roadmap_view.xml',
         'views/menu_views.xml',
+
         # 'i18n/ar.po',
     ],
     'installable': True,

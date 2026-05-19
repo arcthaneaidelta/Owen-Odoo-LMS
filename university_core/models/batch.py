@@ -138,6 +138,21 @@ class UniversityBatch(models.Model):
     def action_archive_batch(self):
         self.write({'state': 'archived', 'active': False})
 
+    def action_open_roadmap(self):
+        self.ensure_one()
+        return {
+            'name': _('Academic Roadmap - %s') % (self.name or self.batch_number),
+            'type': 'ir.actions.act_window',
+            'res_model': 'university.batch.roadmap',
+            'view_mode': 'calendar,list,form',
+            'domain': [('batch_id', '=', self.id)],
+            'context': {
+                'default_batch_id': self.id,
+                'search_default_batch_id': self.id,
+            },
+            'target': 'current',
+        }
+
     # ─── Curriculum Lock Enforcement ──────────────────────────────────────────
 
     def name_get(self):
@@ -145,3 +160,4 @@ class UniversityBatch(models.Model):
         for rec in self:
             result.append((rec.id, rec.name or rec.batch_number))
         return result
+

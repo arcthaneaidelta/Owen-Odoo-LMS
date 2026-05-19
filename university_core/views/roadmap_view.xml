@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ==========================================
+         ROADMAP EVENT VIEWS
+         ========================================== -->
+    <record id="view_university_batch_roadmap_calendar" model="ir.ui.view">
+        <field name="name">university.batch.roadmap.calendar</field>
+        <field name="model">university.batch.roadmap</field>
+        <field name="arch" type="xml">
+            <calendar string="Academic Roadmap" 
+                      date_start="date_start" 
+                      date_stop="date_stop" 
+                      color="event_type" 
+                      quick_create="true"
+                      mode="month">
+                <field name="name"/>
+                <field name="batch_id"/>
+                <field name="event_type" filters="1"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="view_university_batch_roadmap_list" model="ir.ui.view">
+        <field name="name">university.batch.roadmap.list</field>
+        <field name="model">university.batch.roadmap</field>
+        <field name="arch" type="xml">
+            <list string="Academic Roadmap" editable="bottom">
+                <field name="name"/>
+                <field name="batch_id" invisible="context.get('default_batch_id')"/>
+                <field name="event_type" 
+                       decoration-danger="event_type == 'examination'"
+                       decoration-warning="event_type == 'registration'"
+                       decoration-success="event_type == 'class_start'"
+                       decoration-info="event_type == 'holiday'"
+                       decoration-primary="event_type == 'event'"
+                       decoration-muted="event_type == 'other'"/>
+                <field name="date_start"/>
+                <field name="date_stop"/>
+                <field name="description"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_university_batch_roadmap_form" model="ir.ui.view">
+        <field name="name">university.batch.roadmap.form</field>
+        <field name="model">university.batch.roadmap</field>
+        <field name="arch" type="xml">
+            <form string="Roadmap Event">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" string="Activity/Event Name"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Midterm Examination, Spring Break..."/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Scheduling">
+                            <field name="batch_id" readonly="context.get('default_batch_id')"/>
+                            <field name="event_type"/>
+                        </group>
+                        <group string="Duration">
+                            <field name="date_start"/>
+                            <field name="date_stop"/>
+                        </group>
+                    </group>
+                    <group string="Additional Details">
+                        <field name="description" placeholder="Provide details about registration deadlines, exam slots, or holiday periods..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_university_batch_roadmap_search" model="ir.ui.view">
+        <field name="name">university.batch.roadmap.search</field>
+        <field name="model">university.batch.roadmap</field>
+        <field name="arch" type="xml">
+            <search string="Search Roadmap">
+                <field name="name"/>
+                <field name="batch_id"/>
+                <field name="event_type"/>
+                <filter string="Examinations" name="exams" domain="[('event_type', '=', 'examination')]"/>
+                <filter string="Holidays &amp; Breaks" name="holidays" domain="[('event_type', '=', 'holiday')]"/>
+                <filter string="Registrations" name="registrations" domain="[('event_type', '=', 'registration')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Batch" name="group_batch" context="{'group_by': 'batch_id'}"/>
+                    <filter string="Event Type" name="group_type" context="{'group_by': 'event_type'}"/>
+                    <filter string="Start Date" name="group_start" context="{'group_by': 'date_start'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ==========================================
+         BATCH DASHBOARD (CARD SCREEN) FOR ROADMAP
+         ========================================== -->
+    <record id="view_university_batch_roadmap_dashboard_kanban" model="ir.ui.view">
+        <field name="name">university.batch.roadmap.dashboard.kanban</field>
+        <field name="model">university.batch</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" create="false" action="action_open_roadmap" type="object" sample="1">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="batch_number"/>
+                <field name="batch_year"/>
+                <field name="program_id"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_details p-3">
+                            <div class="o_kanban_record_top d-flex justify-content-between align-items-start">
+                                <div class="o_kanban_record_headings">
+                                    <strong class="o_kanban_record_title h5 text-primary mb-1 d-block">
+                                        <field name="name"/>
+                                    </strong>
+                                    <span class="text-muted small">Code: <field name="batch_number"/></span>
+                                </div>
+                                <field name="state" widget="label_selection" options="{'classes': {'draft': 'bg-secondary', 'active': 'bg-success', 'completed': 'bg-warning', 'archived': 'bg-danger'}}"/>
+                            </div>
+                            <div class="o_kanban_record_body mt-3">
+                                <div class="row align-items-center">
+                                    <div class="col-6">
+                                        <div class="text-muted small">Batch Year</div>
+                                        <strong style="font-size: 1.1em;"><field name="batch_year"/></strong>
+                                    </div>
+                                    <div class="col-6 text-end">
+                                        <span class="btn btn-sm btn-outline-primary mt-1">
+                                            <i class="fa fa-calendar me-1"/> View Calendar
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="o_kanban_record_bottom mt-3 pt-2 border-top">
+                                <div class="w-100 d-flex justify-content-between text-muted small">
+                                    <span>Program: <field name="program_id"/></span>
+                                    <span class="text-primary font-weight-bold">Click to manage Roadmap →</span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Window Actions -->
+    <record id="action_university_batch_roadmap_dashboard" model="ir.actions.act_window">
+        <field name="name">Academic Roadmaps</field>
+        <field name="res_model">university.batch</field>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="view_university_batch_roadmap_dashboard_kanban"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Select a Batch to manage its Academic Roadmap.
+            </p>
+            <p>
+                Each batch has its own interactive calendar for scheduling examinations, registration periods, holidays, and other academic milestones.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_university_batch_roadmap_all" model="ir.actions.act_window">
+        <field name="name">Roadmap Milestones</field>
+        <field name="res_model">university.batch.roadmap</field>
+        <field name="view_mode">calendar,list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create the first academic milestone!
+            </p>
+            <p>
+                Add registration dates, exams, holidays, and other batch-wise activities.
+            </p>
+        </field>
+    </record>
+</odoo>

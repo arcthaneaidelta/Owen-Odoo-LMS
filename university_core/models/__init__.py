@@ -8,3 +8,5 @@ from . import batch
 from . import academic_year
 from . import employee
 from . import room
+from . import roadmap
+

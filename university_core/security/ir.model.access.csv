@@ -51,3 +51,11 @@ access_academic_year_finance,university.academic_year finance,model_university_a
 
 access_room_super_admin,university.room super admin,model_university_room,university_core.group_university_super_admin,1,1,1,1
 access_room_manager,university.room manager,model_university_room,university_core.group_university_manager,1,1,1,0
+
+access_batch_roadmap_super_admin,university.batch.roadmap super admin,model_university_batch_roadmap,university_core.group_university_super_admin,1,1,1,1
+access_batch_roadmap_manager,university.batch.roadmap manager,model_university_batch_roadmap,university_core.group_university_manager,1,1,1,1
+access_batch_roadmap_coordinator,university.batch.roadmap coordinator,model_university_batch_roadmap,university_core.group_academic_coordinator,1,1,1,1
+access_batch_roadmap_teacher,university.batch.roadmap teacher,model_university_batch_roadmap,university_core.group_teacher,1,0,0,0
+access_batch_roadmap_admissions,university.batch.roadmap admissions,model_university_batch_roadmap,university_core.group_head_admissions,1,0,0,0
+access_batch_roadmap_finance,university.batch.roadmap finance,model_university_batch_roadmap,university_core.group_finance_officer,1,0,0,0
+

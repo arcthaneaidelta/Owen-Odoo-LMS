@@ -83,4 +83,16 @@
               action="action_university_batch"
               sequence="10"/>
 
+    <menuitem id="menu_university_batch_roadmap_dashboard"
+              name="Batch Roadmaps"
+              parent="menu_university_batches"
+              action="action_university_batch_roadmap_dashboard"
+              sequence="20"/>
+
+    <menuitem id="menu_university_batch_roadmap_all"
+              name="Roadmap Milestones"
+              parent="menu_university_batches"
+              action="action_university_batch_roadmap_all"
+              sequence="30"/>
+
 </odoo>
