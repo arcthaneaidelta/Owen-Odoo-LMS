@@ -25,8 +25,7 @@ class UniversityExternalExam(models.Model):
         related='student_id.program_id',
         store=True,
     )
-    academic_year_id = fields.Many2one(
-        'university.academic_year',
+    academic_year_name = fields.Char(
         string='Academic Year for Exam',
         required=True,
         tracking=True,
@@ -86,7 +85,7 @@ class UniversityExternalExam(models.Model):
             
             self.env['university.student.repeat.history'].create({
                 'student_id': rec.student_id.id,
-                'academic_year_id': rec.academic_year_id.id,
+                'current_academic_year_name': rec.academic_year_name,
                 'level_repeated': rec.student_id.current_level,
                 'status': 'ongoing',
                 'notes': _("External Exam Attempt")

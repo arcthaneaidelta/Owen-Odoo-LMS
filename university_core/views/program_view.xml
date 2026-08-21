@@ -15,7 +15,7 @@
                             <!-- <field name="name"/> -->
                             <field name="code"/>
                             <field name="college_id"/>
-                            <field name="department_id"/>
+                            
                             <field name="university_id"/>
                             <field name="degree_type"/>
                             <field name="duration_years"/>
@@ -36,7 +36,7 @@
                         </group>
                     </group>
                     <notebook>
-                        <page string="Specializations"><field name="specialization_ids"/></page>
+                        <page invisible="not has_specialization" string="Specializations"><field name="specialization_ids"/></page>
                         <page string="Batches"><field name="batch_ids"/></page>
                         <page string="Notes"><field name="notes"/></page>
                     </notebook>
@@ -70,7 +70,7 @@
                 <field name="id"/>
                 <field name="name_ar"/>
                 <field name="name_en"/>
-                <field name="department_id"/>
+                
                 <templates>
                     <t t-name="kanban-box">
                         <div t-attf-class="oe_kanban_global_click">
@@ -85,7 +85,7 @@
                                 </div>
                                 <div class="o_kanban_record_body mt-2">
                                     <div class="text-muted">
-                                        <i class="fa fa-building me-1"/> <field name="department_id"/>
+                                        <i class="fa fa-building me-1"/> 
                                     </div>
                                 </div>
                             </div>

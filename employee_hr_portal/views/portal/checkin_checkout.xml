@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Main Check-in/Check-out Page Template -->
+    <template id="portal_checkin_checkout" name="Check-in / Check-out">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True" />
+            <div class="container mt-3">
+                <h3>Check-in / Check-out</h3>
+                <hr/>
+                <!-- Success Messages -->
+                <div t-if="request.params.get('success')" class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert"></button>
+                    <t t-if="request.params.get('success') == 'checkedin'">
+                        <strong>Success!</strong> You have been checked in successfully.
+                    </t>
+                    <t t-if="request.params.get('success') == 'checkedout'">
+                        <strong>Success!</strong> You have been checked out successfully.
+                    </t>
+                </div>
+                <!-- Error Messages -->
+                <div t-if="request.params.get('error')" class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert"></button>
+                    <t t-if="request.params.get('error') == 'no_employee'">
+                        <strong>Error!</strong> No employee found for current user.
+                    </t>
+                    <t t-if="request.params.get('error') == 'not_allowed'">
+                        <strong>Error!</strong> Check-in/Check-out is not enabled for your account.
+                    </t>
+                    <t t-if="request.params.get('error') == 'already_checkedin'">
+                        <strong>Error!</strong> You are already checked in. Please check out first.
+                    </t>
+                    <t t-if="request.params.get('error') == 'no_checkin'">
+                        <strong>Error!</strong> No active check-in found. Please check in first.
+                    </t>
+                    <t t-if="request.params.get('error') == 'already_completed'">
+                        <strong>Error!</strong> You have already completed your attendance for today.
+                    </t>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mx-auto">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                <h5 class="mb-0">Attendance Check-in / Check-out</h5>
+                            </div>
+                            <div class="card-body text-center">
+                                <!-- Employee Info -->
+                                <div class="mb-3">
+                                    <h6><strong t-esc="employee.name"/></h6>
+                                    <small class="text-muted" t-esc="employee.department_id.name or 'N/A'"/>
+                                </div>
+                                <!-- Current Time -->
+                                <div class="mb-4 p-3 bg-light rounded">
+                                    <p class="mb-1"><strong>Date:</strong> <span id="current_date"></span></p>
+                                    <p class="mb-0"><strong>Time:</strong> <span id="current_time" class="text-primary font-weight-bold"></span></p>
+                                </div>
+                                <!-- Status and Buttons -->
+                                <div class="mb-4">
+                                    <!-- Case 1: Employee has checked in but not checked out today -->
+                                    <t t-if="open_attendance">
+                                        <div class="alert alert-success">
+                                            <h6 class="mb-2">Status: Checked In</h6>
+                                            <small>Since: <span t-esc="open_attendance.check_in" t-options="{'widget': 'datetime'}"/></small>
+                                        </div>
+                                        <!-- Show checkout button -->
+                                        <form method="post" action="/my/attendance/checkout">
+                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                            <button type="submit" class="btn btn-danger btn-lg" onclick="return confirm('Are you sure you want to check out?')">
+                                                <i class="fa fa-sign-out mr-2"></i>Check Out
+                                            </button>
+                                        </form>
+                                    </t>
+
+                                    <!-- Case 2: Employee has not checked in today -->
+                                    <t t-if="not open_attendance and not has_attendance_today">
+                                        <div class="alert alert-secondary">
+                                            <h6 class="mb-0">Status: Checked Out</h6>
+                                        </div>
+                                        <!-- Show checkin button -->
+                                        <form method="post" action="/my/attendance/checkin">
+                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                            <button type="submit" class="btn btn-success btn-lg" onclick="return validateCheckin()">
+                                                <i class="fa fa-sign-in mr-2"></i>Check In
+                                            </button>
+                                        </form>
+                                    </t>
+
+                                    <!-- Case 3: Employee has both checked in and checked out today -->
+                                    <t t-if="not open_attendance and has_attendance_today">
+                                        <div class="alert alert-info">
+                                            <h6 class="mb-0">Status: Attendance Completed</h6>
+                                            <small>You have already checked in and out today.</small>
+                                        </div>
+                                        <div class="alert alert-warning">
+                                            <i class="fa fa-exclamation-triangle mr-2"></i>
+                                            You cannot check in again today as your attendance is already completed.
+                                        </div>
+                                    </t>
+                                </div>
+                                <!-- Back to Portal -->
+                                <div class="mt-4">
+                                    <a href="/my" class="btn btn-outline-secondary">
+                                        <i class="fa fa-arrow-left mr-1"></i>Back to Portal
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+        <!-- JavaScript -->
+        <script type="text/javascript">
+            $(document).ready(function() {
+                updateDateTime();
+                setInterval(updateDateTime, 1000);
+            });
+
+            function updateDateTime() {
+                var now = new Date();
+                $('#current_time').text(now.toLocaleTimeString());
+                $('#current_date').text(now.toLocaleDateString());
+            }
+
+            function validateCheckin() {
+                // Check if employee already has attendance today
+                if (<t t-esc="has_attendance_today"/>) {
+                    alert("You have already completed your attendance for today. You cannot check in again.");
+                    return false;
+                }
+                return confirm('Are you sure you want to check in?');
+            }
+        </script>
+    </template>
+    <!-- No Employee Template -->
+    <template id="checkin_checkout_no_employee" name="No Employee Found">
+        <t t-call="portal.portal_layout">
+            <div class="container mt-5 text-center">
+                <h3 class="text-danger">No Employee Found</h3>
+                <p class="lead">No employee record found for your user account.</p>
+                <a href="/my" class="btn btn-primary">Back to Portal</a>
+            </div>
+        </t>
+    </template>
+    <!-- Not Allowed Template -->
+    <template id="checkin_checkout_not_allowed" name="Check-in/Check-out Not Allowed">
+        <t t-call="portal.portal_layout">
+            <div class="container mt-5 text-center">
+                <h3 class="text-warning">Access Restricted</h3>
+                <p class="lead">Check-in/Check-out is not enabled for your account.</p>
+                <p>Please contact your HR department for assistance.</p>
+                <a href="/my" class="btn btn-primary">Back to Portal</a>
+            </div>
+        </t>
+    </template>
+</odoo>

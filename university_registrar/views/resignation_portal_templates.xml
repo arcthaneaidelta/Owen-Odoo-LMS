@@ -13,16 +13,18 @@
     <template id="portal_my_home_resignation" name="Show Resignation"
               inherit_id="portal.portal_my_home" customize_show="True" priority="30">
         <xpath expr="//div[@id='portal_common_category']" position="before">
-            <div class="col-md-6 mb-3">
-                <a href="/my/resignation"
-                   class="lms-action-card resignation d-flex flex-column align-items-center h-100 w-100">
-                    <div class="lms-action-icon" style="background: #fee2e2; color: #dc2626;">
-                        <i class="fa fa-sign-out"></i>
-                    </div>
-                    <div class="lms-action-label">Student Resignation</div>
-                    <div class="lms-action-desc">Permanently withdraw from the university</div>
-                </a>
-            </div>
+            <t t-if="request.env.user.has_group('base.group_portal')">
+                <div class="col-md-6 mb-3">
+                    <a href="/my/resignation"
+                       class="lms-action-card resignation d-flex flex-column align-items-center h-100 w-100">
+                        <div class="lms-action-icon" style="background: #fee2e2; color: #dc2626;">
+                            <i class="fa fa-sign-out"></i>
+                        </div>
+                        <div class="lms-action-label">Student Resignation</div>
+                        <div class="lms-action-desc">Permanently withdraw from the university</div>
+                    </a>
+                </div>
+            </t>
         </xpath>
     </template>
 
@@ -57,7 +59,7 @@
                             <ul>
                                 <li><strong>Permanent Action:</strong> Resignation is a permanent withdrawal. You will lose your seat in the current program.</li>
                                 <li><strong>Access:</strong> Your student portal and university email will be deactivated upon final approval.</li>
-                                <li><strong>Financials:</strong> Refunds are only eligible if the request is submitted before the registration deadline (<t t-esc="student.academic_year_id.registration_deadline or 'N/A'"/>).</li>
+                                <li><strong>Financials:</strong> Refunds are only eligible if the request is submitted before the registration deadline.</li>
                                 <li><strong>Clearance:</strong> You must be cleared by the Library, Laboratory, and Finance departments.</li>
                                 <li><strong>Documents:</strong> Official resignation letters and transcripts will be provided only after full approval and clearance.</li>
                             </ul>
@@ -222,7 +224,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <label class="small text-muted d-block">Academic Year</label>
-                                            <span t-esc="resignation.academic_year_id.name"/>
+                                            <span t-esc="resignation.academic_year_name"/>
                                         </div>
                                         <div class="mb-3">
                                             <label class="small text-muted d-block">Current Level</label>

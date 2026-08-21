@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_my_home_menu_absence_requests" name="Portal layout : absence requests menu entries" inherit_id="portal.portal_breadcrumbs" priority="40">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'absence_requests' or absence_request" t-attf-class="breadcrumb-item #{'active ' if not absence_request else ''}">
+                <a t-if="absence_request" t-attf-href="/my/absence_requests?{{ keep_query() }}">Exam Absence Requests</a>
+                <t t-else="">Exam Absence Requests</t>
+            </li>
+            <li t-if="absence_request" class="breadcrumb-item active">
+                <t t-esc="absence_request.subject_id.name"/>
+            </li>
+        </xpath>
+    </template>
+
+    <template id="portal_my_home_absence_requests" name="Show Absence Requests" customize_show="True" inherit_id="portal.portal_my_home" priority="40">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Exam Absence Requests</t>
+                <t t-set="url" t-value="'/my/absence_requests'"/>
+                <t t-set="placeholder_count" t-value="'absence_request_count'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_absence_requests" name="My Exam Absence Requests">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Exam Absence Requests</t>
+            </t>
+            
+            <t t-if="not absence_requests">
+                <p class="mt-4">You have no exam absence requests.</p>
+            </t>
+            <t t-if="absence_requests" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th>Exam Cycle</th>
+                        <th>Subject</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="absence_requests" t-as="req">
+                        <td><span t-esc="req.cycle_id.name"/></td>
+                        <td><span t-esc="req.subject_id.name"/></td>
+                        <td><span t-esc="req.reason"/></td>
+                        <td>
+                            <span t-if="req.state == 'draft'" class="badge text-bg-secondary"><i class="fa fa-pencil"/> Draft</span>
+                            <span t-if="req.state == 'submitted'" class="badge text-bg-warning"><i class="fa fa-clock-o"/> Pending</span>
+                            <span t-if="req.state == 'approved'" class="badge text-bg-success"><i class="fa fa-check"/> Approved</span>
+                            <span t-if="req.state == 'rejected'" class="badge text-bg-danger"><i class="fa fa-times"/> Rejected</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </t>
+            
+            <div class="mt-4">
+                <h4>Submit a New Absence Request</h4>
+                <form action="/my/absence_requests/submit" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <div class="mb-3">
+                        <label for="cycle_id" class="form-label">Exam Cycle</label>
+                        <select name="cycle_id" class="form-select" required="1">
+                            <option value="">Select Exam Cycle...</option>
+                            <t t-foreach="cycles" t-as="cycle">
+                                <option t-att-value="cycle.id"><t t-esc="cycle.name"/></option>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="subject_id" class="form-label">Subject</label>
+                        <select name="subject_id" class="form-select" required="1">
+                            <option value="">Select Subject...</option>
+                            <t t-foreach="subjects" t-as="subj">
+                                <option t-att-value="subj.id"><t t-esc="subj.name"/></option>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="reason" class="form-label">Reason for Absence</label>
+                        <textarea name="reason" class="form-control" rows="3" required="1"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Request</button>
+                </form>
+            </div>
+        </t>
+    </template>
+</odoo>

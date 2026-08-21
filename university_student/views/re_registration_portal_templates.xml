@@ -23,8 +23,8 @@
                             <div>
                                 <h4 class="mb-0 fw-bold">Annual Re-Registration</h4>
                                 <small class="opacity-75">
-                                    <t t-if="student.batch_id.academic_year_id"><t t-esc="student.batch_id.academic_year_id.name"/></t>
-                                    <t t-else=""><t t-esc="student.academic_year_id.name"/></t> ·
+                                    <t t-if="student.current_academic_year_name"><t t-esc="student.current_academic_year_name"/></t>
+                                    <t t-else="">N/A</t> ·
                                     Level <t t-esc="student.current_level"/> ·
                                     Ref: <strong><t t-esc="student.student_id"/></strong>
                                 </small>

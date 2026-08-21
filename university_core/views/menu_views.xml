@@ -39,23 +39,13 @@
               action="action_university_specialization"
               sequence="40"/>
 
-    <menuitem id="menu_university_department"
-              name="Departments"
-              parent="menu_university_config"
-              action="action_university_department"
-              sequence="50"/>
-
     <menuitem id="menu_university_room"
               name="Rooms"
               parent="menu_university_config"
               action="action_university_room"
               sequence="55"/>
 
-    <menuitem id="menu_university_academic_year"
-              name="Academic Years"
-              parent="menu_university_config"
-              action="action_university_academic_year"
-              sequence="60"/>
+
 
     <!-- ═══ TEACHERS & STAFF ════════════════════════════════════════════════ -->
     <menuitem id="menu_university_teachers_root"

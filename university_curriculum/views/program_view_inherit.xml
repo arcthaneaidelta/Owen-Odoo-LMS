@@ -26,7 +26,7 @@
         <field name="model">university.program</field>
         <field name="inherit_id" ref="university_core.view_program_kanban"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='department_id']" position="after">
+            <xpath expr="//field[@name='name_en']" position="after">
                 <field name="subject_count"/>
             </xpath>
             <xpath expr="//div[hasclass('o_kanban_record_body')]/div" position="after">

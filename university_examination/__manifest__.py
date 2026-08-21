@@ -15,6 +15,8 @@
         'views/examination_board_views.xml',
         'views/university_batch_inherit_views.xml',
         'views/student_outcome_views.xml',
+        'views/examination_absence_request_views.xml',
+        'views/portal_templates.xml',
     ],
     'installable': True,
     'application': True,

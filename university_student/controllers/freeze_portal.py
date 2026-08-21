@@ -35,9 +35,14 @@ class FreezePortal(http.Controller):
         if not student:
             return request.redirect('/my')
 
-        current_year = request.env['university.academic_year'].sudo().search([('is_current', '=', True)], limit=1)
-        if not current_year:
-            return request.redirect('/my/student/freeze?error=No active academic year found')
+        current_year_name = student.current_academic_year_name
+        if not current_year_name:
+            current_year = request.env['university.academic_year'].sudo().search([('state', '=', 'active')], limit=1)
+            if not current_year:
+                return request.render('university_student.freeze_request_form_template', {
+                    'student': student, 'error': 'No active academic year found.'
+                })
+            current_year_name = current_year.name
 
         level = student.current_level
         reason = post.get('reason')
@@ -45,7 +50,7 @@ class FreezePortal(http.Controller):
 
         freeze_req = request.env['university.student.freeze.request'].sudo().create({
             'student_id': student.id,
-            'academic_year_id': current_year.id,
+            'academic_year_name': current_year_name,
             'level_to_freeze': level,
             'reason': reason,
             'reason_details': reason_details,
@@ -125,12 +130,25 @@ class FreezePortal(http.Controller):
         freeze_id = post.get('freeze_id')
         reason_details = post.get('reason_details')
 
-        current_year = request.env['university.academic_year'].sudo().search([('is_current', '=', True)], limit=1)
-        if not current_year:
-            return request.redirect('/my/student/unfreeze?error=No active academic year found')
+        active_freeze = request.env['university.student.freeze.request'].sudo().browse(int(freeze_id))
+        
+        # Find the appropriate batch for their level
+        new_batch = request.env['university.batch'].sudo().search([
+            ('program_id', '=', student.program_id.id),
+            ('current_level', '=', active_freeze.level_to_freeze),
+            ('state', '=', 'active')
+        ], limit=1)
+        
+        current_year_name = new_batch.current_academic_year_name if new_batch else student.current_academic_year_name
+        if not current_year_name:
+            current_year = request.env['university.academic_year'].sudo().search([('state', '=', 'active')], limit=1)
+            if not current_year:
+                return request.render('university_student.unfreeze_request_form_template', {
+                    'student': student, 'freeze_id': freeze_id, 'error': 'No active academic year found.'
+                })
+            current_year_name = current_year.name
 
         # Pre-check eligibility before creating record
-        active_freeze = request.env['university.student.freeze.request'].sudo().browse(int(freeze_id))
         if active_freeze.activation_date:
             from dateutil.relativedelta import relativedelta
             one_year_later = active_freeze.activation_date + relativedelta(years=1)
@@ -145,7 +163,7 @@ class FreezePortal(http.Controller):
             unfreeze_req = request.env['university.student.unfreeze.request'].sudo().create({
                 'student_id': student.id,
                 'freeze_request_id': int(freeze_id),
-                'academic_year_id': current_year.id,
+                'academic_year_name': current_year_name,
                 'reason_details': reason_details,
             })
         except ValidationError as e:

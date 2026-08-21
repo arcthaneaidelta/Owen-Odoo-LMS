@@ -11,7 +11,7 @@ class UniversityStudentRepeatHistory(models.Model):
 	_description = 'Student Repetition History'
 	
 	student_id = fields.Many2one('university.student', string='Student', required=True, ondelete='cascade')
-	academic_year_id = fields.Many2one('university.academic_year', string='Academic Year')
+	current_academic_year_name = fields.Char(string='Academic Year')
 	level_repeated = fields.Char(string='Level Repeated')
 	status = fields.Selection([
 		('ongoing', 'Ongoing'),
@@ -259,11 +259,10 @@ class UniversityStudent(models.Model):
 		tracking=True,
 		help='Batch assigned upon admission. Current Batch may differ due to repetition/freezing.'
 	)
-	academic_year_id = fields.Many2one(
-		'university.academic_year',
+	current_academic_year_name = fields.Char(
 		string='Academic Year',
-		domain="[('state', '=', 'active')]",
-		tracking=True,
+		related='batch_id.current_academic_year_name',
+		store=True,
 	)
 
 	@api.onchange('program_id')
@@ -696,14 +695,14 @@ class UniversityStudent(models.Model):
 			if vals.get('student_id', 'New') == 'New':
 				program = self.env['university.program'].browse(vals.get('program_id')) if vals.get('program_id') else None
 				batch = self.env['university.batch'].browse(vals.get('batch_id')) if vals.get('batch_id') else None
-				academic_year = self.env['university.academic_year'].browse(vals.get('academic_year_id')) if vals.get('academic_year_id') else None
+				academic_year_name = batch.current_academic_year_name if batch else None
 				
 				prog_prefix = (program.code or 'PRG')[:3].upper().ljust(3, 'X') if program else 'XXX'
 				
 				year_val = '00'
-				if academic_year and academic_year.name:
+				if academic_year_name:
 					import re
-					match = re.search(r'\d{4}', str(academic_year.name))
+					match = re.search(r'\d{4}', str(academic_year_name))
 					if match:
 						matched_str = str(match.group(0))
 						year_val = f"{int(matched_str) % 100:02d}"

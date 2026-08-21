@@ -80,13 +80,9 @@ class UniversityStudent(models.Model):
                 and rec.current_level != old_level
                 and rec.academic_standing != 'graduated'
             )
-            if was_actually_promoted:
-                # Set Academic Year to the system's current active academic year
-                active_year = self.env['university.academic_year'].search([('is_current', '=', True)], limit=1)
-                if active_year:
-                    rec.write({'academic_year_id': active_year.id})
-                
-                rec.action_trigger_re_registration(is_repetition=False)
+            # Re-registration is now exclusively handled by the Roadmap Calendar event 'registration'.
+            # if was_actually_promoted:
+            #     rec.action_trigger_re_registration(is_repetition=False)
 
     def action_trigger_re_registration(self, is_repetition=False, failed_subject_ids=None):
         """
@@ -97,11 +93,8 @@ class UniversityStudent(models.Model):
         
         for rec in self:
             # a. Determine academic year and deadlines
-            target_year = rec.academic_year_id or rec.batch_id.academic_year_id
-            if not target_year:
-                target_year = self.env['university.academic_year'].search(
-                    [('is_current', '=', True)], limit=1
-                )
+            active_years = rec.batch_id.academic_year_ids.filtered(lambda y: y.state == 'active')
+            target_year = active_years[0] if active_years else False
             
             token_expiry = (
                 target_year.late_registration_deadline
@@ -180,7 +173,6 @@ class UniversityStudent(models.Model):
                 're_registration_token': secrets.token_urlsafe(32),
                 're_registration_token_expiry': token_expiry,
                 're_registration_draft_data': False,  # Reset any old draft data
-                'academic_year_id': target_year.id if target_year else False,
             }
 
             # If it's a repetition, they join the batch that is now at their level
@@ -342,62 +334,65 @@ class UniversityStudent(models.Model):
         of the current academic year, and expels them automatically.
         Also handles previously frozen students who failed to return.
         """
-        current_year = self.env['university.academic_year'].search([('is_current', '=', True)], limit=1)
-        if not current_year:
+        active_years = self.env['university.academic_year'].search([('state', '=', 'active')])
+        if not active_years:
             return
 
         today = fields.Date.today()
 
-        # 1. Unregistered students who missed regular and late deadlines
-        if current_year.late_registration_deadline and today > current_year.late_registration_deadline:
-            deadline_to_check = current_year.late_registration_deadline
-        elif current_year.registration_deadline and today > current_year.registration_deadline and not current_year.late_registration_deadline:
-            deadline_to_check = current_year.registration_deadline
-        else:
-            deadline_to_check = False
+        for current_year in active_years:
+            # 1. Unregistered students who missed regular and late deadlines
+            if current_year.late_registration_deadline and today > current_year.late_registration_deadline:
+                deadline_to_check = current_year.late_registration_deadline
+            elif current_year.registration_deadline and today > current_year.registration_deadline and not current_year.late_registration_deadline:
+                deadline_to_check = current_year.registration_deadline
+            else:
+                deadline_to_check = False
 
-        if deadline_to_check and today > deadline_to_check:
-            students_to_check = self.search([
-                ('academic_standing', 'in', ['good_standing', 'warning', 'probation']),
-                ('registration_status', '=', 'unregistered'),
-            ])
+            if deadline_to_check and today > deadline_to_check:
+                students_to_check = self.search([
+                    ('academic_standing', 'in', ['good_standing', 'warning', 'probation']),
+                    ('registration_status', '=', 'unregistered'),
+                    ('batch_id.academic_year_ids', '=', current_year.id)
+                ])
 
-            for student in students_to_check:
-                active_freeze = self.env['university.student.freeze.request'].search([
-                    ('student_id', '=', student.id),
-                    ('academic_year_id', '=', current_year.id),
-                    ('state', 'in', ['active', 'approved'])
-                ], limit=1)
-
-                if not active_freeze:
-                    student.action_expel()
-                    student.message_post(body=_(
-                        "Auto-expelled: Student failed to register or freeze by the "
-                        "final registration deadline (%s)."
-                    ) % deadline_to_check)
-
-        # 2. Frozen students who failed to properly return
-        if current_year.registration_deadline and today > current_year.registration_deadline:
-            frozen_students = self.search([
-                ('academic_standing', '=', 'frozen')
-            ])
-
-            for f_student in frozen_students:
-                active_freeze = self.env['university.student.freeze.request'].search([
-                    ('student_id', '=', f_student.id),
-                    ('state', '=', 'active')
-                ], limit=1)
-
-                if active_freeze and active_freeze.academic_year_id.id != current_year.id:
-                    pending_unfreeze = self.env['university.student.unfreeze.request'].search([
-                        ('student_id', '=', f_student.id),
-                        ('state', 'not in', ['completed', 'rejected', 'draft'])
+                for student in students_to_check:
+                    active_freeze = self.env['university.student.freeze.request'].search([
+                        ('student_id', '=', student.id),
+                        ('academic_year_name', '=', current_year.name),
+                        ('state', 'in', ['active', 'approved'])
                     ], limit=1)
 
-                    if not pending_unfreeze:
-                        f_student.action_expel()
-                        f_student.message_post(body=_(
-                            "Auto-expelled: Student failed to apply for unfreezing "
-                            "and re-registration after their freeze period ended."
-                        ))
+                    if not active_freeze:
+                        student.action_expel()
+                        student.message_post(body=_(
+                            "Auto-expelled: Student failed to register or freeze by the "
+                            "final registration deadline (%s)."
+                        ) % deadline_to_check)
+
+            # 2. Frozen students who failed to properly return
+            if current_year.registration_deadline and today > current_year.registration_deadline:
+                frozen_students = self.search([
+                    ('academic_standing', '=', 'frozen'),
+                    ('batch_id.academic_year_ids', '=', current_year.id)
+                ])
+
+                for f_student in frozen_students:
+                    active_freeze = self.env['university.student.freeze.request'].search([
+                        ('student_id', '=', f_student.id),
+                        ('state', '=', 'active')
+                    ], limit=1)
+
+                    if active_freeze and active_freeze.academic_year_name != current_year.name:
+                        pending_unfreeze = self.env['university.student.unfreeze.request'].search([
+                            ('student_id', '=', f_student.id),
+                            ('state', 'not in', ['completed', 'rejected', 'draft'])
+                        ], limit=1)
+
+                        if not pending_unfreeze:
+                            f_student.action_expel()
+                            f_student.message_post(body=_(
+                                "Auto-expelled: Student failed to apply for unfreezing "
+                                "and re-registration after their freeze period ended."
+                            ))
 

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="portal_my_absents" name="Absents">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True" />
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Absents</t>
+            </t>
+            <t t-if="not absents">
+                <p>There are currently no absents.</p>
+            </t>
+            <t t-if="absents" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th class="text-left">Employee</th>
+                        <th class="text-left">Contract</th>
+                        <th class="text-left">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="absents" t-as="ats">
+                        <tr>
+                            <td class="text-left"><span t-field="ats.employee_id.name" /></td>
+                            <td class="text-left"><span t-field="ats.contract_id.name" /></td>
+                            <td class="text-left"><span t-field="ats.time" /></td>
+                        </tr>
+                    </t>
+                </tbody>
+            </t>
+        </t>
+    </template>
+</odoo>

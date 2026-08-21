@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record id="action_examination_seating_cycle" model="ir.actions.act_window">
+        <field name="name">Examination Seatings</field>
+        <field name="res_model">examination.seating</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('cycle_id', '=', active_id)]</field>
+        <field name="context">{'default_cycle_id': active_id, 'search_default_group_batch': 1}</field>
+    </record>
+
+
+    <record id="view_examination_cycle_list" model="ir.ui.view">
+        <field name="name">examination.cycle.list</field>
+        <field name="model">examination.cycle</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="batch_id"/>
+            </list>
+        </field>
+    </record>
+
+
     <record id="view_examination_cycle_form" model="ir.ui.view">
         <field name="name">examination.cycle.form</field>
         <field name="model">examination.cycle</field>
@@ -9,10 +30,19 @@
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(action_examination_seating_cycle)d"
+                                type="action" class="oe_stat_button" icon="fa-users">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Seatings</span>
+                            </div>
+                        </button>
+                    </div>
                     <group>
                         <group>
                             <field name="name"/>
-                            <field name="academic_year_id"/>
+                            <field name="batch_id"/>
+                            <field name="academic_year_name"/>
                             <field name="semester"/>
                         </group>
                         <group>
@@ -26,11 +56,52 @@
         </field>
     </record>
 
-    <record id="action_examination_cycle" model="ir.actions.act_window">
+    <record id="action_examination_cycle_for_batch" model="ir.actions.act_window">
         <field name="name">Examination Cycles</field>
         <field name="res_model">examination.cycle</field>
         <field name="view_mode">list,form</field>
+        <field name="domain">[('batch_id', '=', active_id)]</field>
+        <field name="context">{'default_batch_id': active_id}</field>
     </record>
 
-    <menuitem id="menu_examination_cycle" name="Examination Cycles" parent="menu_university_examination_root" action="action_examination_cycle" sequence="10"/>
+    <record id="view_batch_examination_kanban" model="ir.ui.view">
+        <field name="name">university.batch.examination.kanban</field>
+        <field name="model">university.batch</field>
+        <field name="arch" type="xml">
+            <kanban create="false" action="%(action_examination_cycle_for_batch)d" type="action">
+                <field name="name"/>
+                <field name="program_id"/>
+                <field name="current_level"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click oe_kanban_card">
+                            <div class="o_kanban_record_top">
+                                <div class="o_kanban_record_headings">
+                                    <strong class="o_kanban_record_title"><field name="name"/></strong>
+                                </div>
+                            </div>
+                            <div class="o_kanban_record_bottom">
+                                <div class="oe_kanban_bottom_left">
+                                    <field name="program_id"/>
+                                </div>
+                                <div class="oe_kanban_bottom_right">
+                                    <span class="badge rounded-pill text-bg-info"><field name="current_level"/></span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_examination_batch_kanban" model="ir.actions.act_window">
+        <field name="name">Exams by Batch</field>
+        <field name="res_model">university.batch</field>
+        <field name="view_mode">kanban</field>
+        <field name="domain">[('state', '=', 'active')]</field>
+        <field name="view_id" ref="view_batch_examination_kanban"/>
+    </record>
+
+    <menuitem id="menu_examination_cycle" name="Exams by Batch" parent="menu_university_examination_root" action="action_examination_batch_kanban" sequence="10"/>
 </odoo>

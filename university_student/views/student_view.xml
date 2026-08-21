@@ -93,7 +93,7 @@
                                     <field name="specialization_id"/>
                                     <field name="original_batch_id" readonly="1" force_save="1"/>
                                     <field name="batch_id"/>
-                                    <field name="academic_year_id"/>
+                                    <field name="current_academic_year_name"/>
                                 </group>
                             </group>
                             <group string="Admission">
@@ -141,7 +141,7 @@
                             <separator string="History" />
                             <field name="repeat_history_ids">
                                 <list editable="bottom" create="0" delete="0">
-                                    <field name="academic_year_id" readonly="1"/>
+                                    <field name="current_academic_year_name" readonly="1"/>
                                     <field name="level_repeated" readonly="1"/>
                                     <field name="status" widget="badge" readonly="1"
                                            decoration-success="status in ('passed', 'passed_as_external')" 

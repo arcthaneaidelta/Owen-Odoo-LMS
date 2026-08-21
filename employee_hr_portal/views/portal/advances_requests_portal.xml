@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="portal_my_advances" name="My Advance Requests">
+		<t t-call="portal.portal_layout">
+			<t t-set="breadcrumbs_searchbar" t-value="True" />
+			<t t-call="portal.portal_searchbar">
+				<t t-set="title">Advance Requests</t>
+			</t>
+			<a t-attf-href="/create/my_advance?{{ keep_query() }}"><button type="button" class="mt-2 mb-2 btn btn-info btn-md" id="create_advances">Create a Advance Request</button></a>
+			<p class="alert alert-danger mt8" t-if="request.params.get('error_msg')" role="alert">
+				<t t-esc="request.params.get('error_msg')" />
+			</p>
+			<t t-call="portal.portal_table">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Employee</th>
+						<th>Requested Date</th>
+						<th>Month</th>
+						<th>Amount</th>
+						<th class="text-right">Status</th>
+						<th class="text-right">Return Status</th>
+					</tr>
+				</thead>
+				<tbody>
+					<t t-foreach="advance_requests" t-as="advance">
+						<tr>
+							<td><a t-attf-href="/my/advance/#{advance.id}?{{ keep_query() }}"><span t-field="advance.name" /></a></td>
+							<td><span t-field="advance.employee_id" /></td>
+							<td><span t-field="advance.requested_date" t-options='{"widget": "datetime"}' /></td>
+							<td><span t-esc="time.strftime('%b %Y',time.strptime(str(advance.month),'%Y-%m-%d'))" /></td>
+							<td><span t-field="advance.amount" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: advance.currency_id}" /> </td>
+							<td class="text-right">
+								<t t-value="dict(advance.fields_get(allfields=['state'])['state']['selection'])[advance.state]" t-set="state" />
+								<t t-if="advance.state == 'new'">
+									<span class="badge badge-pill badge-info" style="background-color: #999999; color: black;" title="Current stage of the task" t-esc="state" />
+								</t>
+								<t t-if="advance.state == 'approve'">
+									<span class="badge badge-pill badge-info" style="background-color: #0bdb12; color: black;" title="Current stage of the task" t-esc="state" />
+								</t>
+								<t t-if="advance.state == 'refuse'">
+									<span class="badge badge-pill badge-info" style="background-color: #ff0000; color: black;" title="Current stage of the task" t-esc="state" />
+								</t>
+								<t t-if="advance.state == 'cancel'">
+									<span class="badge badge-pill badge-info" style="background-color: #ff7700; color: black;" title="Current stage of the task" t-esc="state" />
+								</t>
+								<t t-if="advance.state == 'inv_created'">
+									<span class="badge badge-pill badge-success" style="background-color: #0bdb12; color: black;" title="Current stage of the task" t-esc="state" />
+								</t>
+							</td>
+							<td class="text-right">
+								<t t-value="dict(advance.fields_get(allfields=['return_state'])['return_state']['selection'])[advance.return_state]" t-set="return_state" />
+								<t t-if="advance.return_state == 'no'">
+									<span class="badge badge-pill badge-info" style="background-color: #999999; color: black;" title="Current stage of the task" t-esc="return_state" />
+								</t>
+								<t t-if="advance.return_state == 'yes'">
+									<span class="badge badge-pill badge-info" style="background-color: #0bdb12; color: black;" title="Current stage of the task" t-esc="return_state" />
+								</t>
+							</td>
+							<td>
+								<a t-attf-href="/my/advance/delete/#{advance.id}?{{ keep_query() }}" t-if="advance.state=='new'">
+									<span class="fa fa-trash-o remove-optionnal-item" title="Delete" aria-label="Delete" />
+								</a>
+							</td>
+						</tr>
+					</t>
+				</tbody>
+			</t>
+		</t>
+	</template>
+	<template id="portal_my_advance" name="My Advance Request">
+		<t t-call="portal.portal_layout">
+			<p class="alert alert-danger mt8" t-if="request.params.get('error_msg')" role="alert">
+				<t t-esc="request.params.get('error_msg')" />
+			</p>
+			<form data-model_name="advance.requests" t-attf-action="/advance/update/{{advance.id}}" method="post" class=" form-horizontal container-fluid" enctype="multipart/form-data">
+				<div class="card mt-4">
+					<div class="card-header">
+						<div class="row no-gutters">
+							<div class="col-md">
+								<h5 class="mb-1 mb-md-0">
+									<span t-esc="advance.name" style="text-transform: uppercase;" />
+									<t t-value="dict(advance.fields_get(allfields=['state'])['state']['selection'])[advance.state]" t-set="state" />
+									<t t-if="advance.state == 'new'">
+										<span class="badge badge-pill badge-info" style="background-color: #999999; color: black;" title="Current stage of the task" t-esc="state" />
+									</t>
+									<t t-if="advance.state == 'approve'">
+										<span class="badge badge-pill badge-info" style="background-color: #0bdb12; color: black;" title="Current stage of the task" t-esc="state" />
+									</t>
+									<t t-if="advance.state == 'refuse'">
+										<span class="badge badge-pill badge-info" style="background-color: #ff0000; color: black;" title="Current stage of the task" t-esc="state" />
+									</t>
+									<t t-if="advance.state == 'cancel'">
+										<span class="badge badge-pill badge-info" style="background-color: #ff7700; color: black;" title="Current stage of the task" t-esc="state" />
+									</t>
+									<t t-if="advance.state == 'inv_created'">
+										<span class="badge badge-pill badge-success" style="background-color: #0bdb12; color: black;" title="Current stage of the task" t-esc="state" />
+									</t>
+								</h5>
+								<div class="mb-1 mb-md-0 mt-2">
+									<span t-if="advance.state == 'new' " style="color: #17a2b8;">
+										Your requested advance is yet to be approved by your advance Manager.
+										<br />
+										To edit your advance, kindly fill up the updated details and click on save if it is still in new or new stage.
+									</span>
+									<span t-if="advance.state == 'refuse' " class="text-danger">
+										Your advance is refused by your advance manager.
+									</span>
+									<span t-if="advance.state == 'approve' " style="color: #0bdb12;">
+										Congratulations, your advance is approved by your advance manager.
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="row no-gutters">
+							<div class="col-md-12 col-sm-12">
+								<div class="form-group mt-2 ">
+									<div class="col-sm-12">
+										<label for="name" class="col-md-2 col-sm-2">Name/Description*:</label>
+										<input id="name" name="name" type="text" string="Name/Description" class="form-control mt-1 col-md-9 col-sm-9" t-att-value="advance.name" required="required" placeholder='Name/Description' t-att-readonly="advance.state != 'new' or None" />
+									</div>
+								</div>
+								<div class="form-group mt-2 row d-flex justify-content-between flex-wrap">
+									<div class="col-sm-12">
+										<label for="month" class="col-md-2 col-sm-2">For Month*:</label>
+										<input id="month" name="month" type="date" onclick="this.showPicker()" string="For Month" class="form-control mt-1 datetimepicker-input col-md-4 col-sm-4" t-att-value="advance.month if advance.month else datetime.date.today().strftime('%m-%d-%Y')" required="required" placeholder='For Month' t-att-disabled="advance.state != 'new' or None" />
+									</div>
+								</div>
+								<div class="form-group mt-2 row d-flex justify-content-between flex-wrap">
+									<div class="col-sm-12">
+										<label for="amount" class="col-md-2 col-sm-2">Amount*:</label>
+										<input id="amount" name="amount" type="number" step="0.1" string="Amount" class="form-control mt-1 datetimepicker-input col-md-4 col-sm-4" t-att-value="advance.amount" required="required" placeholder='300 e.g' t-att-disabled="advance.state != 'new' or None" />
+									</div>
+								</div>
+								<div class="form-group mt-2 row d-flex justify-content-between flex-wrap">
+									<div class="col-sm-12">
+										<label for="reason" class="col-md-2 col-sm-2">Reason*:</label>
+										<input id="reason" name="reason" type="text" string="Reason" class="form-control mt-1 datetimepicker-input col-md-4 col-sm-4" t-att-value="advance.reason" required="required" placeholder='For Month' t-att-disabled="advance.state != 'new' or None" />
+									</div>
+								</div>
+								<div class="mt-4 mb-2 col-md text-md-right d-flex">
+									<a t-attf-href="/my/my_advances">
+										<button class="btn btn-danger btn-md" type="button" special="cancel">Close</button>
+									</a>
+									<t t-if="advance.state in ['new']">
+										<button class="btn btn-primary btn-md" type="submit" id="save_advance" style="margin-left:5px;">Update</button>
+									</t>
+									<a t-attf-href="/my/advance/delete/#{advance.id}?{{ keep_query() }}" t-if="advance.state=='new'" class="d-flex mt-1" style="margin-left:5px;">
+										<span class="fa fa-trash-o fa-2x remove-optionnal-item" title="Delete" aria-label="Delete" />
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="mt32">
+					<h4><strong>Message and communication history</strong></h4>
+					<t t-call="portal.message_thread" />
+				</div>
+			</form>
+		</t>
+	</template>
+	<template id="portal_my_advance_create" name="Create a New Advance Request">
+		<t t-call="portal.portal_layout">
+			<p class="alert alert-danger mt8" t-if="request.params.get('error_msg')" role="alert">
+				<t t-esc="request.params.get('error_msg')" />
+			</p>
+			<form data-model_name="advance.requests" t-attf-action="/create/advance?{{ keep_query() }}" method="post" class=" form-horizontal container-fluid" enctype="multipart/form-data" id="leave_request_form">
+				<div class="card mt-4">
+					<div class="card-header">
+						<div class="row no-gutters">
+							<div class="col-md">
+								<h3 class="mt-2 mb-2 text-left">
+									Create a New Advance Request
+								</h3>
+							</div>
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="row no-gutters">
+							<div class="col-md-12 col-sm-12">
+								<div class="form-group mt-2">
+									<div class="col-sm-12">
+										<label for="name" class="col-md-2 col-sm-2">Name/Description*:</label>
+										<input id="name" name="name" type="text" string="Name/Description" class="form-control mt-1 col-md-9 col-sm-9" required="required" placeholder='abc e.g' />
+									</div>
+								</div>
+								<div class="form-group mt-2">
+									<div class="col-sm-12">
+										<label for="month" class="col-md-2 col-sm-2">For Month*:</label>
+										<input id="month" name="month" onclick="this.showPicker()" type="month" string="Date" class="form-control mt-1 datetimepicker-input col-md-4 col-sm-4" required="required" placeholder='For Month' />
+									</div>
+								</div>
+								<div class="form-group mt-2">
+									<div class="col-sm-12">
+										<label for="amount" class="col-md-2 col-sm-2">Amount*:</label>
+										<input id="amount" name="amount" type="number" step="0.1" string="Date" class="form-control mt-1 datetimepicker-input col-md-4 col-sm-4" required="required" placeholder='300 e.g' />
+									</div>
+								</div>
+								<div class="form-group mt-2">
+									<div class="col-sm-12">
+										<label for="reason" class="col-md-2 col-sm-2">Reason*:</label>
+										<input id="reason" name="reason" type="text" string="Reason" class="form-control mt-1 datetimepicker-input col-md-4 col-sm-4" required="required" placeholder='XYZ e.g' />
+									</div>
+								</div>
+								<div class="mt-4 mb-2 col-md text-md-right d-flex">
+									<a t-attf-href="/my/my_advances">
+										<button class="btn btn-danger btn-md" type="button" special="cancel">Close</button>
+									</a>
+									<button class="btn btn-primary btn-md" type="submit" id="save_advance" style="margin-left:5px;">Create</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</t>
+	</template>
+</odoo>

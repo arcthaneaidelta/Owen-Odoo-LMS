@@ -11,13 +11,13 @@ class UniversityTimetableReport(models.AbstractModel):
     def _get_report_values(self, docids, data=None):
         data = data or {}
         batch_id = data.get('batch_id')
-        academic_year_id = data.get('academic_year_id')
+        academic_year_name = data.get('academic_year_name')
 
         domain = [('state', '=', 'published')]
         if batch_id:
             domain.append(('batch_id', '=', batch_id))
-        if academic_year_id:
-            domain.append(('academic_year_id', '=', academic_year_id))
+        if academic_year_name:
+            domain.append(('academic_year_name', '=', academic_year_name))
 
         sessions = self.env['university.timetable'].search(domain, order='day_of_week, start_time')
 
@@ -38,7 +38,7 @@ class UniversityTimetableReport(models.AbstractModel):
 
         # Pre-compute display strings to avoid using data dict in the template
         batch_name = self.env['university.batch'].browse(batch_id).name if batch_id else ''
-        year_name = self.env['university.academic_year'].browse(academic_year_id).name if academic_year_id else ''
+        year_name = academic_year_name or ''
 
         return {
             'grid': grid,
@@ -60,10 +60,7 @@ class TimetableGridWizard(models.TransientModel):
         'university.batch', string='Batch',
         domain="[('state', '=', 'active')]"
     )
-    academic_year_id = fields.Many2one(
-        'university.academic_year', string='Academic Year',
-        domain="[('state', '=', 'active')]"
-    )
+    academic_year_name = fields.Char(string='Academic Year')
     state = fields.Selection([
         ('filter', 'Filter'),
         ('grid', 'Grid View'),
@@ -89,8 +86,8 @@ class TimetableGridWizard(models.TransientModel):
         domain = []
         if self.batch_id:
             domain.append(('batch_id', '=', self.batch_id.id))
-        if self.academic_year_id:
-            domain.append(('academic_year_id', '=', self.academic_year_id.id))
+        if self.academic_year_name:
+            domain.append(('academic_year_name', '=', self.academic_year_name))
 
         sessions = self.env['university.timetable'].search(domain, order='day_of_week, start_time')
 
@@ -114,8 +111,8 @@ class TimetableGridWizard(models.TransientModel):
         title_parts = []
         if self.batch_id:
             title_parts.append(f'<strong>Batch:</strong> {self.batch_id.name}')
-        if self.academic_year_id:
-            title_parts.append(f'<strong>Year:</strong> {self.academic_year_id.name}')
+        if self.academic_year_name:
+            title_parts.append(f'<strong>Year:</strong> {self.academic_year_name}')
 
         html = f'''
 <div style="font-family:'Segoe UI',Arial,sans-serif; max-width:100%; overflow-x:auto;">
@@ -193,7 +190,7 @@ class TimetableGridWizard(models.TransientModel):
     def action_print_grid(self):
         data = {
             'batch_id': self.batch_id.id,
-            'academic_year_id': self.academic_year_id.id,
+            'academic_year_name': self.academic_year_name,
         }
         return self.env.ref('university_curriculum.action_report_timetable_grid').report_action(self, data=data)
 

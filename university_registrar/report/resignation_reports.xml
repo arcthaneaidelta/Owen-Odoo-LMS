@@ -93,7 +93,7 @@
             <t t-foreach="docs" t-as="o">
                 <!-- Fetch scores -->
                 <!-- Fetch scores if the results module is present -->
-                <t t-set="scores" t-value="request.env.get('university.student.subject.score') and request.env['university.student.subject.score'].sudo().search([('student_id', '=', o.student_id.id)], order='academic_year_id asc, level asc') or []"/>
+                <t t-set="scores" t-value="request.env.get('university.student.subject.score') and request.env['university.student.subject.score'].sudo().search([('student_id', '=', o.student_id.id)], order='academic_year_name asc, level asc') or []"/>
                 
                 <t t-call="web.external_layout">
                     <div class="page" style="font-family: 'Helvetica', 'Arial', sans-serif;">
@@ -132,7 +132,7 @@
                                 <t t-foreach="scores" t-as="score">
                                     <tr>
                                         <td>Level <t t-esc="score.level"/></td>
-                                        <td><t t-esc="score.academic_year_id.name"/></td>
+                                        <td><t t-esc="score.academic_year_name"/></td>
                                         <td><t t-esc="score.subject_id.code"/></td>
                                         <td><t t-esc="score.subject_id.name"/></td>
                                         <td class="text-center"><t t-esc="score.score"/></td>

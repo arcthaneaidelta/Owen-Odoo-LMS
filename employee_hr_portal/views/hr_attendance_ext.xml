@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+    <!-- Actions -->
+
+    <!-- Action for Approved Requests -->
+    <record id="action_missing_punch_approved" model="ir.actions.act_window">
+        <field name="name">Approved Missing Punch Requests</field>
+        <field name="res_model">missing.punch</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('state', '=', 'approve')]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No approved missing punch requests found!
+            </p>
+        </field>
+    </record>
+
+    <!-- Action for Pending Requests -->
+    <record id="action_missing_punch_pending" model="ir.actions.act_window">
+        <field name="name">Pending Missing Punch Requests</field>
+        <field name="res_model">missing.punch</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('state', '=', 'new')]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No pending missing punch requests found!
+            </p>
+        </field>
+    </record>
+
+    <!-- Action for All Requests (for reference) -->
+    <record id="action_missing_punch_all" model="ir.actions.act_window">
+        <field name="name">All Missing Punch Requests</field>
+        <field name="res_model">missing.punch</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No missing punch requests found!
+            </p>
+        </field>
+    </record>
+
+    <!-- Search View for Missing Punch -->
+    <record id="view_missing_punch_search" model="ir.ui.view">
+        <field name="name">missing.punch.search</field>
+        <field name="model">missing.punch</field>
+        <field name="arch" type="xml">
+            <search string="Missing Punch Search">
+                <field name="employee_id"/>
+                <field name="punch_datetime"/>
+                <field name="punch_type"/>
+                <field name="state"/>
+                <field name="reason"/>
+
+                <!-- Group By -->
+                <group expand="0" string="Group By">
+                    <filter string="Employee" name="group_employee" domain="[]" context="{'group_by':'employee_id'}"/>
+                    <filter string="State" name="group_state" domain="[]" context="{'group_by':'state'}"/>
+                    <filter string="Punch Type" name="group_punch_type" domain="[]" context="{'group_by':'punch_type'}"/>
+                    <filter string="Date" name="group_date" domain="[]" context="{'group_by':'punch_datetime:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- list View for Missing Punch -->
+    <record id="view_missing_punch_tree" model="ir.ui.view">
+        <field name="name">missing.punch.list</field>
+        <field name="model">missing.punch</field>
+        <field name="arch" type="xml">
+            <list string="Missing Punch Requests" decoration-success="state=='approve'" decoration-info="state=='new'" decoration-danger="state=='refuse'" decoration-muted="state=='cancel'">
+                <field name="employee_id"/>
+                <field name="punch_datetime"/>
+                <field name="punch_type"/>
+                <field name="reason"/>
+                <field name="state"/>
+                <field name="user_id"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View for Missing Punch -->
+    <record id="view_missing_punch_form" model="ir.ui.view">
+        <field name="name">missing.punch.form</field>
+        <field name="model">missing.punch</field>
+        <field name="arch" type="xml">
+            <form string="Missing Punch Request">
+                <header>
+                    <button name="action_approve" string="Approve" type="object" class="btn-primary"
+                            invisible="state != 'new'"/>
+                    <button name="action_refuse" string="Refuse" type="object" class="btn-secondary"
+                            invisible="state != 'new'"/>
+                    <button name="action_attendance_created" string="Create Attendance" type="object" class="btn-success"
+                            invisible="state != 'approve'"/>
+                    <button name="action_reset" string="Reset to New" type="object"
+                            invisible="state == 'new'"/>
+                    <button name="action_cancel" string="Cancel" type="object"/>
+                    <field name="state" widget="statusbar" statusbar_visible="new,approve,attendance_created"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="employee_id" placeholder="Select Employee..." required="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Punch Details">
+                            <field name="punch_datetime" required="1"/>
+                            <field name="punch_type" required="1"/>
+                        </group>
+                        <group string="Request Info">
+                            <field name="company_id"/>
+                            <field name="user_id"/>
+                        </group>
+                    </group>
+                    <group string="Reason">
+                        <field name="reason" placeholder="Enter reason for missing punch..." nolabel="1"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+     <menuitem id="menu_missing_punch_main"
+              name="Missing Punch"
+              parent="hr_attendance.menu_hr_attendance_root"
+              sequence="10"/>
+
+    <menuitem id="menu_missing_punch_approved"
+              name="Approved Requests"
+              parent="menu_missing_punch_main"
+              action="action_missing_punch_approved"
+              sequence="10"/>
+
+    <menuitem id="menu_missing_punch_pending"
+              name="Pending Requests"
+              parent="menu_missing_punch_main"
+              action="action_missing_punch_pending"
+              sequence="20"/>
+
+    <menuitem id="menu_missing_punch_all"
+              name="All Requests"
+              parent="menu_missing_punch_main"
+              action="action_missing_punch_all"
+              groups="hr.group_hr_manager"
+              sequence="30"/>
+
+    </data>
+</odoo>

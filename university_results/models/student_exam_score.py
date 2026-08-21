@@ -4,7 +4,7 @@ from odoo import models, fields, api, _
 class UniversityStudentSubjectScore(models.Model):
     _name = 'university.student.subject.score'
     _description = 'Student Subject Exam Score'
-    _order = 'academic_year_id desc, level desc, subject_id, exam_round'
+    _order = 'academic_year_name desc, level desc, subject_id, exam_round'
 
     student_id = fields.Many2one(
         'university.student', 
@@ -19,8 +19,7 @@ class UniversityStudentSubjectScore(models.Model):
         required=True,
         index=True,
     )
-    academic_year_id = fields.Many2one(
-        'university.academic_year', 
+    academic_year_name = fields.Char(
         string='Academic Year', 
         required=True,
         index=True,
@@ -42,7 +41,6 @@ class UniversityStudentSubjectScore(models.Model):
             ('main', 'Main Round'),
             ('second', 'Second Round'),
             ('supplementary', 'Supplementary Round'),
-            ('makeup', 'Make-up Exam'),
         ],
         string='Examination Round',
         required=True,
@@ -75,7 +73,7 @@ class UniversityStudentSubjectScore(models.Model):
     _sql_constraints = [
         (
             'student_subject_round_year_uniq',
-            'unique(student_id, subject_id, academic_year_id, exam_round)',
+            'unique(student_id, subject_id, academic_year_name, exam_round)',
             'A score for this student, subject, year, and round already exists.'
         ),
     ]

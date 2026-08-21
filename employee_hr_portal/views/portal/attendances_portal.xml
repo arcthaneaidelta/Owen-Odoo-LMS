@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="portal_my_attendances" name="Attendances">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True" />
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Attendances</t>
+            </t>
+
+            <!-- Compact Date Range Filter Card -->
+            <div class="card mb-3" style="max-width: 600px;">
+                <div class="card-body py-2">
+                    <h6 class="card-title mb-2">Date Range Filter</h6>
+                    <form method="get" action="/my/my_attendances" class="form-inline">
+                        <div class="form-group mr-2">
+                            <label for="date_from" class="mr-1 small">From:</label>
+                            <input type="date" class="form-control form-control-sm" name="date_from" id="date_from"
+                                   t-att-value="date_from or ''" />
+                        </div>
+                        <div class="form-group mr-2">
+                            <label for="date_to" class="mr-1 small">To:</label>
+                            <input type="date" class="form-control form-control-sm" name="date_to" id="date_to"
+                                   t-att-value="date_to or ''" />
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-sm me-2">Apply</button>
+                            <a href="/my/my_attendances" class="btn btn-secondary btn-sm">Clear</a>
+                        </div>
+                        <!-- Hidden fields to maintain other filters -->
+                        <input type="hidden" name="sortby" t-att-value="sortby if sortby else ''"/>
+                        <input type="hidden" name="filterby" t-att-value="filterby if filterby else ''"/>
+                        <input type="hidden" name="search" t-att-value="search if search else ''"/>
+                        <input type="hidden" name="search_in" t-att-value="search_in if search_in else ''"/>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Current Filter Display -->
+            <div class="row mb-3" t-if="date_from or date_to">
+                <div class="col-12">
+                    <div class="alert alert-info" style="max-width: 600px;">
+                        <strong>Active Date Filter:</strong>
+                        <span t-if="date_from">From: <strong t-esc="date_from"/></span>
+                        <span t-if="date_from and date_to"> | </span>
+                        <span t-if="date_to">To: <strong t-esc="date_to"/></span>
+                    </div>
+                </div>
+            </div>
+
+            <t t-if="not attendances">
+                <p>There are currently no attendances.</p>
+            </t>
+
+            <t t-if="attendances" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th class="text-left">Employee</th>
+                        <th class="text-left">Check In</th>
+                        <th class="text-left">Check Out</th>
+                        <th class="text-left">Break Time</th>
+                        <th class="text-right">Overtime</th>
+                        <th class="text-right">Early Left</th>
+                        <th class="text-right">Late Arrival</th>
+                        <th class="text-right">Working Hours</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="attendances" t-as="ats">
+                        <tr>
+                            <td class="text-left"><span t-field="ats.employee_id.name" /></td>
+                            <td class="text-left"><span t-field="ats.check_in" /></td>
+                            <td class="text-left"><span t-field="ats.check_out" /></td>
+                            <!-- <td style="white-space: pre-line !important;" class="text-left">
+                                <span t-field="ats.breaks_display" />
+                            </td> -->
+                            <td style="white-space: pre-line !important;" class="text-left">
+                                <span t-esc="attendance_breaks.get(ats.id, '')"/>
+                            </td>
+                            <td class="text-left"><span t-options="{'widget': 'duration', 'digital': True, 'unit': 'hour', 'round': 'minute'}" t-field="ats.over_time" /></td>
+                            <td class="text-left"><span t-options="{'widget': 'duration', 'digital': True, 'unit': 'hour', 'round': 'minute'}" t-field="ats.early_left" /></td>
+                            <td class="text-left"><span t-options="{'widget': 'duration', 'digital': True, 'unit': 'hour', 'round': 'minute'}" t-field="ats.late_arrival" /></td>
+                            <td class="text-left"><span t-options="{'widget': 'duration', 'digital': True, 'unit': 'hour', 'round': 'minute'}" t-field="ats.worked_hours" /></td>
+                        </tr>
+                    </t>
+                </tbody>
+            </t>
+        </t>
+    </template>
+</odoo>

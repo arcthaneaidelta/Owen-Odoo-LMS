@@ -1,0 +1,3 @@
+id,name,code,college_id:id,degree_type,duration_years,max_duration_years
+prog_med,Medicine,MED,college_med,bachelor,6,10
+prog_mls,Medical Lab Sciences,MLS,college_mls,bachelor,4,8

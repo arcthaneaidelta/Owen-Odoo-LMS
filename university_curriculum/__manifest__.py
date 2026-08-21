@@ -27,6 +27,7 @@
     ],
     'data': [
         'security/ir.model.access.csv',
+        'views/program_curriculum_dashboard.xml',
         'views/curriculum_view.xml',
         'views/subject_view.xml',
         'views/program_view_inherit.xml',
@@ -38,6 +39,11 @@
         'views/university_batch_views.xml',
         'views/menu_views.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'university_curriculum/static/src/css/hierarchy.css',
+        ],
+    },
     'installable': True,
     'application': False,
     'auto_install': False,

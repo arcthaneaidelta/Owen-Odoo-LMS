@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="loan_requests_config_form_view" model="ir.ui.view">
+            <field name="name">loan.requests.form.view</field>
+            <field name="model">loan.requests</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_reset" invisible="state not in ('approve', 'inv_created', 'refuse', 'cancel')" string="Reset To New" type="object" class="oe_highlight"/>
+                        <button name="action_approve" invisible="state != 'new'" string="Approve" type="object" class="oe_highlight"/>
+                        <button name="action_refuse" invisible="state != 'new'" string="Refuse" type="object" class="oe_highlight"/>
+                        <button name="action_cancel" invisible="state not in ('new', 'approve', 'inv_created', 'refuse')" string="Cancel" type="object" class="oe_highlight"/>
+                        <button name="create_invoices" invisible="state != 'approve'" string="Create Invoices" type="object" class="oe_highlight"/>
+                        <button name="create_disbursement_bill" invisible="state != 'approve'" string="Create Disbursement Bill" type="object" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" string="confirm" statusbar_visible="new,approve,inv_created,refuse,cancel" />
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_invoices" type="object" class="oe_stat_button" icon="fa-file-text-o">
+                                <field name="invoice_count" widget="statinfo" string="Invoices"/>
+                            </button>
+                            <button name="action_view_disbursement_invoice" type="object" class="oe_stat_button" icon="fa-money"    invisible="not disbursement_invoice_id">
+                                <field name="disbursement_invoice_id" widget="statinfo" string="Disbursement"/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" required="1" placeholder="XYX..." />
+                                <br />
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="employee_id" readonly="state != 'new'" required="1" 
+                                    options='{"no_create": True,"no_open": True, "no_create_edit": True}' 
+                                    domain="[('allow_loan_request','=',True)]">
+                                </field>
+                                <field name="requested_date" readonly="1"></field>
+                                <field name="month" readonly="state != 'new'" required="1"></field>
+                                <field name="amount" readonly="state != 'new'" required="1"></field>
+                                <field name="installment_count" readonly="state != 'new'" required="1"></field>
+                            </group>
+                            <group>
+                                <field name="company_id" readonly="1" options='{"no_create": True,"no_open": True, "no_create_edit": True}'></field>
+                                <field name="user_id" readonly="1" options='{"no_create": True,"no_open": True, "no_create_edit": True}'></field>
+                                <field name="currency_id" readonly="1"></field>
+                                <field name="first_due_date" readonly="state != 'new'" required="1"></field>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Reason/Description" name="reason">
+                                <field name="reason" readonly="state != 'new'" required="1"></field>
+                            </page>
+                        </notebook>
+                        <group string="Disbursement">
+                            <group>
+                                <field name="disbursement_invoice_id" readonly="1" />
+                                <field name="disbursement_payment_state" readonly="1" />
+                            </group>
+                            <div>
+                                <button name="create_disbursement_bill" type="object"
+                                        string="Create Disbursement Bill"
+                                        class="oe_highlight"
+                                        invisible="disbursement_invoice_id"/>
+                                <button name="action_view_disbursement_invoice" type="object"
+                                        string="View Disbursement Bill"
+                                        class="oe_highlight"
+                                        invisible="not disbursement_invoice_id"/>
+                            </div>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" />
+                        <field name="message_ids" widget="mail_thread" />
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Other views remain unchanged -->
+        <record id="loan_requests_config_tree_view" model="ir.ui.view">
+            <field name="name">loan.requests.view.tree</field>
+            <field name="model">loan.requests</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="name"></field>
+                    <field name="employee_id"></field>
+                    <field name="requested_date"></field>
+                    <field name="month"></field>
+                    <field name="amount"></field>
+                    <field name="installment_count"></field>
+                    <field name="first_due_date"></field>
+                    <field name="currency_id"></field>
+                    <field name="state"></field>
+                    <field name="company_id" optional="hide"></field>
+                    <field name="user_id" optional="hide"></field>
+                    <field name="disbursement_invoice_id" optional="hide"></field>
+                    <field name="disbursement_payment_state" optional="hide"></field>
+                </list>
+            </field>
+        </record>
+
+        <record id="loan_requests_search_view" model="ir.ui.view">
+            <field name="name">loan.requests.view.search</field>
+            <field name="model">loan.requests</field>
+            <field name="arch" type="xml">
+                <search string="Loan Requests">
+                    <field name="name"></field>
+                    <field name="employee_id"></field>
+                    <field name="requested_date"></field>
+                    <field name="month"></field>
+                    <field name="amount"></field>
+                    <field name="installment_count"></field>
+                    <field name="first_due_date"></field>
+                    <field name="currency_id"></field>
+                    <field name="state"></field>
+                    <field name="company_id"></field>
+                    <field name="user_id"></field>
+                    <field name="disbursement_invoice_id"></field>
+                    <field name="disbursement_payment_state"></field>
+                    <separator />
+                    <filter name="new" string="New" domain="[('state', '=', 'new')]" />
+                    <filter name="approve" string="Approved" domain="[('state', '=', 'approve')]" />
+                    <filter name="inv_created" string="Invoiced" domain="[('state', '=', 'inv_created')]" />
+                    <filter name="refuse" string="Refuse" domain="[('state', '=', 'refuse')]" />
+                    <filter name="cancel" string="Cancelled" domain="[('state', '=', 'cancel')]" />
+                    <separator />
+                    <group expand="0" string="Group By">
+                        <filter string="Status" name="status" domain="[]" context="{'group_by': 'state'}" />
+                        <filter string="Requested Date" name="requested_date" domain="[]" context="{'group_by': 'requested_date'}" />
+                        <filter string="For Month/Date" name="month" domain="[]" context="{'group_by': 'month'}" />
+                        <filter string="Employee" name="employee_id" domain="[]" context="{'group_by': 'employee_id'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_loan_requests_config">
+            <field name="name">Loan Requests</field>
+            <field name="res_model">loan.requests</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <menuitem id="menu_loan_requests_config" name="Loan Requests" parent="employee_hr_portal.menu_payroll_others" sequence="2" action="action_loan_requests_config" groups="om_hr_payroll.group_hr_payroll_manager" />
+    </data>
+</odoo>

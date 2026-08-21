@@ -5,7 +5,7 @@ access_student_coordinator,university.student coordinator,model_university_stude
 access_student_admissions,university.student admissions,model_university_student,university_core.group_head_admissions,1,1,1,0
 access_student_finance,university.student finance read,model_university_student,university_core.group_finance_officer,1,0,0,0
 access_student_teacher,university.student teacher,model_university_student,university_core.group_teacher,1,0,0,0
-access_student_portal,university.student portal,model_university_student,university_core.group_student_portal,1,0,0,0
+access_student_portal,university.student portal,model_university_student,base.group_portal,1,0,0,0
 access_student_medical,university.student medical,model_university_student,university_core.group_medical_committee,1,0,0,0
 
 access_guardian_super_admin,university.guardian super admin,model_university_guardian,university_core.group_university_super_admin,1,1,1,1

@@ -46,6 +46,7 @@
                     <group>
                         <group>
                             <field name="cycle_id"/>
+                            <field name="batch_id"/>
                             <field name="subject_id"/>
                         </group>
                         <group>
@@ -77,9 +78,26 @@
         <field name="arch" type="xml">
             <list>
                 <field name="cycle_id"/>
+                <field name="batch_id"/>
                 <field name="subject_id"/>
                 <field name="exam_date"/>
             </list>
+        </field>
+    </record>
+
+    <record id="view_examination_seating_search" model="ir.ui.view">
+        <field name="name">examination.seating.search</field>
+        <field name="model">examination.seating</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="subject_id"/>
+                <field name="batch_id"/>
+                <field name="cycle_id"/>
+                <group expand="1" string="Group By">
+                    <filter string="Batch" name="group_batch" context="{'group_by':'batch_id'}"/>
+                    <filter string="Cycle" name="group_cycle" context="{'group_by':'cycle_id'}"/>
+                </group>
+            </search>
         </field>
     </record>
 

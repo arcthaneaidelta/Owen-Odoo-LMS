@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<record id="portal_action_hr_employee_create_user" model="ir.actions.server">
+		<field name="name">Grant Only Portal Access</field>
+		<field name="model_id" ref="hr.model_hr_employee" />
+		<field name="binding_model_id" ref="hr.model_hr_employee" />
+		<field name="binding_view_types">form</field>
+		<field name="groups_id" eval="[(4, ref('om_hr_payroll.group_hr_payroll_manager'))]" />
+		<field name="state">code</field>
+		<field name="code">
+			action = records.action_create_user_portal()
+		</field>
+	</record>
+	<record id="employee_wizard_view" model="ir.ui.view">
+		<field name="name">Grant Only Portal Access</field>
+		<field name="model">employee.present.user.portal</field>
+		<field name="arch" type="xml">
+			<form string="Grant Only Portal Access">
+				<div style="color:red;font-weight:bold;">
+					<h3 class="mb-5" style="color:red;font-weight:bold;">
+						This employee already has a user. By confirming, this employee's user will be converted to a portal user with limited access!
+					</h3>
+				</div>
+				<group>
+					<field name="create_employee_id" force_save="1" readonly="1" />
+					<field name="user_id" force_save="1" readonly="1" />
+					<field name="groups_id" force_save="1" readonly="1" widget="many2many_tags" />
+				</group>
+				<footer>
+					<button string="Confirm" name="action_apply" type="object" class="btn-primary" />
+					<button string="Cancel" class="btn-secondary" special="cancel" />
+				</footer>
+			</form>
+		</field>
+	</record>
+	<record id="view_employee_form_loan" model="ir.ui.view">
+		<field name="name">hr.employee.view.form.inherit.employee.late.loan.in</field>
+		<field name="model">hr.employee</field>
+		<field name="inherit_id" ref="hr.view_employee_form" />
+		<field name="arch" type="xml">
+			<xpath expr="//page[@name='hr_settings']//field[@name='pin']" position="after">
+				<field name="allow_loan_request"></field>
+                <field name="show_overtime_requests"/>
+                <field name="missing_punch_approver_id"/>
+                <field name="allow_checkin_checkout"/>
+			</xpath>
+		</field>
+	</record>
+</odoo>

@@ -1,0 +1,750 @@
+# Translation of university_student.
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2024-05-21 12:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: none\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#. module: university_student
+msgid "2nd Semester Eligible"
+msgstr ""
+
+#. module: university_student
+msgid "A. Have You any of chronic following the diseases"
+msgstr ""
+
+#. module: university_student
+msgid "Academic"
+msgstr ""
+
+#. module: university_student
+msgid "Academic Standing"
+msgstr ""
+
+#. module: university_student
+msgid "Academic Year"
+msgstr "Año Académico"
+
+#. module: university_student
+msgid "Activate"
+msgstr "Activar"
+
+#. module: university_student
+msgid "Active"
+msgstr "Activo"
+
+#. module: university_student
+msgid "Active RFID Card"
+msgstr ""
+
+#. module: university_student
+msgid "Address"
+msgstr "Dirección"
+
+#. module: university_student
+msgid "Admission"
+msgstr "Admisión"
+
+#. module: university_student
+msgid "Admission Date"
+msgstr ""
+
+#. module: university_student
+msgid "Admission Record"
+msgstr ""
+
+#. module: university_student
+msgid "Admission Type"
+msgstr ""
+
+#. module: university_student
+msgid "Admission Year"
+msgstr ""
+
+#. module: university_student
+msgid "Admitted in hospital before?"
+msgstr ""
+
+#. module: university_student
+msgid "Any Other Disease"
+msgstr ""
+
+#. module: university_student
+msgid "Arabic Name"
+msgstr "Nombre Árabe"
+
+#. module: university_student
+msgid "B. Have you any of the following diseases"
+msgstr ""
+
+#. module: university_student
+msgid "Batch"
+msgstr "Lote"
+
+#. module: university_student
+msgid "Block"
+msgstr ""
+
+#. module: university_student
+msgid "Block Card"
+msgstr ""
+
+#. module: university_student
+msgid "Block Reason"
+msgstr ""
+
+#. module: university_student
+msgid "Blood Type"
+msgstr ""
+
+#. module: university_student
+msgid "Bronchial Asthma"
+msgstr ""
+
+#. module: university_student
+msgid "C. Have you ..."
+msgstr ""
+
+#. module: university_student
+msgid "Cancel"
+msgstr ""
+
+#. module: university_student
+msgid "Card UID"
+msgstr ""
+
+#. module: university_student
+msgid "Certificate Type"
+msgstr ""
+
+#. module: university_student
+msgid "Citizenship"
+msgstr ""
+
+#. module: university_student
+msgid "City of Residence"
+msgstr ""
+
+#. module: university_student
+msgid "College"
+msgstr "Facultad"
+
+#. module: university_student
+msgid "College / Program / Major"
+msgstr ""
+
+#. module: university_student
+msgid "Confirm"
+msgstr ""
+
+#. module: university_student
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: university_student
+msgid "Contact (Portal)"
+msgstr ""
+
+#. module: university_student
+msgid "Country of Birth"
+msgstr ""
+
+#. module: university_student
+msgid "Country of Birth (Legacy)"
+msgstr ""
+
+#. module: university_student
+msgid "Country of Residence"
+msgstr ""
+
+#. module: university_student
+msgid "Current Batch"
+msgstr ""
+
+#. module: university_student
+msgid "Current Level"
+msgstr ""
+
+#. module: university_student
+msgid "Date Added"
+msgstr ""
+
+#. module: university_student
+msgid "Date Deprecated"
+msgstr ""
+
+#. module: university_student
+msgid "Date of Birth"
+msgstr ""
+
+#. module: university_student
+msgid "Determine (Heart Disease)"
+msgstr ""
+
+#. module: university_student
+msgid "Determine (Other Disease)"
+msgstr ""
+
+#. module: university_student
+msgid "Determine (Physical Disability)"
+msgstr ""
+
+#. module: university_student
+msgid "Determine (Psychiatric)"
+msgstr ""
+
+#. module: university_student
+msgid "Diabetes Mellitus"
+msgstr ""
+
+#. module: university_student
+msgid "Documents"
+msgstr ""
+
+#. module: university_student
+msgid "Email"
+msgstr "Correo Electrónico"
+
+#. module: university_student
+msgid "Emergency Contact"
+msgstr ""
+
+#. module: university_student
+msgid "English Name"
+msgstr "Nombre en Inglés"
+
+#. module: university_student
+msgid "Enrollment Year"
+msgstr ""
+
+#. module: university_student
+msgid "Expelled"
+msgstr ""
+
+#. module: university_student
+msgid "Expiry Date"
+msgstr ""
+
+#. module: university_student
+msgid "Explain (Hospitalization)"
+msgstr ""
+
+#. module: university_student
+msgid "FAC"
+msgstr ""
+
+#. module: university_student
+msgid "FACNAME"
+msgstr ""
+
+#. module: university_student
+msgid "FRMNO"
+msgstr ""
+
+#. module: university_student
+msgid "Financial Clearance"
+msgstr ""
+
+#. module: university_student
+msgid "Financial Hold"
+msgstr ""
+
+#. module: university_student
+msgid "Financial Type"
+msgstr ""
+
+#. module: university_student
+msgid "Financial clearance granted. RFID card(s) re-activated."
+msgstr ""
+
+#. module: university_student
+msgid "Financial clearance revoked. RFID card(s) blocked automatically."
+msgstr ""
+
+#. module: university_student
+msgid "Financially Clear"
+msgstr ""
+
+#. module: university_student
+msgid "Four-Part Arabic Name (N1–N4)"
+msgstr ""
+
+#. module: university_student
+msgid "Full Arabic Name"
+msgstr ""
+
+#. module: university_student
+msgid "GOBNO"
+msgstr ""
+
+#. module: university_student
+msgid "GOBOLS"
+msgstr ""
+
+#. module: university_student
+msgid "Gender"
+msgstr ""
+
+#. module: university_student
+msgid "Good Standing"
+msgstr ""
+
+#. module: university_student
+msgid "Google Drive Folder URL"
+msgstr ""
+
+#. module: university_student
+msgid "Governorate / State"
+msgstr ""
+
+#. module: university_student
+msgid "Graduation Certificate Type"
+msgstr ""
+
+#. module: university_student
+msgid "Group By"
+msgstr "Agrupar Por"
+
+#. module: university_student
+msgid "Guardian Name"
+msgstr ""
+
+#. module: university_student
+msgid "Guardians"
+msgstr ""
+
+#. module: university_student
+msgid "Heart Disease"
+msgstr ""
+
+#. module: university_student
+msgid "Hepatitis B"
+msgstr ""
+
+#. module: university_student
+msgid "High School Certificate"
+msgstr ""
+
+#. module: university_student
+msgid "High School Data"
+msgstr ""
+
+#. module: university_student
+msgid "High School Exam Number"
+msgstr "High School Examen Number"
+
+#. module: university_student
+msgid "High School Grade %"
+msgstr ""
+
+#. module: university_student
+msgid "High School Name"
+msgstr ""
+
+#. module: university_student
+msgid "History"
+msgstr ""
+
+#. module: university_student
+msgid "Hypertension"
+msgstr ""
+
+#. module: university_student
+msgid "ID & Exam Eligible"
+msgstr "ID & Examen Eligible"
+
+#. module: university_student
+msgid "ID Document Number"
+msgstr ""
+
+#. module: university_student
+msgid "Identification"
+msgstr "Identificación"
+
+#. module: university_student
+msgid "Identity"
+msgstr ""
+
+#. module: university_student
+msgid "Internal Student ID"
+msgstr "Internal Estudiante ID"
+
+#. module: university_student
+msgid "Issue Date"
+msgstr ""
+
+#. module: university_student
+msgid "Level Repeated"
+msgstr ""
+
+#. module: university_student
+msgid "Locality"
+msgstr ""
+
+#. module: university_student
+msgid "Medical"
+msgstr ""
+
+#. module: university_student
+msgid "Ministry Data"
+msgstr ""
+
+#. module: university_student
+msgid "Ministry Identifiers (Excel Import Fields)"
+msgstr ""
+
+#. module: university_student
+msgid "Ministry University Number"
+msgstr ""
+
+#. module: university_student
+msgid "N1 (First Name)"
+msgstr ""
+
+#. module: university_student
+msgid "N2 (Father\"
+msgstr ""
+
+#. module: university_student
+msgid "N3 (Grandfather\"
+msgstr ""
+
+#. module: university_student
+msgid "N4 (Family Name)"
+msgstr ""
+
+#. module: university_student
+msgid "NATIONAL_ID"
+msgstr ""
+
+#. module: university_student
+msgid "Name (English)"
+msgstr ""
+
+#. module: university_student
+msgid "National ID"
+msgstr ""
+
+#. module: university_student
+msgid "National ID Photo"
+msgstr ""
+
+#. module: university_student
+msgid "National ID Scan"
+msgstr ""
+
+#. module: university_student
+msgid "Nationality"
+msgstr ""
+
+#. module: university_student
+msgid "Notes"
+msgstr "Notas"
+
+#. module: university_student
+msgid "Original Batch"
+msgstr ""
+
+#. module: university_student
+msgid "Passport Number"
+msgstr ""
+
+#. module: university_student
+msgid "Passport Photo"
+msgstr ""
+
+#. module: university_student
+msgid "Personal"
+msgstr ""
+
+#. module: university_student
+msgid "Phone 1"
+msgstr ""
+
+#. module: university_student
+msgid "Phone 2"
+msgstr ""
+
+#. module: university_student
+msgid "Phone Country Code"
+msgstr ""
+
+#. module: university_student
+msgid "Phone History"
+msgstr ""
+
+#. module: university_student
+msgid "Phone Number"
+msgstr ""
+
+#. module: university_student
+msgid "Phone number marked as deprecated."
+msgstr ""
+
+#. module: university_student
+msgid "Photo Filename"
+msgstr ""
+
+#. module: university_student
+msgid "Physical Disability"
+msgstr ""
+
+#. module: university_student
+msgid "Place of Birth"
+msgstr ""
+
+#. module: university_student
+msgid "Placement"
+msgstr ""
+
+#. module: university_student
+msgid "Previous Education"
+msgstr ""
+
+#. module: university_student
+msgid "Previous Institution"
+msgstr ""
+
+#. module: university_student
+msgid "Previous Institution Certificate"
+msgstr ""
+
+#. module: university_student
+msgid "Previous Institution Name"
+msgstr ""
+
+#. module: university_student
+msgid "Primary Phone"
+msgstr ""
+
+#. module: university_student
+msgid "Program"
+msgstr "Programa"
+
+#. module: university_student
+msgid "Promote Batch"
+msgstr ""
+
+#. module: university_student
+msgid "Promote Level"
+msgstr ""
+
+#. module: university_student
+msgid "Psychiatric Disease"
+msgstr ""
+
+#. module: university_student
+msgid "RFID Card"
+msgstr ""
+
+#. module: university_student
+msgid "RFID Cards"
+msgstr ""
+
+#. module: university_student
+msgid "Re-Registration Draft Data"
+msgstr ""
+
+#. module: university_student
+msgid "Re-Registration Token"
+msgstr ""
+
+#. module: university_student
+msgid "Re-Registration Token Expiry"
+msgstr ""
+
+#. module: university_student
+msgid "Reason / Note"
+msgstr ""
+
+#. module: university_student
+msgid "Reason for Blocking"
+msgstr ""
+
+#. module: university_student
+msgid "Registered"
+msgstr ""
+
+#. module: university_student
+msgid "Registration Date"
+msgstr ""
+
+#. module: university_student
+msgid "Registration Invoice"
+msgstr ""
+
+#. module: university_student
+msgid "Registration Status"
+msgstr ""
+
+#. module: university_student
+msgid "Relationship"
+msgstr ""
+
+#. module: university_student
+msgid "Religion"
+msgstr ""
+
+#. module: university_student
+msgid "Repeat Metrics"
+msgstr ""
+
+#. module: university_student
+msgid "Repeater"
+msgstr ""
+
+#. module: university_student
+msgid "Repeaters"
+msgstr ""
+
+#. module: university_student
+msgid "Repetition"
+msgstr ""
+
+#. module: university_student
+msgid "Repetition History"
+msgstr ""
+
+#. module: university_student
+msgid "Report Lost"
+msgstr ""
+
+#. module: university_student
+msgid "SCNAME (School)"
+msgstr ""
+
+#. module: university_student
+msgid "SEX"
+msgstr ""
+
+#. module: university_student
+msgid "School &amp; Faculty Info from Ministry"
+msgstr ""
+
+#. module: university_student
+msgid "Search Students"
+msgstr "Search Estudiantes"
+
+#. module: university_student
+msgid "Specialization"
+msgstr "Especialización"
+
+#. module: university_student
+msgid "Starting Level"
+msgstr ""
+
+#. module: university_student
+msgid "Status"
+msgstr "Estado"
+
+#. module: university_student
+msgid "Student"
+msgstr "Estudiante"
+
+#. module: university_student
+msgid "Student Count"
+msgstr "Estudiante Count"
+
+#. module: university_student
+msgid "Student Nationality"
+msgstr "Estudiante Nationality"
+
+#. module: university_student
+msgid "Student Photo"
+msgstr "Estudiante Photo"
+
+#. module: university_student
+msgid "Student cannot be promoted until Registration and Tuition fees are fully paid (Financial Clearance required)."
+msgstr "Estudiante cannot be promoted until Registration and Tuition fees are fully paid (Financial Clearance required)."
+
+#. module: university_student
+msgid "Student has been expelled and their file archived."
+msgstr "Estudiante has been expelled and their file archived."
+
+#. module: university_student
+msgid "Student has completed the program and is marked as Graduated."
+msgstr "Estudiante has completed the program and is marked as Graduated."
+
+#. module: university_student
+msgid "Student promoted to Level %s"
+msgstr "Estudiante promoted to Level %s"
+
+#. module: university_student
+msgid "Student submitted re-registration form via the portal."
+msgstr "Estudiante submitted re-registration form via the portal."
+
+#. module: university_student
+msgid "Students"
+msgstr "Estudiantes"
+
+#. module: university_student
+msgid "Suspended"
+msgstr ""
+
+#. module: university_student
+msgid "Total Repeat Years"
+msgstr ""
+
+#. module: university_student
+msgid "Tuition Invoice"
+msgstr ""
+
+#. module: university_student
+msgid "Type of Drug (Asthma)"
+msgstr ""
+
+#. module: university_student
+msgid "Type of Drug (Diabetes)"
+msgstr ""
+
+#. module: university_student
+msgid "Type of Drug (Hepatitis B)"
+msgstr ""
+
+#. module: university_student
+msgid "Type of Drug (Hypertension)"
+msgstr ""
+
+#. module: university_student
+msgid "UNIVERSITY"
+msgstr ""
+
+#. module: university_student
+msgid "UNIV_ID"
+msgstr ""
+
+#. module: university_student
+msgid "University"
+msgstr "Universidad"
+
+#. module: university_student
+msgid "Warnings/Probation"
+msgstr ""
+
+#. module: university_student
+msgid "WhatsApp"
+msgstr ""
+
+#. module: university_student
+msgid "WhatsApp Country Code"
+msgstr ""
+
+#. module: university_student
+msgid "WhatsApp Number"
+msgstr ""
+
+#. module: university_student
+msgid "YEAR"
+msgstr ""
+
+#. module: university_student
+msgid "Years Completed"
+msgstr ""
+

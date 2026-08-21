@@ -1,0 +1,170 @@
+# Translation of university_examination.
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2024-05-21 12:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: none\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#. module: university_examination
+msgid "Academic Year"
+msgstr "Año Académico"
+
+#. module: university_examination
+msgid "Adjustments"
+msgstr ""
+
+#. module: university_examination
+msgid "Batch"
+msgstr "Lote"
+
+#. module: university_examination
+msgid "Board Type"
+msgstr ""
+
+#. module: university_examination
+msgid "Capacity"
+msgstr "Capacidad"
+
+#. module: university_examination
+msgid "Close Session"
+msgstr ""
+
+#. module: university_examination
+msgid "Cycle"
+msgstr ""
+
+#. module: university_examination
+msgid "End Time"
+msgstr ""
+
+#. module: university_examination
+msgid "End of Year Status"
+msgstr ""
+
+#. module: university_examination
+msgid "Evaluation Method"
+msgstr ""
+
+#. module: university_examination
+msgid "Exam Cycle"
+msgstr "Examen Cycle"
+
+#. module: university_examination
+msgid "Exam Files"
+msgstr "Examen Files"
+
+#. module: university_examination
+msgid "Exam Type"
+msgstr "Examen Type"
+
+#. module: university_examination
+msgid "Examination Date"
+msgstr "Examenination Date"
+
+#. module: university_examination
+msgid "Examination Outcomes"
+msgstr "Examenination Outcomes"
+
+#. module: university_examination
+msgid "Generate Seating"
+msgstr ""
+
+#. module: university_examination
+msgid "Name"
+msgstr ""
+
+#. module: university_examination
+msgid "No registered students found taking this subject for their current level."
+msgstr ""
+
+#. module: university_examination
+msgid "Open"
+msgstr ""
+
+#. module: university_examination
+msgid "Please select at least one room."
+msgstr ""
+
+#. module: university_examination
+msgid "Room"
+msgstr "Aula"
+
+#. module: university_examination
+msgid "Room '%s' is already occupied by another examination on %s between %02d:%02d and %02d:%02d."
+msgstr ""
+
+#. module: university_examination
+msgid "Room Name"
+msgstr ""
+
+#. module: university_examination
+msgid "Rooms"
+msgstr "Aulas"
+
+#. module: university_examination
+msgid "Seat Number (Troll Number)"
+msgstr ""
+
+#. module: university_examination
+msgid "Seating Lines"
+msgstr ""
+
+#. module: university_examination
+msgid "Semester"
+msgstr ""
+
+#. module: university_examination
+msgid "Send OTP"
+msgstr ""
+
+#. module: university_examination
+msgid "Session Name"
+msgstr ""
+
+#. module: university_examination
+msgid "Start Time"
+msgstr ""
+
+#. module: university_examination
+msgid "Status"
+msgstr "Estado"
+
+#. module: university_examination
+msgid "Student"
+msgstr "Estudiante"
+
+#. module: university_examination
+msgid "Students Enrolled"
+msgstr "Estudiantes Enrolled"
+
+#. module: university_examination
+msgid "Subject"
+msgstr "Materia"
+
+#. module: university_examination
+msgid "Subject Grades"
+msgstr "Materia Grades"
+
+#. module: university_examination
+msgid "Teacher"
+msgstr "Profesor"
+
+#. module: university_examination
+msgid "The following students have an exam conflict on this date and time: %s"
+msgstr ""
+
+#. module: university_examination
+msgid "Total capacity of selected rooms (%s) is not enough for the number of students (%s)."
+msgstr ""
+
+#. module: university_examination
+msgid "Verify OTP"
+msgstr ""
+

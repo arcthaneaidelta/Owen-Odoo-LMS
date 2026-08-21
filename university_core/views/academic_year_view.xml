@@ -6,19 +6,31 @@
         <field name="arch" type="xml">
             <form string="Academic Year">
                 <header>
-                    <button name="action_activate" string="Activate" type="object"
-                            class="btn-primary" invisible="state != 'draft'"/>
-                    <button name="action_close" string="Close Year" type="object"
-                            invisible="state != 'active'"/>
-                    <field name="state" widget="statusbar"/>
+                    <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_roadmap"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-calendar">
+                            <field name="roadmap_event_count" widget="statinfo" string="Calendar"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="e.g. 2026/2027"/>
+                        </h1>
+                    </div>
                     <group>
-                        <field name="name"/>
-                        <field name="date_start"/>
-                        <field name="date_end"/>
-                        <field name="registration_deadline"/>
-                        <field name="is_current"/>
+                        <group>
+                            <field name="batch_id" readonly="1"/>
+                            <field name="registration_deadline"/>
+                        </group>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                        </group>
                     </group>
                 </sheet>
                 <chatter/>
@@ -34,7 +46,7 @@
                 <field name="date_start"/>
                 <field name="date_end"/>
                 <field name="registration_deadline" optional="show"/>
-                <field name="is_current"/>
+
                 <field name="state" widget="badge"
                        decoration-success="state=='active'"
                        decoration-info="state=='draft'"
@@ -42,9 +54,53 @@
             </list>
         </field>
     </record>
-    <record id="action_university_academic_year" model="ir.actions.act_window">
+
+    <record id="view_academic_year_kanban" model="ir.ui.view">
+        <field name="name">university.academic_year.kanban</field>
+        <field name="model">university.academic_year</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" sample="1">
+                <field name="name"/>
+                <field name="batch_id"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click oe_kanban_card">
+                            <div class="o_kanban_record_top">
+                                <div class="o_kanban_record_headings">
+                                    <strong class="o_kanban_record_title">
+                                        <field name="name"/>
+                                    </strong>
+                                </div>
+                                <span class="badge rounded-pill text-bg-success" t-if="record.state.raw_value == 'active'">Active</span>
+                                <span class="badge rounded-pill text-bg-secondary" t-if="record.state.raw_value == 'closed'">Closed</span>
+                            </div>
+                            <div class="o_kanban_record_body mt-2">
+                                <div><i class="fa fa-graduation-cap" title="Batch"></i> <field name="batch_id"/></div>
+                                <div><i class="fa fa-calendar" title="Duration"></i> <field name="date_start"/> - <field name="date_end"/></div>
+                            </div>
+                            <div class="o_kanban_record_bottom mt-2">
+                                <div class="oe_kanban_bottom_left">
+                                    <button name="action_open_roadmap" type="object" class="btn btn-sm btn-primary">
+                                        <i class="fa fa-calendar-check-o"></i> Calendar
+                                    </button>
+                                </div>
+                                <div class="oe_kanban_bottom_right">
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ACTION -->
+    <record id="action_academic_year" model="ir.actions.act_window">
         <field name="name">Academic Years</field>
         <field name="res_model">university.academic_year</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">kanban,list,form</field>
     </record>
 </odoo>

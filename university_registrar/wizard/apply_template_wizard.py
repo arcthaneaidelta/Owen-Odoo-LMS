@@ -8,7 +8,7 @@ class ApplyTemplateWizard(models.TransientModel):
     template_id = fields.Many2one('university.timetable.template', string='Template', required=True, readonly=True)
     program_id = fields.Many2one('university.program', related='template_id.program_id', readonly=True)
     batch_id = fields.Many2one('university.batch', string='Select Batch', required=True)
-    academic_year_id = fields.Many2one('university.academic_year', string='Academic Year', required=True)
+    academic_year_name = fields.Char(string='Academic Year', required=True)
     default_teacher_id = fields.Many2one('hr.employee', string='Default Teacher', help="This teacher will be assigned to all generated slots. You can edit them individually later.")
     default_room = fields.Char(string='Default Room', help="This room will be assigned to all generated slots. You can edit them individually later.")
 
@@ -19,10 +19,7 @@ class ApplyTemplateWizard(models.TransientModel):
         if active_id and self.env.context.get('active_model') == 'university.timetable.template':
             res['template_id'] = active_id
             
-            # Default academic year to the active one
-            current_year = self.env['university.academic_year'].search([('is_current', '=', True)], limit=1)
-            if current_year:
-                res['academic_year_id'] = current_year.id
+            # Ensure the user manually selects the appropriate academic year
                 
         return res
 
@@ -36,7 +33,7 @@ class ApplyTemplateWizard(models.TransientModel):
             timetable_obj.create({
                 'subject_id': line.subject_id.id,
                 'batch_id': self.batch_id.id,
-                'academic_year_id': self.academic_year_id.id,
+                'academic_year_name': self.academic_year_name,
                 'day_of_week': line.day_of_week,
                 'start_time': line.start_time,
                 'end_time': line.end_time,

@@ -21,26 +21,22 @@ class HrEmployee(models.Model):
         string='Highest Academic Qualification',
         tracking=True
     )
-    
-    university_department_id = fields.Many2one(
-        'university.department',
-        string='Academic Department',
+    university_id = fields.Many2one(
+        'university.university',
+        string='University',
         tracking=True
     )
-    
+    university_college_id = fields.Many2one(
+        'university.college',
+        string='Academic College',
+        domain="[('university_id', '=', university_id)]",
+        tracking=True
+    )
     university_program_id = fields.Many2one(
         'university.program',
         string='Academic Program',
-        domain="[('department_id', '=', university_department_id)]",
         tracking=True
     )
-
-    @api.onchange('university_department_id')
-    def _onchange_university_department_id(self):
-        """Clear program and subjects when department changes."""
-        self.university_program_id = False
-        if hasattr(self, 'university_subject_ids'):
-            self.university_subject_ids = [(5, 0, 0)]
 
     @api.onchange('university_program_id')
     def _onchange_university_program_id(self):

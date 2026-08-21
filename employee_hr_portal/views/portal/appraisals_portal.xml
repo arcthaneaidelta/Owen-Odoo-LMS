@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="portal_my_appraisals" name="My Appraisal">
+		<t t-call="portal.portal_layout">
+			<t t-set="breadcrumbs_searchbar" t-value="True" />
+			<t t-call="portal.portal_searchbar">
+				<t t-set="title">Appraisals</t>
+			</t>
+			<a t-attf-href="/create/my_appraisals?{{ keep_query() }}"><button type="button" class="mt-2 mb-2 btn btn-info btn-md" id="create_appraisalse">Create a Appraisal</button></a>
+			<p class="alert alert-danger mt8" t-if="request.params.get('error_msg')" role="alert">
+				<t t-esc="request.params.get('error_msg')" />
+			</p>
+			<t t-call="portal.portal_table">
+				<thead>
+					<tr>
+						<th>Appraisal Date</th>
+						<th>Employee</th>
+						<th>Manager</th>
+						<th>Department</th>
+						<th class="text-right">Status</th>
+					</tr>
+				</thead>
+				<tbody>
+					<t t-foreach="appraisal_requests" t-as="appraisals">
+						<tr>
+							<td><a t-attf-href="/my/appraisal/#{appraisals.id}?{{ keep_query() }}"><span t-field="appraisals.employee_id.name" />-<span t-field="appraisals.date_close" /></a></td>
+							<td><span t-field="appraisals.employee_id" /></td>
+							<td><span t-field="appraisals.manager_ids" /></td>
+							<td><span t-field="appraisals.department_id" /></td>
+							<td class="text-right">
+								<t t-value="dict(appraisals.fields_get(allfields=['state'])['state']['selection'])[appraisals.state]" t-set="state" />
+								<t t-if="appraisals.state == 'new'">
+									<span class="badge badge-pill badge-info" style="background-color: #999999; color: black;" title="Current stage of the task" t-esc="state" />
+								</t>
+								<t t-if="appraisals.state == 'pending'">
+									<span class="badge badge-pill badge-info" style="background-color: #ccc; color: black;" title="Current stage of the task" t-esc="state" />
+								</t>
+								<t t-if="appraisals.state == 'done'">
+									<span class="badge badge-pill badge-info" style="background-color: #0bdb12; color: black;" title="Current stage of the task" t-esc="state" />
+								</t>
+								<t t-if="appraisals.state == 'cancel'">
+									<span class="badge badge-pill badge-info" style="background-color: #ff7700; color: black;" title="Current stage of the task" t-esc="state" />
+								</t>
+							</td>
+							<td>
+								<a t-attf-href="/my/appraisal/delete/#{appraisals.id}?{{ keep_query() }}" t-if="appraisals.state=='new'">
+									<span class="fa fa-trash-o remove-optionnal-item" title="Delete" aria-label="Delete" />
+								</a>
+							</td>
+						</tr>
+					</t>
+				</tbody>
+			</t>
+		</t>
+	</template>
+	<template id="portal_my_appraisal" name="My Appraisals">
+		<t t-call="portal.portal_layout">
+			<p class="alert alert-danger mt8" t-if="request.params.get('error_msg')" role="alert">
+				<t t-esc="request.params.get('error_msg')" />
+			</p>
+			<style>
+				@media only screen and (max-width:600px){
+					.col-sm-5 {
+						width: 100%;
+						margin 20px auto;
+					}
+				}
+			</style>
+			<form data-model_name="hr.appraisal" t-attf-action="/appraisal/update/{{appraisal.id}}" method="post" class=" form-horizontal container-fluid" enctype="multipart/form-data">
+				<div class="card mt-4">
+					<div class="card-header">
+						<div class="row no-gutters">
+							<div class="col-md">
+								<h5 class="mb-1 mb-md-0">
+									<t t-value="dict(appraisal.fields_get(allfields=['state'])['state']['selection'])[appraisal.state]" t-set="state" />
+									<t t-if="appraisal.state == 'new'">
+										<span class="badge badge-pill badge-info" style="background-color: #999999; color: black;" title="Current stage of the task" t-esc="state" />
+									</div>
+									<t t-if="appraisal.state == 'pending'">
+										<span class="badge badge-pill badge-info" style="background-color: #ccc; color: black;" title="Current stage of the task" t-esc="state" />
+									</div>
+									<t t-if="appraisal.state == 'done'">
+										<span class="badge badge-pill badge-info" style="background-color: #0bdb12; color: black;" title="Current stage of the task" t-esc="state" />
+									</t>
+									<t t-if="appraisal.state == 'cancel'">
+										<span class="badge badge-pill badge-info" style="background-color: #ff7700; color: black;" title="Current stage of the task" t-esc="state" />
+									</t>
+								</h5>
+								<div class="mb-1 mb-md-0 mt-2">
+									<span t-if="appraisal.state == 'new'" style="color: #606060;">
+										Your requested appraisal is yet to be approved by your Appraisal Manager.
+										<br />
+										To edit your Appraisal, kindly fill up the updated details and click on save if it is still in new or new stage.
+									</span>
+									<span t-if="appraisal.state == 'pending'" style="color: #606060;">
+										Your requested appraisal is yet to be approved by your Appraisal Manager.
+										<br />
+										To edit your Appraisal, kindly fill up the updated details and click on save if it is still in new or new stage.
+									</span>
+									<span t-if="appraisal.state == 'cancel' " class="text-danger">
+										Your Appraisal is refused by your Appraisal manager.
+									</span>
+									<span t-if="appraisal.state == 'done' " style="color: #0bdb12;">
+										Congratulations, your Appraisal is approved by your Appraisal Manager.
+									</span>
+								</div>
+							</div>
+						</div>
+					</t>
+					<div class="card-body">
+						<div class="row no-gutters">
+							<div class="col-md-12 col-sm-12">
+								<div class="form-group mt-2 ">
+									<div class="col-sm-12">
+										<label for="name" class="col-md-2 col-sm-2">Date:</label>
+										<input id="name" name="date_close" type="date" onclick="this.showPicker()" string="Date" class="form-control mt-1 col-md-9 col-sm-9" t-att-value="appraisal.date_close" required="required" placeholder='2025/12/31 e.g' t-att-readonly="appraisal.state != 'new' " t-att-disabled="appraisal.state != 'new' " />
+									</div>
+								</div>
+								<div class="form-group mt-2">
+									<div class="col-sm-12">
+										<label for="name" class="col-md-2 col-sm-2">Manager:</label>
+										<select id="manager" name="manager" t-attf-class="form-control col-md-9 mt-1 col-sm-9" required="required" t-att-readonly="appraisal.state != 'new'" t-att-disabled="appraisal.state != 'new' ">
+											<t t-foreach="request.env['hr.employee'].sudo().search([('user_id','!=',request.env.user.id)])" t-as="employees">
+												<option t-att-value="employees.id" t-att-selected="employees.id in appraisal.manager_ids.ids" t-att-readonly="appraisal.state != 'new' ">
+													<t t-esc="employees.name"></div>
+												</option>
+											</t>
+										</select>
+									</div>
+								</div>
+								<t t-if="appraisal.manager_feedback_published">
+									<div class="d-flex justify-content-between align-items-start flex-wrap form-group mt-4">
+										<div class="col-sm-5">
+											<label for="name" class="col-md-12 col-sm-12">Appraisal Employee Feedback (Fill Your Answers Below):</label>
+											<textarea rows="10" cols="10" id="appraisal_employee_feedback" name="appraisal_employee_feedback" t-attf-class="form-control col-md-9 mt-1 col-sm-9" required="required" t-att-readonly="appraisal.state != 'new'" t-att-disabled="appraisal.state != 'new' " t-att-value="text_from_html(appraisal.employee_feedback)">    <t t-esc="text_from_html(appraisal.employee_feedback)"></t></textarea>
+										</div>
+										<div class="col-sm-5">
+											<label for="name" class="col-md-12 col-sm-12">Manager Feedback:</label>
+											<textarea rows="10" cols="10" id="appraisal_manager_feedback" name="appraisal_manager_feedback" t-attf-class="form-control col-md-9 mt-1 col-sm-9" readonly="1" t-att-value="text_from_html(appraisal.manager_feedback)">    <t t-esc="text_from_html(appraisal.manager_feedback)"></t></textarea>
+										</div>
+									</div>
+								</t>
+								<t t-else="">
+									<div class="form-group mt-2">
+										<div class="col-sm-12">
+											<label for="name" class="col-md-2 col-sm-2">Appraisal Employee Feedback (Fill Your Answers Below):</label>
+											<textarea rows="10" cols="10" id="appraisal_employee_feedback" name="appraisal_employee_feedback" t-attf-class="form-control col-md-9 mt-1 col-sm-9" required="required" t-att-readonly="appraisal.state != 'new'" t-att-disabled="appraisal.state != 'new' " t-att-value="text_from_html(appraisal.employee_feedback)">    <t t-esc="text_from_html(appraisal.employee_feedback)"></t></textarea>
+										</div>
+									</div>
+								</t>
+								<div class="mt-4 mb-2 col-md text-md-right d-flex">
+									<a t-attf-href="/my/my_appraisals">
+										<button class="btn btn-danger btn-md" type="button" special="cancel">Close</button>
+									</a>
+									<t t-if="appraisal.state in ['new']">
+										<button class="btn btn-primary btn-md" type="submit" id="save_appraisal" style="margin-left:5px;">Update</button>
+									</t>
+									<a t-attf-href="/my/appraisal/delete/#{appraisal.id}?{{ keep_query() }}" t-if="appraisal.state=='new'" class="d-flex mt-1" style="margin-left:5px;">
+										<span class="fa fa-trash-o fa-2x remove-optionnal-item" title="Delete" aria-label="Delete" />
+									</a>
+								</div>
+							</div>
+						</div>
+					</t>
+				</t>
+				<div class="mt32">
+					<h4><strong>Message and communication history</strong></h4>
+					<t t-call="portal.message_thread" />
+				</div>
+			</form>
+		</t>
+	</template>
+	<template id="portal_my_appraisal_create" name="Create a New Appraisal Request">
+		<t t-call="portal.portal_layout">
+			<p class="alert alert-danger mt8" t-if="request.params.get('error_msg')" role="alert">
+				<t t-esc="request.params.get('error_msg')" />
+			</p>
+			<form data-model_name="hr.appraisal" t-attf-action="/create/appraisal?{{ keep_query() }}" method="post" class=" form-horizontal container-fluid" enctype="multipart/form-data">
+				<div class="card mt-4">
+<div class="card-body">
+						<div class="row no-gutters">
+							<div class="col-md-12 col-sm-12">
+								<div class="form-group mt-2 ">
+									<div class="col-sm-12">
+										<label for="name" class="col-md-2 col-sm-2">Date:</label>
+										<input id="name" name="date_close" type="date" onclick="this.showPicker()" string="Date" class="form-control mt-1 col-md-9 col-sm-9" required="required" placeholder='2025/12/31 e.g' />
+									</div>
+								</div>
+								<div class="form-group mt-2">
+									<div class="col-sm-12">
+										<label for="name" class="col-md-2 col-sm-2">Manager:</label>
+										<select id="manager" name="manager" t-attf-class="form-control col-md-9 mt-1 col-sm-9" required="required">
+											<t t-foreach="request.env['hr.employee'].sudo().search([('user_id','!=',request.env.user.id)])" t-as="employees">
+												<option t-att-value="employees.id">
+													<t t-esc="employees.name"></div>
+												</option>
+											</t>
+										</select>
+									</div>
+								</div>
+								<div class="form-group mt-2">
+									<div class="col-sm-12">
+										<label for="name" class="col-md-2 col-sm-2">Appraisal Employee Feedback (Fill Your Answers Below):</label>
+										<textarea rows="10" cols="10" id="appraisal_employee_feedback" name="appraisal_employee_feedback" t-attf-class="form-control col-md-9 mt-1 col-sm-9" required="required" t-att-value="text_from_html(employee_feedback)">    <t t-esc="text_from_html(employee_feedback)"></t></textarea>
+									</div>
+								</div>
+								<div class="mt-4 mb-2 col-md text-md-right d-flex">
+									<a t-attf-href="/my/my_appraisals">
+										<button class="btn btn-danger btn-md" type="button" special="cancel">Close</button>
+									</a>
+									<button class="btn btn-primary btn-md" type="submit" id="create_appraisal" style="margin-left:5px;">Create</button>
+								</div>
+							</div>
+						</div>
+</div>
+				</t>
+			</form>
+		</t>
+	</template>
+</odoo>

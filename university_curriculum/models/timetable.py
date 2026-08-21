@@ -19,12 +19,9 @@ class UniversityTimetable(models.Model):
         tracking=True
     )
     program_id = fields.Many2one('university.program', related='batch_id.program_id', store=True)
-    department_id = fields.Many2one('university.department', related='program_id.department_id', store=True)
-    academic_year_id = fields.Many2one(
-        'university.academic_year', 
+    academic_year_name = fields.Char(
         string='Academic Year', 
-        required=True,
-        domain="[('state', '=', 'active')]"
+        required=True
     )
     
     subject_id = fields.Many2one(
@@ -164,7 +161,7 @@ class UniversityTimetable(models.Model):
                         }
                     )
 
-    @api.constrains('room_id', 'day_of_week', 'start_time', 'end_time', 'academic_year_id')
+    @api.constrains('room_id', 'day_of_week', 'start_time', 'end_time', 'academic_year_name')
     def _check_room_double_booking(self):
         GAP = 0.166  # 10 minutes
         for rec in self:
@@ -173,7 +170,7 @@ class UniversityTimetable(models.Model):
                     ('id', '!=', rec.id),
                     ('room_id', '=', rec.room_id.id),
                     ('day_of_week', '=', rec.day_of_week),
-                    ('academic_year_id', '=', rec.academic_year_id.id),
+                    ('academic_year_name', '=', rec.academic_year_name),
                     ('start_time', '<', rec.end_time + GAP), 
                     ('end_time', '>', rec.start_time - GAP)
                 ]
@@ -195,7 +192,7 @@ class UniversityTimetable(models.Model):
                             }
                         )
 
-    @api.constrains('teacher_id', 'day_of_week', 'start_time', 'end_time', 'academic_year_id')
+    @api.constrains('teacher_id', 'day_of_week', 'start_time', 'end_time', 'academic_year_name')
     def _check_teacher_double_booking(self):
         GAP = 0.166
         for rec in self:
@@ -204,7 +201,7 @@ class UniversityTimetable(models.Model):
                     ('id', '!=', rec.id),
                     ('teacher_id', '=', rec.teacher_id.id),
                     ('day_of_week', '=', rec.day_of_week),
-                    ('academic_year_id', '=', rec.academic_year_id.id),
+                    ('academic_year_name', '=', rec.academic_year_name),
                     ('start_time', '<', rec.end_time + GAP), 
                     ('end_time', '>', rec.start_time - GAP)
                 ]

@@ -79,14 +79,6 @@
             <field name="comment">Full HR/payroll access. Read-only on academic records.</field>
         </record>
 
-        <!-- Student Portal User -->
-        <record id="group_student_portal" model="res.groups">
-            <field name="name">Student Portal User</field>
-            <field name="category_id" ref="module_category_university"/>
-            <field name="implied_ids" eval="[(4, ref('base.group_portal'))]"/>
-            <field name="comment">Students - access own record only via portal.</field>
-        </record>
-
         <!-- Academic Affairs -->
         <record id="group_academic_affairs" model="res.groups">
             <field name="name">Academic Affairs</field>

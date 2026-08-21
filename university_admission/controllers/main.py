@@ -53,7 +53,7 @@ class AdmissionPortal(http.Controller):
 			elif step == 3:
 				# Step 3: Admission Data
 				fields_to_save = [
-					'program_id', 'academic_year_id', 'financial_type', 
+					'program_id', 'academic_year_name', 'financial_type', 
 					'ministry_form_number', 'entry_year', 'certificate_type', 
 					'high_school_grade', 'high_school_name', 'high_school_exam_number'
 				]
@@ -71,7 +71,7 @@ class AdmissionPortal(http.Controller):
 									'post': session_data,
 									'step': 3,
 									'programs': request.env['university.program'].sudo().search([]),
-									'years': request.env['university.academic_year'].sudo().search([('state', '=', 'active')]),
+									'years': sorted(list(set(request.env['university.academic_year'].sudo().search([('state', '=', 'active')]).mapped('name')))),
 								})
 							session_data[field] = base64.b64encode(content).decode('ascii')
 				
@@ -141,7 +141,7 @@ class AdmissionPortal(http.Controller):
 			return request.redirect('/admission/apply?step=3')
 
 		programs = request.env['university.program'].sudo().search([])
-		years = request.env['university.academic_year'].sudo().search([('state', '=', 'active')])
+		years = sorted(list(set(request.env['university.academic_year'].sudo().search([('state', '=', 'active')]).mapped('name'))))
 		all_countries = request.env['res.country'].sudo().search([])
 		
 		# Add flag emoji to countries
@@ -183,7 +183,7 @@ class AdmissionPortal(http.Controller):
 				'post': {},
 				'step': 1,
 				'programs': request.env['university.program'].sudo().search([]),
-				'years': request.env['university.academic_year'].sudo().search([('state', '=', 'active')]),
+				'years': sorted(list(set(request.env['university.academic_year'].sudo().search([('state', '=', 'active')]).mapped('name')))),
 				'countries': countries,
 			})
 
@@ -200,8 +200,8 @@ class AdmissionPortal(http.Controller):
 
 		if data.get('program_id'):
 			admission_vals['program_id'] = int(data['program_id'])
-		if data.get('academic_year_id'):
-			admission_vals['academic_year_id'] = int(data['academic_year_id'])
+		if data.get('academic_year_name'):
+			admission_vals['academic_year_name'] = data['academic_year_name']
 		if data.get('entry_year'):
 			admission_vals['entry_year'] = int(data['entry_year'])
 		if data.get('high_school_grade'):
@@ -259,13 +259,13 @@ class AdmissionPortal(http.Controller):
 					'post': data,
 					'step': 3,
 					'programs': request.env['university.program'].sudo().search([]),
-					'years': request.env['university.academic_year'].sudo().search([('state', '=', 'active')]),
+					'years': sorted(list(set(request.env['university.academic_year'].sudo().search([('state', '=', 'active')]).mapped('name')))),
 				})
 
-		if data.get('national_id') and data.get('academic_year_id'):
+		if data.get('national_id') and data.get('academic_year_name'):
 			existing_national = request.env['university.admission'].sudo().search([
 				('national_id', '=', data['national_id']),
-				('academic_year_id', '=', int(data['academic_year_id']))
+				('academic_year_name', '=', data['academic_year_name'])
 			], limit=1)
 			
 			if existing_national:
@@ -285,7 +285,7 @@ class AdmissionPortal(http.Controller):
 					'post': data,
 					'step': 1,
 					'programs': request.env['university.program'].sudo().search([]),
-					'years': request.env['university.academic_year'].sudo().search([('state', '=', 'active')]),
+					'years': sorted(list(set(request.env['university.academic_year'].sudo().search([('state', '=', 'active')]).mapped('name')))),
 					'countries': countries,
 				})
 

@@ -21,7 +21,7 @@
                 <field name="batch_id"/>
                 <field name="cycle_id"/>
                 <templates>
-                    <t t-name="kanban-box">
+                    <t t-name="card">
                         <div class="oe_kanban_global_click">
                             <div class="oe_kanban_details">
                                 <strong class="o_kanban_record_title"><field name="student_id"/></strong>
@@ -55,12 +55,11 @@
                                 <list editable="bottom">
                                     <field name="subject_id"/>
                                     <field name="assignment_score"/>
-                                    <field name="midterm_score"/>
-                                    <field name="practical_score"/>
                                     <field name="attendance_score"/>
                                     <field name="exam_score"/>
                                     <field name="total_score"/>
-                                    <field name="subject_point"/>
+                                    <field name="effective_max"/>
+                                    <field name="is_pass"/>
                                 </list>
                             </field>
                         </page>
@@ -102,7 +101,7 @@
                 <field name="evaluation_method"/>
                 <field name="student_count"/>
                 <templates>
-                    <t t-name="kanban-box">
+                    <t t-name="card">
                         <div class="oe_kanban_global_click oe_kanban_card">
                             <div class="o_kanban_record_top">
                                 <div class="o_kanban_record_headings">

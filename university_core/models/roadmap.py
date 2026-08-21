@@ -21,9 +21,14 @@ class UniversityBatchRoadmap(models.Model):
     )
     event_type = fields.Selection(
         [
-            ('registration', 'Registration'),
-            ('class_start', 'Class Commencement'),
-            ('examination', 'Examination Dates'),
+            # ('academic_year_duration', 'Academic Year Duration'),
+            ('registration', 'Registration Window'),
+            ('main_exam_s1', 'Main Exam - Semester 1'),
+            ('main_exam_s2', 'Main Exam - Semester 2'),
+            ('second_exam', 'Second / Substitute Exam'),
+            ('supplementary_exam', 'Supplementary Exam'),
+            ('clearance_exam', 'Clearance Exam'),
+            ('level_promotion', 'Promote Batch to Next Level'),
             ('holiday', 'Holiday / Break'),
             ('event', 'Academic Event / Activity'),
             ('other', 'Other'),
@@ -46,6 +51,20 @@ class UniversityBatchRoadmap(models.Model):
     description = fields.Text(
         string='Details / Notes',
     )
+    academic_year_id = fields.Many2one(
+        'university.academic_year',
+        string='Academic Year',
+        ondelete='cascade',
+        required=True,
+    )
+    registration_start = fields.Date(string='Registration Start Date')
+    registration_end = fields.Date(string='Registration End Date')
+    is_processed = fields.Boolean(
+        string='Automation Processed',
+        default=False,
+        help='Checked automatically when the cron job runs the promotion or transition.',
+        readonly=True,
+    )
     color = fields.Integer(
         string='Color Index',
         compute='_compute_color',
@@ -54,14 +73,18 @@ class UniversityBatchRoadmap(models.Model):
 
     @api.depends('event_type')
     def _compute_color(self):
-        # Map each event type to a specific color index (1 to 11)
         color_map = {
-            'registration': 1,   # Red
-            'class_start': 2,    # Orange
-            'examination': 3,    # Yellow
-            'holiday': 4,        # Light blue
-            'event': 5,          # Dark purple
-            'other': 6,          # Pink
+            'registration': 1,           # Red
+            # 'academic_year_duration': 2, # Orange
+            'main_exam_s1': 3,           # Yellow
+            'main_exam_s2': 3,           # Yellow
+            'second_exam': 5,            # Dark purple
+            'supplementary_exam': 6,     # Pink
+            'clearance_exam': 8,         # Light Blue
+            'level_promotion': 10,       # Green
+            'holiday': 4,                # Light blue
+            'event': 7,                  # Teal
+            'other': 0,                  # Grey
         }
         for record in self:
             record.color = color_map.get(record.event_type, 9)

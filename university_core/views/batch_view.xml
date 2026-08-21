@@ -35,14 +35,25 @@
                             <field name="program_id"/>
                             <field name="college_id"/>
                             <field name="university_id"/>
-                            <field name="academic_year_id"/>
+                            <field name="current_academic_year_name"/>
                         </group>
                         <group string="Settings">
                             <field name="capacity"/>
                         </group>
                     </group>
                     <notebook>
-
+                        <page string="Academic Years" name="academic_years">
+                            <field name="academic_year_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="date_start"/>
+                                    <field name="date_end"/>
+                                    <field name="registration_deadline"/>
+                                    <field name="late_registration_deadline"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
                         <page string="Notes"><field name="notes"/></page>
                     </notebook>
                 </sheet>
@@ -61,7 +72,7 @@
                 <field name="batch_year"/>
                 <field name="program_id"/>
                 <field name="college_id"/>
-                <field name="academic_year_id"/>
+                <field name="current_academic_year_name"/>
 
                 <field name="state" widget="badge"
                        decoration-success="state=='active'"

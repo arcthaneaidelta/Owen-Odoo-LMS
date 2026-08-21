@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="portal_my_payslips" name="Payslips">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True" />
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Payslips</t>
+            </t>
+            <t t-if="not payslips">
+                <p>There are currently no Payslips.</p>
+            </t>
+            <t t-if="payslips" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th>Payslip #</th>
+                        <th class="text-left">Employee</th>
+                        <th class="text-left">Month - Year</th>
+                        <th class="text-right">Status</th>
+                        <th class="text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="payslips" t-as="ps">
+                        <tr>
+                            <td><span t-esc="ps.number" /></td>
+                            <td class="text-left"><span t-esc="ps.employee_id.name" /></td>
+                            <td class="text-left">
+                                <span t-esc="ps.date_from.strftime('%B - %Y')" />
+                            </td>
+                            <td class="text-left">
+                                <span class="badge badge-danger bg-info" style="text-transform:uppercase;" t-esc="ps.state" />
+                            </td>
+                            <td class="text-right">
+                                <a t-attf-href="#{action_print_payslip(ps.sudo())[0]}" class="btn btn-primary" target="_blank">
+                                    Print PDF
+                                </a>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </t>
+        </t>
+    </template>
+</odoo>

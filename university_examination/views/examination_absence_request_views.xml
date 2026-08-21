@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_examination_absence_request_form" model="ir.ui.view">
+        <field name="name">examination.absence.request.form</field>
+        <field name="model">examination.absence.request</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_approve" string="Approve" type="object" class="oe_highlight" invisible="state != 'submitted'"/>
+                    <button name="action_reject" string="Reject" type="object" invisible="state != 'submitted'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="student_id" readonly="state != 'draft'"/>
+                            <field name="cycle_id" readonly="state != 'draft'"/>
+                            <field name="subject_id" readonly="state != 'draft'"/>
+                        </group>
+                        <group>
+                            <field name="reason" readonly="state != 'draft'"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_examination_absence_request_list" model="ir.ui.view">
+        <field name="name">examination.absence.request.list</field>
+        <field name="model">examination.absence.request</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="student_id"/>
+                <field name="cycle_id"/>
+                <field name="subject_id"/>
+                <field name="state" widget="badge" decoration-success="state == 'approved'" decoration-danger="state == 'rejected'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_examination_absence_request" model="ir.actions.act_window">
+        <field name="name">Absence Requests</field>
+        <field name="res_model">examination.absence.request</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    
+    <menuitem id="menu_examination_absence_request"
+              name="Exam Absence Requests"
+              parent="university_registrar.menu_student_affairs"
+              action="action_examination_absence_request"
+              sequence="25"/>
+</odoo>

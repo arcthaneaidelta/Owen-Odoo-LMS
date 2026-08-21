@@ -26,13 +26,6 @@ class UniversityProgram(models.Model):
         ondelete='restrict',
         tracking=True,
     )
-    department_id = fields.Many2one(
-        'university.department',
-        string='Department',
-        domain="[('college_id', '=', college_id)]",
-        ondelete='restrict',
-        tracking=True,
-    )
     university_id = fields.Many2one(
         'university.university',
         string='University',

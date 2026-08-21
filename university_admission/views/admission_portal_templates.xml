@@ -334,11 +334,11 @@
                                         </select>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label" for="academic_year_id">Academic Year *</label>
-                                        <select name="academic_year_id" class="form-select" required="required">
+                                        <label class="form-label" for="academic_year_name">Academic Year *</label>
+                                        <select name="academic_year_name" class="form-select">
                                             <option value="">Select Year...</option>
                                             <t t-foreach="years" t-as="year">
-                                                <option t-att-value="year.id" t-att-selected="str(post.get('academic_year_id')) == str(year.id)"><t t-esc="year.name"/></option>
+                                                <option t-att-value="year" t-att-selected="str(post.get('academic_year_name')) == str(year)"><t t-esc="year"/></option>
                                             </t>
                                         </select>
                                     </div>

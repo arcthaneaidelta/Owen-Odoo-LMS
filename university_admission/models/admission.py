@@ -87,7 +87,7 @@ class UniversityAdmission(models.Model):
 
 	# ─── Program ──────────────────────────────────────────────────────────────
 	program_id = fields.Many2one('university.program', string='Requested Program',
-								 required=True, tracking=True)
+								 tracking=True)
 	college_id = fields.Many2one('university.college',
 								 related='program_id.college_id',
 								 store=True, readonly=True)
@@ -115,9 +115,7 @@ class UniversityAdmission(models.Model):
 		],
 		string='Financial Type', required=True, default='citizen', tracking=True,
 	)
-	academic_year_id = fields.Many2one('university.academic_year',
-										string='Academic Year',
-										required=True, tracking=True)
+	academic_year_name = fields.Char(string='Academic Year', tracking=True)
 
 	# ─── Ministry Import Fields ────────────────────────────────────────────────
 	# These are populated either manually or auto-filled from the Ministry Bank
@@ -310,7 +308,7 @@ class UniversityAdmission(models.Model):
 	# ─── SQL Constraints ──────────────────────────────────────────────────────
 	_sql_constraints = [
 		('national_id_year_uniq',
-		 'unique(national_id, academic_year_id)',
+		 'unique(national_id, academic_year_name)',
 		 'An application for this National ID and academic year already exists.'),
 	]
 
@@ -479,10 +477,33 @@ class UniversityAdmission(models.Model):
 				'or verify the FRMNO and Entry Year are correct.'
 			) % (self.ministry_form_number, self.entry_year))
 
+		# ── Strict Matching for Program, Batch, and Academic Year ─────────────
+		matched_program_id = False
+		matched_batch_id = False
+		matched_academic_year_name = False
+
+		if bank_record.program_code:
+			program = self.env['university.program'].search([('code', '=', bank_record.program_code)], limit=1)
+			if program:
+				matched_program_id = program.id
+				if bank_record.batch_number and bank_record.academic_year_str:
+					batch = self.env['university.batch'].search([
+						('program_id', '=', program.id),
+						('batch_number', '=', bank_record.batch_number),
+						('state', '=', 'active')
+					], limit=1)
+					if batch:
+						if bank_record.academic_year_str in batch.academic_year_ids.mapped('name'):
+							matched_batch_id = batch.id
+							matched_academic_year_name = bank_record.academic_year_str
+
 		# ── Auto-fill: Ministry data takes ABSOLUTE priority ──────────────────
 		vals = {
 			'state': 'head_approval',
 			'ministry_bank_id': bank_record.id,
+			'program_id': matched_program_id if matched_program_id else False,
+			'batch_id': matched_batch_id if matched_batch_id else False,
+			'academic_year_name': matched_academic_year_name if matched_academic_year_name else False,
 			# Name parts from Ministry (override what student entered)
 			'name_part1_ar': bank_record.name_part1_ar or self.name_part1_ar,
 			'name_part2_ar': bank_record.name_part2_ar or self.name_part2_ar,
@@ -496,7 +517,6 @@ class UniversityAdmission(models.Model):
 			'faculty_name_ar': bank_record.faculty_name_ar,
 			'admission_type_text': bank_record.admission_type_text,
 			'academic_year_str': bank_record.academic_year_str,
-			'batch_id': self.env['university.batch'].search([('batch_number', '=', bank_record.batch_number)], limit=1).id if bank_record.batch_number else False,
 			'gender_code': bank_record.gender_code,
 			'university_name_ar': bank_record.university_name_ar,
 			'internal_admission_type': bank_record.internal_admission_type.lower() if bank_record.internal_admission_type and bank_record.internal_admission_type.lower() in ['regular', 'bridging', 'mature', 'transfer'] else False,
@@ -644,7 +664,7 @@ class UniversityAdmission(models.Model):
 			'name_part2_ar': _("Father's Name (N2)"),
 			'national_id': _('National ID'),
 			'program_id': _('Program'),
-			'academic_year_id': _('Academic Year'),
+			'academic_year_name': _('Academic Year'),
 			'phone': _('Phone'),
 			'email': _('Email'),
 			'ministry_form_number': _('FRMNO (Forum Number)'),
@@ -819,7 +839,6 @@ class UniversityAdmission(models.Model):
 			'prev_college_program': self.prev_college_program,
 			'prev_graduation_cert_type': self.prev_graduation_cert_type,
 			'program_id': self.program_id.id if self.program_id else False,
-			'academic_year_id': self.academic_year_id.id if self.academic_year_id else False,
 			'admission_type': self.admission_type,
 			'assigned_subject_ids': [(6, 0, self.assigned_subject_ids.ids)],
 			'financial_type': self.financial_type,

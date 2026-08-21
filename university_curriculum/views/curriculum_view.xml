@@ -35,7 +35,7 @@
                             <field name="code"/>
                             <field name="program_id"/>
                             <field name="college_id"/>
-                            <field name="academic_year_id"/>
+                            <field name="academic_year_name"/>
                             <field name="version"/>
                             <field name="is_locked" readonly="1"/>
                         </group>
@@ -88,7 +88,7 @@
                 <field name="name"/>
                 <field name="code"/>
                 <field name="program_id"/>
-                <field name="academic_year_id"/>
+                <field name="academic_year_name"/>
                 <field name="version"/>
                 <field name="subject_count"/>
                 <field name="total_credit_hours"/>
@@ -148,12 +148,12 @@
                 <field name="name"/>
                 <field name="code"/>
                 <field name="program_id"/>
-                <field name="academic_year_id"/>
+                <field name="academic_year_name"/>
                 <filter string="Active" name="active" domain="[('state','=','active')]"/>
                 <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
                 <group expand="1" string="Group By">
                     <filter string="Program" name="group_program" context="{'group_by':'program_id'}"/>
-                    <filter string="Academic Year" name="group_year" context="{'group_by':'academic_year_id'}"/>
+                    <filter string="Academic Year" name="group_year" context="{'group_by':'academic_year_name'}"/>
                     <filter string="State" name="group_state" context="{'group_by':'state'}"/>
                 </group>
             </search>

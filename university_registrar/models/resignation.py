@@ -13,7 +13,7 @@ class UniversityStudentResignation(models.Model):
 
     name = fields.Char(string='Reference', readonly=True, copy=False, default='New')
     student_id = fields.Many2one('university.student', string='Student', required=True, tracking=True)
-    academic_year_id = fields.Many2one('university.academic_year', string='Academic Year', tracking=True)
+    academic_year_name = fields.Char(string='Academic Year', tracking=True)
     level = fields.Selection([
         ('1', 'Level 1'),
         ('2', 'Level 2'),
@@ -75,8 +75,8 @@ class UniversityStudentResignation(models.Model):
                 print(student)
                 print("1111321234567890`12345678912345678923456")
                 vals['level'] = student.current_level
-                if not vals.get('academic_year_id'):
-                    vals['academic_year_id'] = student.academic_year_id.id
+                if not vals.get('academic_year_name'):
+                    vals['academic_year_name'] = student.current_academic_year_name
                 
                 # Eligibility Rule: Level 1 must be registered
                 if student.current_level == '1' and student.registration_status != 'registered':
@@ -84,12 +84,12 @@ class UniversityStudentResignation(models.Model):
 
         return super().create(vals_list)
 
-    @api.depends('resignation_date', 'academic_year_id')
+    @api.depends('resignation_date', 'student_id.batch_id.academic_year_ids.state', 'student_id.batch_id.academic_year_ids.registration_deadline')
     def _compute_finance_eligibility(self):
         for rec in self:
-            if rec.academic_year_id and rec.resignation_date:
-                # Refund only if before end of registration period
-                deadline = rec.academic_year_id.registration_deadline
+            if rec.student_id and rec.student_id.batch_id and rec.resignation_date:
+                active_years = rec.student_id.batch_id.academic_year_ids.filtered(lambda y: y.state == 'active')
+                deadline = active_years[0].registration_deadline if active_years else False
                 rec.is_refund_eligible = rec.resignation_date <= deadline if deadline else False
             else:
                 rec.is_refund_eligible = False

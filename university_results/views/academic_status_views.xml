@@ -14,7 +14,7 @@
                     <group>
                         <group>
                             <field name="student_id" readonly="state != 'draft'"/>
-                            <field name="academic_year_id" readonly="state != 'draft'"/>
+                            <field name="academic_year_name" readonly="state != 'draft'"/>
                             <field name="level" readonly="state != 'draft'"/>
                         </group>
 
@@ -55,7 +55,7 @@
         <field name="arch" type="xml">
             <list string="Academic Results">
                 <field name="student_id"/>
-                <field name="academic_year_id"/>
+                <field name="academic_year_name"/>
                 <field name="level"/>
                 <field name="status_result"/>
                 <field name="state" widget="badge"/>

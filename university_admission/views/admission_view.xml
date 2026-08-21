@@ -138,7 +138,7 @@
                                     <field name="admission_type"/>
                                     <field name="financial_type"/>
                                     <field name="starting_level" readonly="state == 'ministry_approved'"/>
-                                    <field name="academic_year_id"/>
+                                    <field name="academic_year_name"/>
                                     <field name="application_date"/>
                                     <field name="currency_id" invisible="1"/>
                                     <!-- <field name="admission_fee"/> -->
@@ -351,7 +351,7 @@
                 <field name="entry_year"/>
                 <field name="program_id"/>
                 <field name="admission_type"/>
-                <field name="academic_year_id"/>
+                <field name="academic_year_name"/>
                 <field name="application_date"/>
                 <field name="state" widget="badge"
                        decoration-success="state=='registered'"
@@ -390,7 +390,7 @@
                 <group expand="0" string="Group By">
                     <filter string="Stage" name="grp_state" context="{'group_by':'state'}"/>
                     <filter string="Program" name="grp_program" context="{'group_by':'program_id'}"/>
-                    <filter string="Academic Year" name="grp_year" context="{'group_by':'academic_year_id'}"/>
+                    <filter string="Academic Year" name="grp_year" context="{'group_by':'academic_year_name'}"/>
                     <filter string="Entry Year" name="grp_entry_year" context="{'group_by':'entry_year'}"/>
                 </group>
             </search>

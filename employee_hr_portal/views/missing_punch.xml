@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="missing_punch_config_form_view" model="ir.ui.view">
+			<field name="name">missing.punch.form.view</field>
+			<field name="model">missing.punch</field>
+			<field name="arch" type="xml">
+				<form>
+					<header>
+						<button name="action_attendance_created" invisible="state != 'approve'" string="Create Attendance Record" type="object" class="oe_highlight"/>
+						<button name="action_reset" invisible="state not in ('approve', 'cancel')" string="Reset To New" type="object" class="oe_highlight"/>
+						<button name="action_approve" invisible="state != 'new'" string="Approve" type="object" class="oe_highlight"/>
+						<button name="action_refuse" invisible="state != 'new'" string="Refuse" type="object" class="oe_highlight"/>
+						<button name="action_cancel" invisible="state not in ('new', 'approve', 'refuse')" string="Cancel" type="object" class="oe_highlight"/>
+						<field name="state" widget="statusbar" string="confirm" statusbar_visible="new,approve,refuse,cancel" />
+					</header>
+					<sheet>
+						<div class="oe_title">
+							<div class="oe_title">
+								<h1>
+									<field name="employee_id" readonly="state != 'new'" required="1" 
+									    options='{"no_create": True,"no_open": True, "no_create_edit": True}'>
+									</field>
+									<br />
+								</h1>
+							</div>
+						</div>
+						<group>
+							<group>
+								<field name="punch_datetime" readonly="state != 'new'" required="1"></field>
+								<field name="punch_type" readonly="state != 'new'" required="1"></field>
+								<field name="break_slot" 
+								    invisible="punch_type not in ('break_in', 'break_out')"
+								    options="{'no_create': True}"/>
+							</group>
+							<group>
+								<field name="company_id" readonly="1" options='{"no_create": True,"no_open": True, "no_create_edit": True}'></field>
+								<field name="user_id" readonly="1" options='{"no_create": True,"no_open": True, "no_create_edit": True}'></field>
+							</group>
+						</group>
+						<notebook>
+							<page string="Reason/Description" name="reason">
+								<field name="reason" readonly="state != 'new'" required="1"></field>
+							</page>
+						</notebook>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers" />
+						<field name="message_ids" widget="mail_thread" />
+					</div>
+				</form>
+			</field>
+		</record>
+		<record id="missing_punch_config_tree_view" model="ir.ui.view">
+			<field name="name">missing.punch.view.tree</field>
+			<field name="model">missing.punch</field>
+			<field name="arch" type="xml">
+				<list>
+					<field name="employee_id"></field>
+					<field name="punch_datetime"></field>
+					<field name="punch_type"></field>
+					<field name="break_slot"></field>
+					<field name="state"></field>
+					<field name="company_id" optional="hide"></field>
+					<field name="user_id" optional="hide"></field>
+				</list>
+			</field>
+		</record>
+		<record id="missing_punch_search_view" model="ir.ui.view">
+			<field name="name">missing.punch.view.search</field>
+			<field name="model">missing.punch</field>
+			<field name="arch" type="xml">
+				<search string="Missing Punch">
+					<field name="employee_id"></field>
+					<field name="punch_datetime"></field>
+					<field name="punch_type"></field>
+					<field name="state"></field>
+					<field name="company_id"></field>
+					<field name="user_id"></field>
+					<separator />
+					<filter name="new" string="New" domain="[('state', '=', 'new')]" />
+					<filter name="approve" string="Approved" domain="[('state', '=', 'approve')]" />
+					<filter name="refuse" string="Refuse" domain="[('state', '=', 'refuse')]" />
+					<filter name="cancel" string="Cancelled" domain="[('state', '=', 'cancel')]" />
+					<separator />
+					<group expand="0" string="Group By">
+						<filter string="Status" name="status" domain="[]" context="{'group_by': 'state'}" />
+						<filter string="Punch Date" name="punch_datetime" domain="[]" context="{'group_by': 'punch_datetime'}" />
+						<filter string="Punch Type" name="punch_type" domain="[]" context="{'group_by': 'punch_type'}" />
+						<filter string="Employee" name="employee_id" domain="[]" context="{'group_by': 'employee_id'}" />
+					</group>
+				</search>
+			</field>
+		</record>
+		<record id="employee_wizard_view" model="ir.ui.view">
+		<field name="name">Grant Only Portal Access</field>
+			<field name="model">employee.present.user.portal</field>
+			<field name="arch" type="xml">
+				<form string="Grant Only Portal Access">
+					<div style="color:red;font-weight:bold;">
+						<h3 class="mb-5" style="color:red;font-weight:bold;">
+							This employee already has a user. By confirming, this employee's user will be converted to a portal user with limited access!
+						</h3>
+					</div>
+					<group>
+						<field name="create_employee_id" force_save="1" readonly="1" />
+						<field name="user_id" force_save="1" readonly="1" />
+						<field name="groups_id" force_save="1" readonly="1" widget="many2many_tags" />
+					</group>
+					<footer>
+						<button string="Confirm" name="action_apply" type="object" class="btn-primary" />
+						<button string="Cancel" class="btn-secondary" special="cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+		<record id="view_users_form_hr_leave" model="ir.ui.view">
+			<field name="name">hr.leave</field>
+			<field name="model">hr.leave</field>
+			<field name="inherit_id" ref="hr_holidays.hr_leave_view_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='holiday_status_id']" position="after">
+					<field name="is_medical_leave" invisible="1"/>
+				</xpath>
+			</field>
+		</record>
+		<record id="action_server_missing_punch_process" model="ir.actions.server">
+			<field name="name">Approve And Create Attendance</field>
+			<field name="model_id" ref="model_missing_punch"/>
+			<field name="state">code</field>
+			<field name="binding_model_id" ref="model_missing_punch"/>
+			<field name="binding_type">action</field>
+			<field name="code"><![CDATA[
+active_ids = env.context.get('active_ids', [])
+records = env['missing.punch'].browse(active_ids)
+
+if not records:
+	raise UserError(_("No records selected!"))
+
+check_in_records = records.filtered(lambda r: r.punch_type == 'check_in')
+break_in_records = records.filtered(lambda r: r.punch_type == 'break_in')
+break_out_records = records.filtered(lambda r: r.punch_type == 'break_out')
+check_out_records = records.filtered(lambda r: r.punch_type == 'check_out')
+
+records.action_approve()
+
+check_in_records.action_bulk_attendance_create()
+break_in_records.action_bulk_attendance_create()
+break_out_records.action_bulk_attendance_create()
+check_out_records.action_bulk_attendance_create()
+		]]></field>
+		</record>
+
+		<record id="action_server_all_leave_approve" model="ir.actions.server">
+			<field name="name">Approve All Leave</field>
+			<field name="model_id" ref="model_hr_leave"/>
+			<field name="state">code</field>
+			<field name="binding_model_id" ref="model_hr_leave"/>
+			<field name="binding_type">action</field>
+			<field name="code">
+				for rec in records:
+					rec.action_approve()
+			</field>
+		</record> 
+		<record id="action_server_all_leave_confirm" model="ir.actions.server">
+			<field name="name">Confirm All Leave</field>
+			<field name="model_id" ref="model_hr_leave"/>
+			<field name="state">code</field>
+			<field name="binding_model_id" ref="model_hr_leave"/>
+			<field name="binding_type">action</field>
+			<field name="code">
+				for rec in records:
+					rec.action_confirm()
+			</field>
+		</record>
+	   
+		<record model="ir.actions.act_window" id="action_missing_punch_config">
+			<field name="name">Missing Punch</field>
+			<field name="res_model">missing.punch</field>
+			<field name="view_mode">list,form</field>
+		</record>
+		<!-- <menuitem id="menu_missing_punch_config" name="Missing Punch" parent="employee_hr_portal.menu_payroll_others" sequence="3" action="action_missing_punch_config" groups="hr_payroll.group_hr_payroll_employee_manager" /> -->
+	</data>
+</odoo>

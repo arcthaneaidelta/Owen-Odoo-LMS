@@ -95,7 +95,7 @@
                 <!-- ── Filter Panel (shown when state = filter) ── -->
                 <group invisible="state == 'grid'" string="Select Filters">
                     <field name="batch_id"/>
-                    <field name="academic_year_id"/>
+                    <field name="academic_year_name"/>
                 </group>
 
                 <!-- ── Grid Display (shown when state = grid) ── -->

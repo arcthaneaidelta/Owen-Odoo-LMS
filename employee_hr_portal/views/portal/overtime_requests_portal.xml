@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_my_overtime_requests" name="My Overtime Requests">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True" />
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Overtime Requests</t>
+            </t>
+            <a t-attf-href="/create/my_overtime?{{ keep_query() }}"><button type="button" class="mt-2 mb-2 btn btn-info btn-md" id="create_overtime">Create a Overtime Request</button></a>
+            <p class="alert alert-danger mt8" t-if="request.params.get('error_msg')" role="alert">
+                <t t-esc="request.params.get('error_msg')" />
+            </p>
+            <t t-call="portal.portal_table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Employee</th>
+                        <th>Requested Date</th>
+                        <th class="text-right">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="overtime_requests" t-as="overtime">
+                        <tr>
+                            <td><a t-attf-href="/my/overtime/#{overtime.id}?{{ keep_query() }}"><span t-field="overtime.name" /></a></td>
+                            <td><span t-field="overtime.employee_id" /></td>
+                            <td><span t-field="overtime.requested_date" t-options='{"widget": "date"}' /></td>
+                            <td class="text-right">
+                                <t t-value="dict(overtime.fields_get(allfields=['state'])['state']['selection'])[overtime.state]" t-set="state" />
+                                <t t-if="overtime.state == 'new'">
+                                    <span class="badge badge-pill badge-info" style="background-color: #999999; color: black;" title="Current stage of the task" t-esc="state" />
+                                </t>
+                                <t t-if="overtime.state == 'approve'">
+                                    <span class="badge badge-pill badge-info" style="background-color: #0bdb12; color: black;" title="Current stage of the task" t-esc="state" />
+                                </t>
+                                <t t-if="overtime.state == 'refuse'">
+                                    <span class="badge badge-pill badge-info" style="background-color: #ff0000; color: black;" title="Current stage of the task" t-esc="state" />
+                                </t>
+                                <t t-if="overtime.state == 'cancel'">
+                                    <span class="badge badge-pill badge-info" style="background-color: #ff7700; color: black;" title="Current stage of the task" t-esc="state" />
+                                </t>
+                                <t t-if="overtime.state == 'attendance_updated'">
+                                    <span class="badge badge-pill badge-success" style="background-color: #0bdb12; color: black;" title="Current stage of the task" t-esc="state" />
+                                </t>
+                            </td>
+                            <td>
+                                <a t-attf-href="/my/overtime/delete/#{overtime.id}?{{ keep_query() }}" t-if="overtime.state=='new'">
+                                    <span class="fa fa-trash-o remove-optionnal-item" title="Delete" aria-label="Delete" />
+                                </a>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </t>
+        </t>
+    </template>
+    <template id="portal_my_overtime" name="My Overtime Request">
+        <t t-call="portal.portal_layout">
+            <p class="alert alert-danger mt8" t-if="request.params.get('error_msg')" role="alert">
+                <t t-esc="request.params.get('error_msg')" />
+            </p>
+            <form data-model_name="hr.overtime.requests" t-attf-action="/overtime/update/{{overtime.id}}" method="post" class=" form-horizontal container-fluid" enctype="multipart/form-data">
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <div class="row no-gutters">
+                            <div class="col-md">
+                                <h5 class="mb-1 mb-md-0">
+                                    <span t-esc="overtime.name" style="text-transform: uppercase;" />
+                                    <t t-value="dict(overtime.fields_get(allfields=['state'])['state']['selection'])[overtime.state]" t-set="state" />
+                                    <t t-if="overtime.state == 'new'">
+                                        <span class="badge badge-pill badge-info" style="background-color: #999999; color: black;" title="Current stage of the task" t-esc="state" />
+                                    </t>
+                                    <t t-if="overtime.state == 'approve'">
+                                        <span class="badge badge-pill badge-info" style="background-color: #0bdb12; color: black;" title="Current stage of the task" t-esc="state" />
+                                    </t>
+                                    <t t-if="overtime.state == 'refuse'">
+                                        <span class="badge badge-pill badge-info" style="background-color: #ff0000; color: black;" title="Current stage of the task" t-esc="state" />
+                                    </t>
+                                    <t t-if="overtime.state == 'cancel'">
+                                        <span class="badge badge-pill badge-info" style="background-color: #ff7700; color: black;" title="Current stage of the task" t-esc="state" />
+                                    </t>
+                                    <t t-if="overtime.state == 'attendance_updated'">
+                                        <span class="badge badge-pill badge-success" style="background-color: #0bdb12; color: black;" title="Current stage of the task" t-esc="state" />
+                                    </t>
+                                </h5>
+                                <div class="mb-1 mb-md-0 mt-2">
+                                    <span t-if="overtime.state == 'new' " style="color: #17a2b8;">
+                                        Your requested overtime is yet to be approved by your overtime Manager.
+                                        <br />
+                                        To edit your overtime, kindly fill up the updated details and click on save if it is still in new or new stage.
+                                    </span>
+                                    <span t-if="overtime.state == 'refuse' " class="text-danger">
+                                        Your overtime is refused by your overtime manager.
+                                    </span>
+                                    <span t-if="overtime.state == 'approve' " style="color: #0bdb12;">
+                                        Congratulations, your overtime is approved by your overtime manager.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row no-gutters">
+                            <div class="col-md-12 col-sm-12">
+                                <div class="form-group mt-2 ">
+                                    <div class="col-sm-12">
+                                        <label for="name" class="col-md-2 col-sm-2">Name/Description*:</label>
+                                        <input id="name" name="name" type="text" string="Name/Description" class="form-control mt-1 col-md-9 col-sm-9" t-att-value="overtime.name" required="required" placeholder='Name/Description' t-att-readonly="overtime.state != 'new' or None" />
+                                    </div>
+                                </div>
+                                <div class="form-group mt-2 row d-flex justify-content-between flex-wrap">
+                                    <div class="col-sm-12">
+                                        <label for="date" class="col-md-2 col-sm-2">For Date*:</label>
+                                        <input id="date" name="date" type="date" onclick="this.showPicker()" string="For Date" class="form-control mt-1 datepicker-input col-md-4 col-sm-4" t-att-value="overtime.requested_date if overtime.requested_date else date.date.today().strftime('%m-%d-%Y')" required="required" placeholder='For Date' t-att-disabled="overtime.state != 'new' or None" />
+                                    </div>
+                                </div>
+                                <div class="form-group mt-2 row d-flex justify-content-between flex-wrap">
+                                    <div class="col-sm-12">
+                                        <label for="reason" class="col-md-2 col-sm-2">Reason*:</label>
+                                        <input id="reason" name="reason" type="text" string="Reason" class="form-control mt-1 datepicker-input col-md-4 col-sm-4" t-att-value="overtime.reason" required="required" placeholder='XYZ..' t-att-disabled="overtime.state != 'new' or None" />
+                                    </div>
+                                </div>
+                                <div class="mt-4 mb-2 col-md text-md-right d-flex">
+                                    <a t-attf-href="/my/my_overtime_requests">
+                                        <button class="btn btn-danger btn-md" type="button" special="cancel">Close</button>
+                                    </a>
+                                    <t t-if="overtime.state in ['new']">
+                                        <button class="btn btn-primary btn-md" type="submit" id="save_overtime" style="margin-left:5px;">Update</button>
+                                    </t>
+                                    <a t-attf-href="/my/overtime/delete/#{overtime.id}?{{ keep_query() }}" t-if="overtime.state=='new'" class="d-flex mt-1" style="margin-left:5px;">
+                                        <span class="fa fa-trash-o fa-2x remove-optionnal-item" title="Delete" aria-label="Delete" />
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt32">
+                    <h4><strong>Message and communication history</strong></h4>
+                    <t t-call="portal.message_thread" />
+                </div>
+            </form>
+        </t>
+    </template>
+    <template id="portal_my_overtime_create" name="Create a New Overtime Request">
+        <t t-call="portal.portal_layout">
+            <t t-if="request.params.get('error_msg')">
+                <p class="alert alert-danger mt8" role="alert">
+                    <t t-esc="request.params.get('error_msg')"/>
+                </p>
+            </t>
+
+            <form data-model_name="hr.overtime.requests"
+                  t-attf-action="/create/overtime?{{ keep_query() }}"
+                  method="post"
+                  class="form-horizontal container-fluid"
+                  enctype="multipart/form-data"
+                  id="leave_request_form">
+
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <div class="row no-gutters">
+                            <div class="col-md">
+                                <h3 class="mt-2 mb-2 text-left">Create a New Overtime Request</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row no-gutters">
+                            <div class="col-md-12 col-sm-12">
+
+                                <div class="form-group mt-2">
+                                    <div class="col-sm-12">
+                                        <label for="name" class="col-md-2 col-sm-2">Name/Description*:</label>
+                                        <input id="name" name="name" type="text"
+                                               class="form-control mt-1 col-md-9 col-sm-9"
+                                               required="required" placeholder="abc e.g"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mt-2">
+                                    <div class="col-sm-12">
+                                        <label for="date" class="col-md-2 col-sm-2">For Date*:</label>
+                                        <input id="date" name="date" type="date"
+                                               onclick="this.showPicker()"
+                                               class="form-control mt-1 col-md-4 col-sm-4"
+                                               required="required" placeholder="For date"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mt-2">
+                                    <div class="col-sm-12">
+                                        <label for="reason" class="col-md-2 col-sm-2">Reason*:</label>
+                                        <input id="reason" name="reason" type="text"
+                                               class="form-control mt-1 col-md-4 col-sm-4"
+                                               required="required" placeholder="XYZ e.g"/>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 mb-2 col-md text-md-right d-flex">
+                                    <a t-attf-href="/my/my_overtime_requests">
+                                        <button class="btn btn-danger btn-md" type="button">Close</button>
+                                    </a>
+                                    <button class="btn btn-primary btn-md" type="submit"
+                                            id="save_overtime" style="margin-left:5px;">
+                                        Create
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </t>
+    </template>
+</odoo>

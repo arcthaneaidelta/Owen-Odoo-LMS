@@ -10,7 +10,7 @@
                         class="btn-primary"
                         invisible="state != 'active'"/>
             </xpath>
-            <xpath expr="//field[@name='academic_year_id']" position="after">
+            <xpath expr="//field[@name='current_academic_year_name']" position="after">
                 <field name="current_level" optional="show"/>
             </xpath>
             <xpath expr="//notebook" position="inside">
@@ -36,7 +36,7 @@
         <field name="model">university.batch</field>
         <field name="inherit_id" ref="university_core.view_batch_list"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='academic_year_id']" position="after">
+            <xpath expr="//field[@name='current_academic_year_name']" position="after">
                 <field name="current_level"/>
                 <field name="student_count"/>
             </xpath>

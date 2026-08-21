@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Custom HR Portal Category -->
+        <record model="ir.module.category" id="module_category_custom_hr_portal">
+            <field name="name">Employee HR Portal</field>
+            <field name="visible">True</field>
+            <field name="sequence">200</field>
+        </record>
+
+        <!-- User Group -->
+        <record id="access_to_employee_portal_custom_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="users" eval="[(4, ref('base.user_admin'))]" />
+            <field name="category_id" ref="employee_hr_portal.module_category_custom_hr_portal" />
+        </record>
+
+        <!-- Manager Group -->
+        <record id="access_to_quot_manager_custom" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="users" eval="[(4, ref('base.user_admin'))]" />
+            <field name="category_id" ref="employee_hr_portal.module_category_custom_hr_portal" />
+            <field name="implied_ids" eval="[(4, ref('access_to_employee_portal_custom_user'))]" />
+        </record>
+
+        <!-- Combined Rule: User apni aur Approver apne assigned requests dekh sake -->
+        <!-- <record id="missing_punch_rule_combined" model="ir.rule">
+            <field name="name">Missing Punch: Own + Approver Access</field>
+            <field name="model_id" ref="model_missing_punch"/>
+            <field name="domain_force">
+                ['|',
+                    ('employee_id.user_id', '=', user.id),
+                    ('employee_id.missing_punch_approver_id.user_id', '=', user.id)
+                ]
+            </field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record> -->
+
+        <!-- HR Leave Rule Example (kept from old) -->
+        <record id="hr_leave_manager_rule" model="ir.rule">
+            <field name="name">HR Leave: Only See Subordinates</field>
+            <field name="model_id" ref="model_hr_leave"/>
+            <field name="domain_force">
+                ['|',
+                    ('employee_id', '=', False),
+                    ('employee_id.parent_id', '=', user.employee_id.id)
+                ]
+            </field>
+            <field name="groups" eval="[(4, ref('hr_holidays.group_hr_holidays_user'))]"/>
+        </record>
+
+        <record id="show_all_Leave" model="res.groups">
+            <field name="name">Show All Leave</field>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record> 
+        <record id="group_show_all_missing_punch" model="res.groups">
+            <field name="name">Show All Missing Punches</field>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+        <record id="approve_missing_punch" model="res.groups">
+            <field name="name">All Missing Puch Approve</field>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+        <record id="show_all_Leave_approve" model="res.groups">
+            <field name="name">All Leave Approve</field>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record> 
+
+        <record id="access_to_allow_portal_group_access" model="res.groups">
+            <field name="name">Allow Create Leaves From Portal</field>
+            <field name="users" eval="[(4, ref('base.user_admin'))]" />
+        </record>
+
+    </data>
+</odoo>

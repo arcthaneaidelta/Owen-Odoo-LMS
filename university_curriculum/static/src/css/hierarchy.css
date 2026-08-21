@@ -1,0 +1,115 @@
+/* ============================================================
+   UNIVERSITY CURRICULUM — HIERARCHY VIEW
+   ============================================================ */
+
+/* 1. Node container width — this is what the layout engine reads
+      to calculate horizontal spacing and draw connector lines.
+      MUST match the visual card width to prevent overlap.        */
+.o_hierarchy_view .o_hierarchy_node_container {
+    width: 320px !important;
+    min-height: 200px !important;
+}
+
+/* 2. The inner node wrapper — fill container, clean rounding      */
+.o_hierarchy_view .o_hierarchy_node_container .o_hierarchy_node {
+    width: 100% !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08) !important;
+    border: 1px solid #e2e8f0 !important;
+    background: #ffffff !important;
+}
+
+/* 3. Custom card inner — no extra sizing, parent clips it         */
+.o_hierarchy_view .custom-hierarchy-card {
+    width: 100% !important;
+}
+
+/* 4. Header gradient                                              */
+.o_hierarchy_view .custom-hierarchy-card .card-header-gradient {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    padding: 14px 16px;
+    min-height: 62px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.o_hierarchy_view .custom-hierarchy-card .card-header-gradient span {
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.35;
+    color: #ffffff;
+    word-break: break-word;
+    white-space: normal;
+}
+
+/* 5. Body rows                                                    */
+.o_hierarchy_view .custom-hierarchy-card .card-body-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 14px;
+    border-bottom: 1px dashed #e2e8f0;
+    font-size: 0.88rem;
+}
+
+.o_hierarchy_view .custom-hierarchy-card .card-body-row:last-child {
+    border-bottom: none;
+    padding-bottom: 12px;
+}
+
+.o_hierarchy_view .custom-hierarchy-card .card-body-row .row-label {
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    font-size: 0.78rem;
+}
+
+.o_hierarchy_view .custom-hierarchy-card .card-body-row .row-value {
+    color: #0f172a;
+    font-weight: 700;
+    font-size: 0.92rem;
+}
+
+/* ============================================================
+   6. FOLD / UNFOLD BUTTON — complete restyle
+      The button sits directly inside .o_hierarchy_node,
+      below .o_hierarchy_node_content.
+      Odoo adds btn-primary (Unfold) or btn-secondary (Fold).
+   ============================================================ */
+
+/* Base override — remove Odoo defaults, apply our style */
+.o_hierarchy_view .o_hierarchy_node_container .o_hierarchy_node_button.o_hierarchy_node_button {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-top: 2px solid rgba(255, 255, 255, 0.25) !important;
+    border-radius: 0 0 11px 11px !important;   /* match card's bottom corners */
+    padding: 8px 0 !important;
+    font-weight: 600 !important;
+    font-size: 0.82rem !important;
+    letter-spacing: 0.5px !important;
+    text-transform: uppercase !important;
+    transition: background 0.2s ease, filter 0.2s ease !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+/* "Fold" state (btn-secondary) — slightly darker shade so user can tell */
+.o_hierarchy_view .o_hierarchy_node_container .o_hierarchy_node_button.btn-secondary {
+    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%) !important;
+}
+
+/* Hover for both states */
+.o_hierarchy_view .o_hierarchy_node_container .o_hierarchy_node_button:hover {
+    filter: brightness(1.12) !important;
+    color: #ffffff !important;
+}
+
+/* Count badge beside "Unfold" */
+.o_hierarchy_view .o_hierarchy_node_container .o_hierarchy_node_button .fa {
+    color: rgba(255, 255, 255, 0.85) !important;
+}

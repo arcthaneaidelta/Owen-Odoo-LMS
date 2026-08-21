@@ -1,0 +1,510 @@
+# Translation of university_core.
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2024-05-21 12:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: none\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#. module: university_core
+msgid "Academic Department"
+msgstr "Departamento Académico"
+
+#. module: university_core
+msgid "Academic Details"
+msgstr "Detalles Académicos"
+
+#. module: university_core
+msgid "Academic Placement"
+msgstr "Ubicación Académica"
+
+#. module: university_core
+msgid "Academic Program"
+msgstr "Programa Académico"
+
+#. module: university_core
+msgid "Academic Qualification"
+msgstr "Calificación Académica"
+
+#. module: university_core
+msgid "Academic Roadmap"
+msgstr "Hoja de Ruta Académica"
+
+#. module: university_core
+msgid "Academic Roadmap - %s"
+msgstr ""
+
+#. module: university_core
+msgid "Academic Year"
+msgstr "Año Académico"
+
+#. module: university_core
+msgid "Activate"
+msgstr "Activar"
+
+#. module: university_core
+msgid "Active"
+msgstr "Activo"
+
+#. module: university_core
+msgid "Activity Type"
+msgstr "Tipo de Actividad"
+
+#. module: university_core
+msgid "Activity/Event Name"
+msgstr "Nombre de Actividad/Evento"
+
+#. module: university_core
+msgid "Additional Details"
+msgstr "Detalles Adicionales"
+
+#. module: university_core
+msgid "Address"
+msgstr "Dirección"
+
+#. module: university_core
+msgid "Arabic Name"
+msgstr "Nombre Árabe"
+
+#. module: university_core
+msgid "Archive"
+msgstr "Archivar"
+
+#. module: university_core
+msgid "Archived"
+msgstr "Archivado"
+
+#. module: university_core
+msgid "Attendance Rules"
+msgstr "Reglas de Asistencia"
+
+#. module: university_core
+msgid "Attendance Threshold (%)"
+msgstr "Umbral de Asistencia (%)"
+
+#. module: university_core
+msgid "Attendance Warning (%)"
+msgstr "Advertencia de Asistencia (%)"
+
+#. module: university_core
+msgid "Attendance threshold must be between 0 and 100."
+msgstr ""
+
+#. module: university_core
+msgid "Attendance warning percentage must be between 0 and 100."
+msgstr ""
+
+#. module: university_core
+msgid "Basic Info"
+msgstr "Información Básica"
+
+#. module: university_core
+msgid "Batch"
+msgstr "Lote"
+
+#. module: university_core
+msgid "Batch Code"
+msgstr "Código de Lote"
+
+#. module: university_core
+msgid "Batch Count"
+msgstr "Recuento de Lotes"
+
+#. module: university_core
+msgid "Batch Info"
+msgstr "Información de Lote"
+
+#. module: university_core
+msgid "Batch Name"
+msgstr "Nombre de Lote"
+
+#. module: university_core
+msgid "Batch Number"
+msgstr "Número de Lote"
+
+#. module: university_core
+msgid "Batch Year"
+msgstr "Año de Lote"
+
+#. module: university_core
+msgid "Batch activated."
+msgstr ""
+
+#. module: university_core
+msgid "Batches"
+msgstr "Lotes"
+
+#. module: university_core
+msgid "Batches for %s"
+msgstr ""
+
+#. module: university_core
+msgid "Capacity"
+msgstr "Capacidad"
+
+#. module: university_core
+msgid "City"
+msgstr "Ciudad"
+
+#. module: university_core
+msgid "Close Year"
+msgstr "Cerrar Año"
+
+#. module: university_core
+msgid "College"
+msgstr "Facultad"
+
+#. module: university_core
+msgid "College Code"
+msgstr "Código de Facultad"
+
+#. module: university_core
+msgid "College Count"
+msgstr "Recuento de Facultades"
+
+#. module: university_core
+msgid "College Name"
+msgstr "Nombre de Facultad"
+
+#. module: university_core
+msgid "Colleges"
+msgstr "Facultades"
+
+#. module: university_core
+msgid "Color Index"
+msgstr "Índice de Color"
+
+#. module: university_core
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: university_core
+msgid "Country"
+msgstr "País"
+
+#. module: university_core
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: university_core
+msgid "Current Year"
+msgstr "Año Actual"
+
+#. module: university_core
+msgid "Dean (Employee)"
+msgstr "Decano (Empleado)"
+
+#. module: university_core
+msgid "Dean Name"
+msgstr "Nombre del Decano"
+
+#. module: university_core
+msgid "Default Registration Fee"
+msgstr "Tarifa de Registro Predeterminada"
+
+#. module: university_core
+msgid "Default Tuition Fee"
+msgstr "Tarifa de Matrícula Predeterminada"
+
+#. module: university_core
+msgid "Degree Type"
+msgstr "Tipo de Grado"
+
+#. module: university_core
+msgid "Department"
+msgstr "Departamento"
+
+#. module: university_core
+msgid "Department Code"
+msgstr "Código de Departamento"
+
+#. module: university_core
+msgid "Department Count"
+msgstr "Recuento de Departamentos"
+
+#. module: university_core
+msgid "Department Name"
+msgstr "Nombre de Departamento"
+
+#. module: university_core
+msgid "Departments"
+msgstr "Departamentos"
+
+#. module: university_core
+msgid "Details / Notes"
+msgstr "Detalles / Notas"
+
+#. module: university_core
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: university_core
+msgid "Duration"
+msgstr "Duración"
+
+#. module: university_core
+msgid "Duration (Years)"
+msgstr "Duración (Años)"
+
+#. module: university_core
+msgid "Email"
+msgstr "Correo Electrónico"
+
+#. module: university_core
+msgid "End Date"
+msgstr "Fecha de Finalización"
+
+#. module: university_core
+msgid "End date must be after start date."
+msgstr ""
+
+#. module: university_core
+msgid "English Name"
+msgstr "Nombre en Inglés"
+
+#. module: university_core
+msgid "Event Type"
+msgstr "Tipo de Evento"
+
+#. module: university_core
+msgid "Examinations"
+msgstr "Exámenes"
+
+#. module: university_core
+msgid "External Exam Fee"
+msgstr "Tarifa de Examen Externo"
+
+#. module: university_core
+msgid "Fees"
+msgstr "Tarifas"
+
+#. module: university_core
+msgid "Group By"
+msgstr "Agrupar Por"
+
+#. module: university_core
+msgid "Has Specializations"
+msgstr "Tiene Especializaciones"
+
+#. module: university_core
+msgid "Head (Employee)"
+msgstr "Jefe (Empleado)"
+
+#. module: university_core
+msgid "Head of Department"
+msgstr "Jefe de Departamento"
+
+#. module: university_core
+msgid "Highest Academic Qualification"
+msgstr "Calificación Académica Más Alta"
+
+#. module: university_core
+msgid "Holidays &amp; Breaks"
+msgstr "Vacaciones y Descansos"
+
+#. module: university_core
+msgid "Identification"
+msgstr "Identificación"
+
+#. module: university_core
+msgid "Is a Teacher?"
+msgstr "¿Es Profesor?"
+
+#. module: university_core
+msgid "Late Registration Deadline"
+msgstr "Fecha Límite de Registro Tardío"
+
+#. module: university_core
+msgid "Late Registration Fee"
+msgstr "Tarifa de Registro Tardío"
+
+#. module: university_core
+msgid "Logo Filename"
+msgstr "Nombre de Archivo del Logo"
+
+#. module: university_core
+msgid "Management"
+msgstr "Gestión"
+
+#. module: university_core
+msgid "Mark Completed"
+msgstr "Marcar como Completado"
+
+#. module: university_core
+msgid "Max Study Duration (Years)"
+msgstr "Duración Máxima de Estudio (Años)"
+
+#. module: university_core
+msgid "Maximum Capacity"
+msgstr "Capacidad Máxima"
+
+#. module: university_core
+msgid "Ministry Registration Number"
+msgstr "Número de Registro del Ministerio"
+
+#. module: university_core
+msgid "New"
+msgstr ""
+
+#. module: university_core
+msgid "Notes"
+msgstr "Notas"
+
+#. module: university_core
+msgid "Only one academic year can be marked as current."
+msgstr ""
+
+#. module: university_core
+msgid "Phone"
+msgstr "Teléfono"
+
+#. module: university_core
+msgid "Practical Credit Ratio"
+msgstr "Proporción de Créditos Prácticos"
+
+#. module: university_core
+msgid "Program"
+msgstr "Programa"
+
+#. module: university_core
+msgid "Program Code"
+msgstr "Código de Programa"
+
+#. module: university_core
+msgid "Program Count"
+msgstr "Recuento de Programas"
+
+#. module: university_core
+msgid "Program Name"
+msgstr "Nombre de Programa"
+
+#. module: university_core
+msgid "Programs"
+msgstr "Programas"
+
+#. module: university_core
+msgid "Qualifications"
+msgstr "Calificaciones"
+
+#. module: university_core
+msgid "Registration Deadline"
+msgstr "Fecha Límite de Registro"
+
+#. module: university_core
+msgid "Registrations"
+msgstr "Registros"
+
+#. module: university_core
+msgid "Repetition Fee (Per Subject)"
+msgstr "Tarifa de Repetición (Por Materia)"
+
+#. module: university_core
+msgid "Roadmap Event"
+msgstr "Evento de Hoja de Ruta"
+
+#. module: university_core
+msgid "Room"
+msgstr "Aula"
+
+#. module: university_core
+msgid "Room Name/Number"
+msgstr "Nombre/Número de Aula"
+
+#. module: university_core
+msgid "Room Type"
+msgstr "Tipo de Aula"
+
+#. module: university_core
+msgid "Room capacity must be strictly greater than zero."
+msgstr ""
+
+#. module: university_core
+msgid "Rooms"
+msgstr "Aulas"
+
+#. module: university_core
+msgid "Scheduling"
+msgstr "Programación"
+
+#. module: university_core
+msgid "Search Roadmap"
+msgstr "Buscar Hoja de Ruta"
+
+#. module: university_core
+msgid "Search Universities"
+msgstr "Buscar Universidades"
+
+#. module: university_core
+msgid "Settings"
+msgstr "Configuraciones"
+
+#. module: university_core
+msgid "Specialization"
+msgstr "Especialización"
+
+#. module: university_core
+msgid "Specialization Code"
+msgstr "Código de Especialización"
+
+#. module: university_core
+msgid "Specialization Name"
+msgstr "Nombre de Especialización"
+
+#. module: university_core
+msgid "Specializations"
+msgstr "Especializaciones"
+
+#. module: university_core
+msgid "Start Date"
+msgstr "Fecha de Inicio"
+
+#. module: university_core
+msgid "State"
+msgstr "Estado"
+
+#. module: university_core
+msgid "Status"
+msgstr "Estado"
+
+#. module: university_core
+msgid "Teachers"
+msgstr "Profesores"
+
+#. module: university_core
+msgid "The End Date cannot be earlier than the Start Date."
+msgstr "La fecha de finalización no puede ser anterior a la fecha de inicio."
+
+#. module: university_core
+msgid "Universities"
+msgstr "Universidades"
+
+#. module: university_core
+msgid "University"
+msgstr "Universidad"
+
+#. module: university_core
+msgid "University Code"
+msgstr "Código de Universidad"
+
+#. module: university_core
+msgid "University Logo"
+msgstr "Logo de Universidad"
+
+#. module: university_core
+msgid "University Name"
+msgstr "Nombre de Universidad"
+
+#. module: university_core
+msgid "Website"
+msgstr "Sitio Web"
+
+#. module: university_core
+msgid "Year"
+msgstr "Año"
+

@@ -26,8 +26,7 @@ class UniversityStudentFreezeRequest(models.Model):
         related='student_id.program_id',
         store=True,
     )
-    academic_year_id = fields.Many2one(
-        'university.academic_year',
+    academic_year_name = fields.Char(
         string='Academic Year',
         required=True,
         tracking=True,

@@ -1,0 +1,544 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="leaves_summary_template">
+        <button type="button" class="mt-2 mb-2 btn btn-info btn-md" data-bs-toggle="modal" data-bs-target="#create_leave" id="leaves_summary">Allocation Leaves</button>
+        <div class="modal fade" id="create_leave" role="dialog">
+            <div class="modal-dialog" style="max-width: 900px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="mt0 mb0"><b><span>Allocation Leaves Summary</span></b></h3>
+                        <button type="button" class="btn-sm btn-danger btn" data-bs-dismiss="modal">X</button>
+                    </div>
+                    <div class="modal-body">
+                        <t t-call="portal.portal_table">
+                            <t t-set="pager" t-value="False" />
+                            <t t-set="all_set_var" t-value="0"></t>
+                            <t t-foreach="leave_types" t-as="type">
+                                <t t-if="employee_id">
+                                    <t t-set="allocation" t-value="request.env['hr.leave.allocation'].sudo().search([
+                                    ('employee_id', '=', employee_id.id),
+                                    ('state', 'in', ['confirm', 'validate1', 'validate']),
+                                    ('holiday_status_id', '=', type.id)
+                                    ])" />
+                                    <t t-if="allocation">
+                                        <t t-set="all_set_var" t-value="all_set_var+1"></t>
+                                    </t>
+                                </t>
+                            </t>
+                            <t t-if="all_set_var != 0">
+                                <thead>
+                                    <tr class="thead-light">
+                                        <th>Leaves Type</th>
+                                        <th>Total Allocated Leaves</th>
+                                        <th>Taken Leaves</th>
+                                        <!-- <th>Remaining Leaves</th> -->
+                                        <th>Virtual Remaining Leaves</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="leave_types" t-as="type">
+                                        <t t-if="employee_id">
+                                            <t t-set="allocation" t-value="request.env['hr.leave.allocation'].sudo().search([
+                                    ('employee_id', '=', employee_id.id),
+                                    ('state', 'in', ['confirm', 'validate1', 'validate']),
+                                    ('holiday_status_id', '=', type.id)
+                                    ])" />
+                                            <tr>
+                                                <t t-if="allocation">
+                                                    <t t-set="result" t-value="type.sudo().with_context(employee_id=employee_id.id).read(['max_leaves', 'leaves_taken', 'virtual_remaining_leaves'])[0]" />
+                                                    <td>
+                                                        <t t-esc="type.name" />
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <t t-esc="result.get('max_leaves')" />
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <t t-esc="result.get('leaves_taken')" />
+                                                    </td>
+                                                    <!-- <td class="text-right">
+                                                        <t t-esc="result.get('remaining_leaves')" />
+                                                    </td> -->
+                                                    <td class="text-right">
+                                                        <t t-esc="result.get('virtual_remaining_leaves')" />
+                                                    </td>
+                                                </t>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </tbody>
+                            </t>
+                            <t t-if="all_set_var == 0">
+                                <h5 class="text-center mt-1 mb-1">
+                                    No Data Available!
+                                </h5>
+                            </t>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="portal_my_leaves" name="My Leaves">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True" />
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Leaves</t>
+            </t>
+            <t t-if="not grouped_leaves">
+                <div class="alert alert-warning mt8" role="alert">
+                    There are no Leaves.
+                </div>
+            </t>
+            <!-- Trigger the modal with a button -->
+            <a t-attf-href="/create/my_leave?{{ keep_query() }}"><button type="button" class="mt-2 mb-2 btn btn-info btn-md" id="create_leaves">Create a New Leave</button></a>
+            <t t-call="employee_hr_portal.leaves_summary_template" />
+            <p class="alert alert-danger mt8" t-if="request.params.get('error_msg')" role="alert">
+                <t t-esc="request.params.get('error_msg')" />
+            </p>
+            <t t-if="grouped_leaves">
+                <t t-call="portal.portal_table">
+                    <t t-foreach="grouped_leaves" t-as="leaves">
+                        <thead>
+                            <tr t-attf-class="{{'thead-light' if not groupby == 'none' else ''}}">
+                                <th>
+                                    <t t-if="leaves">
+                                        <t t-if="groupby == 'none'">Leave Type </t>
+                                        <t t-if="groupby == 'type'">
+                                            <em class="font-weight-normal text-muted">Leave Type:</em>
+                                            <span t-field="leaves[0].holiday_status_id.name" />
+                                        </t>
+                                        <t t-if="groupby == 'employee'">
+                                            <em class="font-weight-normal text-muted">Employee:</em>
+                                            <span t-field="leaves[0].employee_id.name" />
+                                        </t>
+                                    </t>
+                                </th>
+                                <th>Description</th>
+                                <th>From Date</th>
+                                <th>End Date</th>
+                                <th>Employee</th>
+                                <th>Department</th>
+                                <th class="text-right">Duration</th>
+                                <th class="text-right">Status</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="leaves" t-as="leave">
+                                <tr>
+                                    <td><a t-attf-href="/my/leave/#{leave.id}?{{ keep_query() }}"><span t-field="leave.holiday_status_id" /></a></td>
+                                    <td><span t-field="leave.name" /></td>
+                                    <td><span t-field="leave.request_date_from" t-options='{"widget": "date"}' /></td>
+                                    <td><span t-field="leave.request_date_to" t-options='{"widget": "date"}' /></td>
+                                    <td><span t-field="leave.employee_id" /></td>
+                                    <td><span t-field="leave.department_id" /></td>
+                                    <td class="text-right"><span t-field="leave.duration_display" /></td>
+                                    <td class="text-right">
+                                        <t t-value="dict(leave.fields_get(allfields=['state'])['state']['selection'])[leave.state]" t-set="state" />
+                                        <t t-if="leave.state == 'draft'">
+                                            <span class="badge badge-pill badge-info" style="background-color: #999999; color: black;" title="Current stage of the task" t-esc="state" />
+                                        </t>
+                                        <t t-if="leave.state == 'validate'">
+                                            <span class="badge badge-pill badge-info" style="background-color: #0bdb12; color: black;" title="Current stage of the task" t-esc="state" />
+                                        </t>
+                                        <t t-if="leave.state == 'validate1'">
+                                            <span class="badge badge-pill badge-info" style="background-color: #F0AD4E; color: black;" title="Current stage of the task" t-esc="state" />
+                                        </t>
+                                        <t t-if="leave.state == 'refuse'">
+                                            <span class="badge badge-pill badge-info" style="background-color: #ff0000; color: black;" title="Current stage of the task" t-esc="state" />
+                                        </t>
+                                        <t t-if="leave.state == 'cancel'">
+                                            <span class="badge badge-pill badge-info" style="background-color: #ff7700; color: black;" title="Current stage of the task" t-esc="state" />
+                                        </t>
+                                        <t t-if="leave.state == 'confirm'">
+                                            <span class="badge badge-pill badge-info" style="background-color: #17a2b8; color: black;" title="Current stage of the task" t-esc="state" />
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <a t-attf-href="/my/leave/delete/#{leave.id}?{{ keep_query() }}" t-if="leave.state=='draft'">
+                                            <span class="fa fa-trash-o remove-optionnal-item" title="Delete" aria-label="Delete" />
+                                        </a>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+    <template id="portal_my_leave_create" name="Create a New Leaves">
+        <t t-call="portal.portal_layout">
+            <p class="alert alert-danger mt8" t-if="request.params.get('error_msg')" role="alert">
+                <t t-esc="request.params.get('error_msg')" />
+            </p>
+            <form data-model_name="hr.leave" t-attf-action="/create/leave?{{ keep_query() }}" method="post" class=" form-horizontal container-fluid" enctype="multipart/form-data" id="leave_request_form">
+                <!-- <form class=" form-horizontal container-fluid" enctype="multipart/form-data" id="leave_request_form"> -->
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <div class="row no-gutters">
+                            <div class="col-md">
+                                <h3 class="mt-2 mb-2 text-left">
+                                    Create a New Leave
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row no-gutters">
+                            <div class="col-md-12 col-sm-12">
+                                <div class="form-group mt-2 ">
+                                    <label for="name" class="col-md-2 col-sm-2">Description*:</label>
+                                    <input id="name" name="name" type="text" string="Description" class="form-control mt-1 col-md-9 col-sm-9" t-att-value="name" required="required" placeholder='Description' />
+                                </div>
+                                <div class="form-group mt-2  d-none">
+                                    <input id="date_from" name="date_from" type="datetime" onclick="this.showPicker()" class="mt-1 form-control datetimepicker-input col-md-4 col-sm-4" t-att-value="date_from if date_from else datetime.datetime.now()" placeholder='From Date' />
+                                    <input id="date_to" name="date_to" type="datetime" onclick="this.showPicker()" class="mt-1 form-control datetimepicker-input col-md-4 col-sm-4" t-att-value="date_to if date_to else datetime.datetime.now()" placeholder='To Date' />
+                                </div>
+                                <div class="form-group mt-2 ">
+                                    <label for="leave_type" class="col-md-2 col-sm-2">Leave Type*:</label>
+                                    <select id="leave_types" name="holiday_status_id" t-attf-class="form-control col-md-9 mt-1 col-sm-9" required="required">
+                                        <option value="" placeholder='Leave Type' t-attf-selected="selected"></option>
+                                        <t t-foreach="leave_types or []" t-as="leave_type">
+                                            <option t-att-data-request_unit="leave_type.request_unit" t-att-value="leave_type.id" t-att-selected="leave_type.id">
+                                                <t t-esc="leave_type.sudo().with_context({'employee_id': employees and employees[0].id}).display_name" />
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                                <div class="form-group mt-2 row d-flex justify-content-between flex-wrap">
+                                    <div class="col-sm-6">
+                                        <label for="request_date_from" class="col-md-2 col-sm-2">From*:</label>
+                                        <input id="request_date_from" name="request_date_from" type="date" onclick="this.showPicker()" string="Date" class="mt-1 form-control datetimepicker-input col-md-4 col-sm-4" t-att-value="request_date_from if request_date_from else datetime.date.today()" required="required" placeholder='From Date' />
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label id="to" for="to" class="col-md-2 col-sm-2">To</label>
+                                        <input id="request_date_to" name="request_date_to" type="date" onclick="this.showPicker()" string="Date" class="mt-1 form-control datetimepicker-input col-md-4 col-sm-4" t-att-value="request_date_to if request_date_to else datetime.date.today()" required="required" placeholder='End Date' />
+                                        <select id="request_date_from_period" name="request_date_from_period" t-attf-class="mt-1 form-control col-md-4 col-sm-4" required="required">
+                                            <option value="" t-attf-selected="selected"></option>
+                                            <t t-foreach="request_date_from_period or []" t-as="from_period">
+                                                <option t-att-data-request_unit="from_period[1]" t-att-value="from_period[0]" t-att-selected="from_period[0]">
+                                                    <t t-esc="from_period[1]" />
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group mt-2 row d-flex justify-content-between flex-wrap">
+                                    <!-- <div class="col-sm-12">
+                                        <label for="None" class="d-none col-md-2 col-sm-2"></label>
+                                        <label class="col-md-3 col-sm-3" for="request_unit_half">
+                                            Half Day
+                                        </label>
+                                        <input type="checkbox" id="request_unit_half" class="request_unit_half" name="request_unit_half" t-att-data-request_unit_half="request_unit_half" t-att-value="request_unit_half" t-att-checked="'checked' if request_unit_half else None" />
+                                    </div> -->
+                                    <div class="col-sm-12">
+                                        <label class="col-md-3 col-sm-3" for="request_unit_hours">
+                                            Custom Hours
+                                        </label>
+                                        <input type="checkbox" id="request_unit_hours" class="request_unit_hours" name="request_unit_hours" t-att-value="request_unit_hours" t-att-checked="'checked' if request_unit_hours else None" t-att-data-request_unit_hours="request_unit_hours" />
+                                    </div>
+                                </div>
+                                <div id="hour_dates" class="form-group mt-2 row d-flex justify-content-between flex-wrap">
+                                    <div class="col-sm-6">
+                                        <label for="request_hour_to" class="col-md-1 text-left">From</label>
+                                        <select id="request_hour_from" name="request_hour_from" t-attf-class="form-control col-md-4 col-sm-4 mt-1" required="required">
+                                            <option value="" placeholder='Request Hour From' t-attf-selected="selected"></option>
+                                            <t t-foreach="request_hour_from or []" t-as="hour_from">
+                                                <option t-att-data-request_unit="hour_from[1]" t-att-value="hour_from[0]" t-att-selected="hour_from[0]">
+                                                    <t t-esc="hour_from[1]" />
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="request_hour_to" class="col-md-1 text-center">To</label>
+                                        <select id="request_hour_to" name="request_hour_to" t-attf-class="form-control col-md-3 col-sm-3 mt-1" required="required">
+                                            <option value="" placeholder='Request Hour To' t-attf-selected="selected"></option>
+                                            <t t-foreach="request_hour_to or []" t-as="hour_to">
+                                                <option t-att-data-request_unit="hour_to[1]" t-att-value="hour_to[0]" t-att-selected="hour_to[0]">
+                                                    <t t-esc="hour_to[1]" />
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group mt-2 ">
+                                    <label for="number_of_days" class="col-md-2 col-sm-2">Duration*:</label>
+                                    <t t-if="number_of_days">
+                                        <input id="number_of_days" name="number_of_days" type="number" string="Duration (Hour(s))" class="form-control mt-1 col-md-9 col-sm-9" t-att-value="number_of_days" placeholder='0.0' step='0.0000001' readonly="1" />
+                                    </t>
+                                    <t t-else="">
+                                        <input id="number_of_days" name="number_of_days" type="number" string="Duration (Hour(s))" class="form-control mt-1 col-md-9 col-sm-9" t-att-value="number_of_days" placeholder='0.0' step='0.0000001' readonly="1" />
+                                    </t>
+                                </div>
+                                <div class="form-group mt-1 mb-4" style="font-weight:bolder;">
+                                    (<span>Approximately <span id="number_of_days_span">0</span> Hours</span>)
+                                </div>
+                                <div class="form-group mt-2 attachment_id_form" id="attachment_id_form">
+                                    <label class="o_label col-md-2 col-sm-2" for="ufile">Add Attachments </label>
+                                    <input type="file" id="uploadImage" class="mt-1 form-control col-md-9 col-sm-9 o_forum_file_upload" name="ufile" accept="image/*,application/pdf" multiple="multiple" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-2 mb-2 col-md text-md-right">
+                            <button type="submit" id="create_leave_data" class="btn btn-primary">Create</button>
+                            <a t-attf-href="/my/leaves">
+                                <button class="btn btn-danger btn-md" type="button" special="cancel">Close</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </t>
+    </template>
+    <template id="portal_my_leave" name="My leave">
+        <t t-call="portal.portal_layout">
+            <t t-set="o_portal_fullwidth_alert" groups="hr_leave.group_hr_user">
+                <t t-call="portal.portal_back_in_edit_mode">
+                    <t t-set="backend_url" t-value="'/web#return_label=Website&amp;model=hr.leave&amp;id=%s&amp;view_type=form' % (leave.id)" />
+                </t>
+            </t>
+            <p class="alert alert-danger mt8" t-if="request.params.get('error_msg')" role="alert">
+                <t t-esc="request.params.get('error_msg')" />
+            </p>
+            <form data-model_name="hr.leave" t-attf-action="/leave/update/{{leave.id}}" method="post" class=" form-horizontal container-fluid" enctype="multipart/form-data">
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <div class="row no-gutters">
+                            <div class="col-md">
+                                <h5 class="mb-1 mb-md-0">
+                                    <span t-esc="leave.name" style="text-transform: uppercase;" />
+                                    <t t-value="dict(leave.fields_get(allfields=['state'])['state']['selection'])[leave.state]" t-set="state" />
+                                    <t t-if="leave.state == 'draft'">
+                                        <span class="badge badge-pill badge-info" style="background-color: #999999; color: black;" title="Current stage of the task" t-esc="state" />
+                                    </t>
+                                    <t t-if="leave.state == 'validate'">
+                                        <span class="badge badge-pill badge-info" style="background-color: #0bdb12; color: black;" title="Current stage of the task" t-esc="state" />
+                                    </t>
+                                    <t t-if="leave.state == 'validate1'">
+                                        <span class="badge badge-pill badge-info" style="background-color: #F0AD4E; color: black;" title="Current stage of the task" t-esc="state" />
+                                    </t>
+                                    <t t-if="leave.state == 'refuse'">
+                                        <span class="badge badge-pill badge-info" style="background-color: #ff0000; color: black;" title="Current stage of the task" t-esc="state" />
+                                    </t>
+                                    <t t-if="leave.state == 'cancel'">
+                                        <span class="badge badge-pill badge-info" style="background-color: #ff7700; color: black;" title="Current stage of the task" t-esc="state" />
+                                    </t>
+                                    <t t-if="leave.state == 'confirm'">
+                                        <span class="badge badge-pill badge-info" style="background-color: #17a2b8; color: black;" title="Current stage of the task" t-esc="state" />
+                                    </t>
+                                </h5>
+                                <div class="mb-1 mb-md-0 mt-2">
+                                    <span t-if="leave.state == 'confirm' " style="color: #17a2b8;">
+                                        Your requested leave is yet to be approved by your Leave Manager.
+                                        <br />
+                                        To edit your leave, kindly click on Reset to Draft Button.
+                                    </span>
+                                    <span t-if="leave.state == 'refuse' " class="text-danger">
+                                        Your leave is refused by your leave manager.
+                                    </span>
+                                    <span t-if="leave.state == 'validate' " style="color: #0bdb12;">
+                                        Congratulations, your leave is approved by your leave manager.
+                                    </span>
+                                    <span t-if="leave.state == 'validate1'" style="color: #F0AD4E;">
+                                        Your leave request is proceed to second approval.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row no-gutters">
+                            <div class="col-md-12 col-sm-12">
+                                <div class="form-group mt-2 ">
+                                    <label for="name" class="col-md-2 col-sm-2">Description*:</label>
+                                    <input id="name" name="name" type="text" string="Description" class="form-control mt-1 col-md-9 col-sm-9" t-att-value="leave.name" required="required" placeholder='Description' t-att-readonly="leave.state != 'draft' or None" />
+                                </div>
+                                <div class="form-group mt-2 ">
+                                    <label for="leave_type" class="col-md-2 col-sm-2">Leave Type*:</label>
+                                    <select id="leave_types" name="holiday_status_id" t-attf-class="form-control mt-1 col-md-9 col-sm-9" required="required" t-att-disabled="leave.state != 'draft' or None">
+                                        <option value="" placeholder='Leave Type' t-attf-selected="selected"></option>
+                                        <t t-foreach="leave_types or []" t-as="leave_type">
+                                            <option t-att-data-request_unit="leave_type.request_unit" t-att-value="leave_type.id" t-att-selected="leave_type.id == int(leave.holiday_status_id.id) if leave.holiday_status_id.id else leave_type.id == leave.holiday_status_id.id">
+                                                <t t-esc="leave_type.sudo().with_context({'employee_id': employees and employees[0].id}).display_name" t-att-value="leave_type.id" />
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                                <div class="form-group mt-2  d-none">
+                                    <input id="date_from" name="date_from" type="datetime" onclick="this.showPicker()" class="form-control mt-1 datetimepicker-input col-md-4 col-sm-4" t-att-value="leave.date_from" placeholder='From Date' />
+                                    <input id="date_to" name="date_to" type="datetime" onclick="this.showPicker()" class="form-control mt-1 datetimepicker-input col-md-4 col-sm-4" t-att-value="leave.date_to" placeholder='To Date' />
+                                </div>
+                                <div class="form-group mt-2 row d-flex justify-content-between flex-wrap">
+                                    <div class="col-sm-6">
+                                        <label for="request_date_from" class="col-md-2 col-sm-2">From*:</label>
+                                        <input id="request_date_from" name="request_date_from" type="date" onclick="this.showPicker()" string="Date" class="form-control mt-1 datetimepicker-input col-md-4 col-sm-4" t-att-value="leave.request_date_from if leave.request_date_from else datetime.date.today().strftime('%m-%d-%Y')" required="required" placeholder='From Date' t-att-disabled="leave.state != 'draft' or None" />
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label id="to" for="to" class="col-md-2 col-sm-2">To</label>
+                                        <input id="request_date_to" name="request_date_to" type="date" onclick="this.showPicker()" string="Date" class="form-control mt-1 datetimepicker-input col-md-4 col-sm-4" t-att-value="leave.request_date_to if leave.request_date_to else datetime.date.today().strftime('%m-%d-%Y')" required="required" placeholder='End Date' t-att-disabled="leave.state != 'draft' or None" />
+                                        <select id="request_date_from_period" name="request_date_from_period" t-attf-class="form-control mt-1 col-md-4 col-sm-4" required="required" t-att-disabled="leave.state != 'draft' or None">
+                                            <option value="" t-attf-selected="selected"></option>
+                                            <t t-foreach="request_date_from_period or []" t-as="from_period">
+                                                <option t-att-data-request_unit="from_period[1]" t-att-value="from_period[0]" t-att-selected="from_period[0] == leave.request_date_from_period if leave.request_date_from_period else from_period[0] == leave.request_date_from_period">
+                                                    <t t-esc="from_period[1]" />
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group mt-2 row d-flex justify-content-between flex-wrap">
+                                   <!--  <div class="col-sm-12">
+                                        <label for="None" class="d-none col-md-2 col-sm-2"></label>
+                                        <input type="checkbox" id="request_unit_half" class="request_unit_half" name="request_unit_half" t-att-data-request_unit_half="request_unit_half" t-att-value="leave.request_unit_half" t-att-checked="'checked' if leave.request_unit_half else None" t-att-disabled="leave.state != 'draft' or None" />
+                                        <label class="ml16 col-md-4 col-sm-4" for="request_unit_half">
+                                            Half Day
+                                        </label>
+                                    </div> -->
+                                    <div class="col-sm-12">
+                                        <input type="checkbox" id="request_unit_hours" class="request_unit_hours" name="request_unit_hours" t-att-value="leave.request_unit_hours" t-att-checked="'checked' if leave.request_unit_hours else None" t-att-data-request_unit_hours="request_unit_hours" t-att-disabled="leave.state != 'draft' or None" />
+                                        <label class="ml16 col-md-4 col-sm-4" for="request_unit_hours">
+                                            Custom Hours
+                                        </label>
+                                    </div>
+                                </div>
+                                <div id="hour_dates" class="form-group mt-2 row d-flex justify-content-between flex-wrap">
+                                    <div class="col-sm-6">
+                                        <label for="request_hour_to" class="col-md-1 text-left">From</label>
+                                        <select id="request_hour_from" name="request_hour_from" t-attf-class="form-control mt-1 col-md-4 col-sm-4" required="required" t-att-disabled="leave.state != 'draft' or None">
+                                            <option value="" placeholder='Request Hour From' t-attf-selected="selected"></option>
+                                            <t t-foreach="request_hour_from or []" t-as="hour_from">
+                                                <option t-att-data-request_unit="hour_from[1]" t-att-value="hour_from[0]" t-att-selected="hour_from[0] == leave.request_hour_from if leave.request_hour_from else hour_from[0]">
+                                                    <t t-esc="hour_from[1]" />
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="request_hour_to" class="col-sm-1 text-center">To</label>
+                                        <select id="request_hour_to" name="request_hour_to" t-attf-class="form-control mt-1 col-md-3 col-sm-3" required="required" t-att-disabled="leave.state != 'draft' or None">
+                                            <option value="" placeholder='Request Hour To' t-attf-selected="selected"></option>
+                                            <t t-foreach="request_hour_to or []" t-as="hour_to">
+                                                <option t-att-data-request_unit="hour_to[1]" t-att-value="hour_to[0]" t-att-selected="hour_to[0] == leave.request_hour_to if leave.request_hour_to else hour_to[0]">
+                                                    <t t-esc="hour_to[1]" />
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group mt-2 ">
+                                    <t t-if="leave">
+                                        <t t-if="leave.request_unit_half or leave.request_unit_hours">
+                                            <t t-if="leave.leave_type_request_unit == 'hour'">
+                                                <label for="number_of_days" class="col-md-2 col-sm-2">Duration (Hours)*:</label>
+                                            </t>
+                                            <t t-else="">
+                                                <label for="number_of_days" class="col-md-2 col-sm-2">Duration (Days)*:</label>
+                                            </t>
+                                        </t>
+                                        <t t-else="">
+                                            <label for="number_of_days" class="col-md-2 col-sm-2">Duration (Days)*:</label>
+                                        </t>
+                                        <t t-if="leave.state not in ['validate', 'validate1']">
+                                            <t t-if="leave.state in ['draft']">
+                                                <input id="number_of_days" name="number_of_days" type="number" string="Duration (Hour(s))" class="form-control mt-1 col-md-9 col-sm-9" t-att-value="leave.number_of_days if leave.number_of_days else number_of_days" placeholder='0.0' step='0.0000001' readonly="1" />
+                                            </t>
+                                            <t t-else="">
+                                                <input id="number_of_days" name="number_of_days" type="number" string="Duration (Hour(s))" class="form-control mt-1 col-md-9 col-sm-9" t-att-value="leave.number_of_days if leave.number_of_days else number_of_days" placeholder='0.0' step='0.0000001' readonly="1" />
+                                            </t>
+                                        </t>
+                                        <t t-else="">
+                                            <input id="number_of_days" name="number_of_days" type="number" string="Duration (Hour(s))" class="form-control mt-1 col-md-9 col-sm-9" t-att-value="leave.number_of_days if leave.number_of_days else number_of_days" placeholder='0.0' step='0.0000001' readonly="1" />
+                                        </t>
+                                    </t>
+                                    <t t-else="">
+                                        <input id="number_of_days" name="number_of_days" type="number" string="Duration (Hour(s))" class="form-control mt-1 col-md-9 col-sm-9" t-att-value="leave.number_of_days if leave.number_of_days else number_of_days" placeholder='0.0' step='0.0000001' readonly="1" />
+                                    </t>
+                                    <div class="form-group mt-1 mb-4" style="font-weight:bolder;">
+                                        (<span>Approximately <span id="number_of_days_span">0</span> Hours</span>)
+                                    </div>
+                                    <t t-if="leave.state in ['validate', 'validate1'] and leave.duration_display">
+                                        <input id="duration_display" type="text" name="duration_display" string="Duration (Hour(s))" class="d-none form-control mt-1 col-md-9 col-sm-9" t-att-value="leave.duration_display.split(' ')[0]" required="required" readonly="1" />
+                                    </t>
+                                </div>
+                                <div class="form-group mt-2 " t-if="leave.report_note">
+                                    <label for="number_of_days" class="col-md-2 col-sm-2">Comment by Manager:</label>
+                                    <textarea class="form-control mt-1 col-md-9 col-sm-9" name="report_note" rows="5" cols="30" readonly="1"><t t-esc="leave.report_note" />
+                                    </textarea>
+                                </div>
+                                <!--    <t t-foreach="leave_types or []" t-as="leave_type">
+                                    <t t-if="leave_type.id == int(leave.holiday_status_id.id) if leave.holiday_status_id.id else leave_type.id == leave.holiday_status_id.id">
+                                        <t t-if="leave_type.support_document">
+                                            <div class="form-group mt-2">
+                                                <label class="o_label col-md-2 col-sm-2" for="ufile">Add Attachments </label>
+                                                <input type="file" id="uploadImage" class="form-control mt-1 col-md-9 col-sm-9 o_forum_file_upload" name="ufile" accept="image/*,application/pdf" multiple="multiple" t-att-disabled="leave.state != 'draft' or None" />
+                                            </div>
+                                        </t>
+                                    </t>
+                                </t> -->
+                                <div class="form-group mt-2 attachment_id_form" id="attachment_id_form">
+                                    <label class="o_label col-md-2 col-sm-2" for="ufile">Add Attachments </label>
+                                    <t t-if="leave.supported_attachment_ids and leave.state != 'draft'">
+                                        <input type="file" id="uploadImage" class="mt-1 form-control col-md-9 col-sm-9 o_forum_file_upload" name="ufile" accept="image/*,application/pdf" multiple="multiple" readonly="1" />
+                                    </t>
+                                    <t t-else="">
+                                        <input type="file" id="uploadImage" class="mt-1 form-control col-md-9 col-sm-9 o_forum_file_upload" name="ufile" accept="image/*,application/pdf" multiple="multiple" />
+                                    </t>
+                                </div>
+                                <div class="mt-4 mb-2 col-md text-md-right d-flex">
+                                    <a t-attf-href="/my/leaves">
+                                        <button class="btn btn-danger btn-md" type="button" special="cancel">Close</button>
+                                    </a>
+                                    <t t-if="leave.state in ['draft']">
+                                        <button class="btn btn-primary btn-md" type="submit" id="save_leave" style="margin-left:5px;">Save</button>
+                                    </t>
+                                    <a t-attf-href="/my/leave/set_state/#{leave.id}?{{ keep_query() }}" style="margin-left:5px;">
+                                        <t t-if="leave.state in ['confirm', 'refuse']">
+                                            <span id="reset_draft" class="btn btn-primary btn-md" title="Reset To Draft" aria-label="Reset To Draft">Reset To Draft</span>
+                                        </t>
+                                    </a>
+                                    <!-- <t t-if="leave.state in ['draft']">
+                                        <button class="btn btn-primary btn-md" id="reset_confirm" style="margin-left:5px;">Confirm</button>
+                                    </t> -->
+                                    <a t-attf-href="/my/leave/delete/#{leave.id}?{{ keep_query() }}" t-if="leave.state=='draft'" class="d-flex mt-1" style="margin-left:5px;">
+                                        <span class="fa fa-trash-o fa-2x remove-optionnal-item" title="Delete" aria-label="Delete" />
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt32">
+                    <h4><strong>Message and communication history</strong></h4>
+                    <t t-call="portal.message_thread" />
+                </div>
+            </form>
+        </t>
+    </template>
+    <template id="portal_my_details_leaves" inherit_id="portal.portal_my_details">
+        <xpath expr="//input[@name='redirect']" position="before">
+            <div t-attf-class="form-group #{error.get('timezone') and 'o_has_error' or ''} col-xl-6">
+                <label class="col-form-label" for="country_id">TimeZone</label>
+                <select name="tz" t-attf-class="form-control #{error.get('timezone') and 'is-invalid' or ''}">
+                    <option value="">TimeZone...</option>
+                    <t t-foreach="timezones or []" t-as="timezone">
+                        <option t-att-value="timezone[0]" t-att-selected="timezone[0] == partner.tz if partner.tz else timezone[0] == partner.tz">
+                            <t t-esc="timezone[1]" />
+                        </option>
+                    </t>
+                </select>
+            </div>
+        </xpath>
+    </template>
+    <template inherit_id="portal.side_content" id="portal_layout_leaves">
+        <xpath expr="//div[hasclass('o_portal_my_details')]/div[1]" position="after">
+            <div class="d-flex flex-nowrap align-items-center mb-1">
+                <t t-if="user_id.partner_id and user_id.partner_id.tz">
+                    <div class="fa fa-clock-o fa-fw mr-1"></div>
+                    <span t-esc="user_id.partner_id.tz" />
+                </t>
+            </div>
+        </xpath>
+    </template>
+</odoo>

@@ -38,83 +38,93 @@
 
 
     <!-- ── Portal Home: Student quick-action cards ──────────────────────── -->
-    <!-- ── Portal Home: Student quick-action cards ──────────────────────── -->
     <template id="portal_my_home_student" name="Show Student Profile"
               inherit_id="portal.portal_my_home" customize_show="True" priority="20">
               
-        <!-- Disable the right sidebar (contact details section) by setting my_details to False -->
+        <!-- Disable the right sidebar (contact details section) by setting my_details to False only for students -->
         <xpath expr="//t[@t-set='my_details']" position="replace">
-            <t t-set="my_details" t-value="False"/>
+            <t t-set="my_details" t-value="not request.env.user.has_group('base.group_portal')"/>
         </xpath>
 
-        <!-- Hide the infinite loading spinner from base template -->
-        <xpath expr="//div[hasclass('o_portal_doc_spinner')]" position="replace">
+        <!-- Hide the infinite loading spinner from base template by adding d-none, keeping it in the DOM to avoid JS errors -->
+        <xpath expr="//div[hasclass('o_portal_doc_spinner')]" position="attributes">
+            <attribute name="class">o_portal_doc_spinner spinner-border text-o-color-2 align-self-center mt-5 d-none</attribute>
         </xpath>
 
         <!-- Add a modern Hero introduction to the home page before the cards -->
         <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
-            <div t-if="request.env.user.partner_id" class="lms-hero mb-4" style="padding: 32px 30px; border-radius: 20px;">
-                <div style="position: relative; z-index: 1;">
-                    <h2 class="mb-1" style="font-size: 1.8rem; font-weight: 800;">
-                        Welcome back, <t t-esc="request.env.user.name.split(' ')[0]"/>!
-                    </h2>
-                    <p style="opacity: 0.9; margin-bottom: 0; font-size: 0.95rem;">
-                        Manage your student profile, academic requests, and university services centrally from your personal LMS dashboard.
-                    </p>
+            <t t-if="request.env.user.has_group('base.group_portal')">
+                <style>
+                    #portal_service_category,
+                    #portal_client_category,
+                    #portal_vendor_category,
+                    #portal_alert_category {
+                        display: none !important;
+                    }
+                </style>
+                <div class="lms-hero mb-4" style="padding: 32px 30px; border-radius: 20px;">
+                    <div style="position: relative; z-index: 1;">
+                        <h2 class="mb-1" style="font-size: 1.8rem; font-weight: 800;">
+                            Welcome back, <t t-esc="request.env.user.name.split(' ')[0]"/>!
+                        </h2>
+                        <p style="opacity: 0.9; margin-bottom: 0; font-size: 0.95rem;">
+                            Manage your student profile, academic requests, and university services centrally from your personal LMS dashboard.
+                        </p>
+                    </div>
                 </div>
-            </div>
+            </t>
         </xpath>
 
         <xpath expr="//div[@id='portal_common_category']" position="before">
+            <t t-if="request.env.user.has_group('base.group_portal')">
+                <!-- My Profile card — plain markup, no portal count JS -->
+                <div class="col-md-6 mb-3">
+                    <a href="/my/student_profile"
+                       class="lms-action-card profile d-flex flex-column align-items-center h-100 w-100">
+                        <div class="lms-action-icon">
+                            <i class="fa fa-user-circle"></i>
+                        </div>
+                        <div class="lms-action-label">My Profile</div>
+                        <div class="lms-action-desc">View and update your personal information</div>
+                    </a>
+                </div>
 
-            <!-- My Profile card — plain markup, no portal count JS -->
-            <div class="col-md-6 mb-3">
-                <a href="/my/student_profile"
-                   class="lms-action-card profile d-flex flex-column align-items-center h-100 w-100">
-                    <div class="lms-action-icon">
-                        <i class="fa fa-user-circle"></i>
-                    </div>
-                    <div class="lms-action-label">My Profile</div>
-                    <div class="lms-action-desc">View and update your personal information</div>
-                </a>
-            </div>
+                <!-- Freeze Level -->
+                <div class="col-md-6 mb-3">
+                    <a href="/my/student/freeze"
+                       class="lms-action-card freeze d-flex flex-column align-items-center h-100 w-100">
+                        <div class="lms-action-icon">
+                            <i class="fa fa-snowflake-o"></i>
+                        </div>
+                        <div class="lms-action-label">Freeze Level</div>
+                        <div class="lms-action-desc">Request an academic level freeze</div>
+                    </a>
+                </div>
 
-            <!-- Freeze Level -->
-            <div class="col-md-6 mb-3">
-                <a href="/my/student/freeze"
-                   class="lms-action-card freeze d-flex flex-column align-items-center h-100 w-100">
-                    <div class="lms-action-icon">
-                        <i class="fa fa-snowflake-o"></i>
-                    </div>
-                    <div class="lms-action-label">Freeze Level</div>
-                    <div class="lms-action-desc">Request an academic level freeze</div>
-                </a>
-            </div>
+                <!-- Return &amp; Unfreeze -->
+                <div class="col-md-6 mb-3">
+                    <a href="/my/student/unfreeze"
+                       class="lms-action-card unfreeze d-flex flex-column align-items-center h-100 w-100">
+                        <div class="lms-action-icon">
+                            <i class="fa fa-unlock"></i>
+                        </div>
+                        <div class="lms-action-label">Return &amp; Unfreeze</div>
+                        <div class="lms-action-desc">Resume studies after a freeze</div>
+                    </a>
+                </div>
 
-            <!-- Return &amp; Unfreeze -->
-            <div class="col-md-6 mb-3">
-                <a href="/my/student/unfreeze"
-                   class="lms-action-card unfreeze d-flex flex-column align-items-center h-100 w-100">
-                    <div class="lms-action-icon">
-                        <i class="fa fa-unlock"></i>
-                    </div>
-                    <div class="lms-action-label">Return &amp; Unfreeze</div>
-                    <div class="lms-action-desc">Resume studies after a freeze</div>
-                </a>
-            </div>
-
-            <!-- Annual Re-Registration -->
-            <div class="col-md-6 mb-3">
-                <a href="/my/student/re-register"
-                   class="lms-action-card re-reg d-flex flex-column align-items-center h-100 w-100">
-                    <div class="lms-action-icon">
-                        <i class="fa fa-refresh"></i>
-                    </div>
-                    <div class="lms-action-label">Re-Registration</div>
-                    <div class="lms-action-desc">Complete your mandatory annual registration</div>
-                </a>
-            </div>
-
+                <!-- Annual Re-Registration -->
+                <div class="col-md-6 mb-3">
+                    <a href="/my/student/re-register"
+                       class="lms-action-card re-reg d-flex flex-column align-items-center h-100 w-100">
+                        <div class="lms-action-icon">
+                            <i class="fa fa-refresh"></i>
+                        </div>
+                        <div class="lms-action-label">Re-Registration</div>
+                        <div class="lms-action-desc">Complete your mandatory annual registration</div>
+                    </a>
+                </div>
+            </t>
         </xpath>
     </template>
 

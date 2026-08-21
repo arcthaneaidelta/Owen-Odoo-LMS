@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- 2. The Hierarchy View -->
+    <record id="view_curriculum_hierarchy" model="ir.ui.view">
+        <field name="name">university.curriculum.hierarchy</field>
+        <field name="model">university.curriculum</field>
+        <field name="arch" type="xml">
+            <hierarchy child_field="child_ids">
+                <field name="name"/>
+                <field name="version"/>
+                <field name="academic_year_name"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="hierarchy-box">
+                        <div class="custom-hierarchy-card">
+                            <!-- Header -->
+                            <div class="card-header-gradient">
+                                <span><field name="name"/></span>
+                            </div>
+                            <!-- Body -->
+                            <div class="card-body-row">
+                                <span class="row-label"><i class="fa fa-code-fork me-1"/> Version</span>
+                                <span class="row-value"><field name="version"/></span>
+                            </div>
+                            <div class="card-body-row">
+                                <span class="row-label"><i class="fa fa-calendar me-1"/> Acad. Year</span>
+                                <span class="row-value"><field name="academic_year_name"/></span>
+                            </div>
+                            <div class="card-body-row">
+                                <span class="row-label">Status</span>
+                                <field name="state" widget="badge"
+                                    decoration-success="state=='active'"
+                                    decoration-info="state=='draft'"
+                                    decoration-warning="state=='deprecated'"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </hierarchy>
+        </field>
+    </record>
+
+    <!-- 3. The Action for Hierarchy -->
+    <record id="action_program_curriculum_hierarchy" model="ir.actions.act_window">
+        <field name="name">Curriculum Hierarchy</field>
+        <field name="res_model">university.curriculum</field>
+        <field name="view_mode">hierarchy,form</field>
+        <field name="domain">[('program_id', '=', active_id)]</field>
+    </record>
+
+    <!-- 1. The Gateway Kanban View -->
+    <record id="view_curriculum_program_kanban" model="ir.ui.view">
+        <field name="name">university.program.curriculum.kanban</field>
+        <field name="model">university.program</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" sample="1">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="college_id"/>
+                <field name="degree_type"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_record_top">
+                                <div class="o_kanban_record_headings">
+                                    <strong class="o_kanban_record_title h5">
+                                        <field name="name"/>
+                                    </strong>
+                                </div>
+                            </div>
+                            <div class="o_kanban_record_body mt-1">
+                                <div class="text-muted"><field name="code"/></div>
+                                <div><field name="college_id"/></div>
+                            </div>
+                            <div class="o_kanban_record_bottom mt-2">
+                                <div class="oe_kanban_bottom_left">
+                                    <span class="badge text-bg-primary"><field name="degree_type"/></span>
+                                </div>
+                            </div>
+                            <div class="mt-2 text-center">
+                                <button type="action" name="%(university_curriculum.action_program_curriculum_hierarchy)d" class="btn btn-primary btn-sm w-100">
+                                    <i class="fa fa-sitemap"/> View Curriculum Tree
+                                </button>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- 4. The Gateway Action -->
+    <record id="action_curriculum_programs_gateway" model="ir.actions.act_window">
+        <field name="name">Program Curriculums</field>
+        <field name="res_model">university.program</field>
+        <field name="view_mode">kanban</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'kanban', 'view_id': ref('view_curriculum_program_kanban')})]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Select a Program to view its Curriculums
+            </p>
+        </field>
+    </record>
+
+</odoo>

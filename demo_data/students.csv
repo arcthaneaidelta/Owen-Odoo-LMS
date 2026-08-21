@@ -1,0 +1,4 @@
+id,student_id,ministry_form_number,name_part1_ar,name_part2_ar,name_part3_ar,name_part4_ar,email,batch_id:id,registration_status,current_level
+student_1,STD-001,FRM-001,Ali,Ahmed,Hassan,Omar,ali@test.edu,batch_med_1,registered,1
+student_2,STD-002,FRM-002,Sara,Khan,Ali,Zaid,sara@test.edu,batch_med_1,registered,1
+student_3,STD-003,FRM-003,Omar,Hassan,Mohamed,Salah,omar@test.edu,batch_mls_1,registered,1

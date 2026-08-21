@@ -15,7 +15,7 @@
                     <group>
                         <field name="program_id" invisible="1"/>
                         <field name="batch_id" domain="[('program_id', '=', program_id)]"/>
-                        <field name="academic_year_id"/>
+                        <field name="academic_year_name"/>
                     </group>
                     <group>
                         <field name="default_teacher_id" required="1"/>

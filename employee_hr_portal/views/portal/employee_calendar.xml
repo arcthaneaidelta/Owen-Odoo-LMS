@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_layout_full_replaced" inherit_id="portal.portal_layout">
+        <xpath expr="//t[@t-call='portal.frontend_layout']" position="replace">
+            <t t-call="portal.frontend_layout">
+                <t t-if="show_attendance_dashboard">
+                    <link rel="stylesheet" href="/employee_hr_portal/static/src/scss/calendar-app.css" />
+                    <t t-set="is_portal" t-value="True" />
+                    <div t-if="not no_breadcrumbs and not my_details and not breadcrumbs_searchbar" class="o_portal container mt-3">
+                        <div class="row align-items-center bg-white g-0 border rounded">
+                            <div class="col-10">
+                                <t t-call="portal.portal_breadcrumbs"></t>
+                            </div>
+                            <div t-if="prev_record or next_record" class="col-2 flex-grow-0 text-center">
+                                <t t-call='portal.record_pager' />
+                            </div>
+                        </div>
+                    </div>
+                    <div id="wrap" class='o_portal_wrap'>
+                        <div class="container mb64">
+                            <t t-if="my_details">
+                                <div class="row justify-content-between mt-4">
+                                    <div t-attf-class="col-12 col-md col-lg-5">
+                                        <t t-out="0" />
+                                    </div>
+                                    <div t-attf-class="col-12 col-md col-lg-7">
+                                        <div class="container-ext">
+                                            <div class="header-ext">
+                                                <h3>Attendance Dashboard</h3>
+                                                <t t-if="request.env.user.sudo().has_group('employee_hr_portal.access_to_quot_manager_custom')">
+                                                    <div class="flex-wrap flex-row d-flex justify-content-between align-items-start position-relative">
+                                                        <div class="card-ext card flex-row d-flex justify-content-between align-items-start" id="employeeSelector">
+                                                            <i class="fa fa-user"></i>
+                                                            <span id="currentEmployee" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px; text-overflow: ellipsis;">Select Employee</span>
+                                                            <i class="fa fa-chevron-down"></i>
+                                                        </div>
+                                                        <div class="employee-dropdown" id="employeeDropdown">
+                                                        </div>
+                                                        <div class="card-ext card flex-row d-flex justify-content-between align-items-start" id="monthSelector">
+                                                            <i class="fa fa-calendar"></i>
+                                                            <span id="currentMonthYear">N/A</span>
+                                                            <i class="fa fa-chevron-down"></i>
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                                <t t-else="">
+                                                    <div class="flex-wrap flex-row d-flex justify-content-between align-items-start position-relative">
+                                                        <div class="d-none" id="employeeSelector">
+                                                            <i class="fa fa-user"></i>
+                                                            <span id="currentEmployee" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px; text-overflow: ellipsis;">Select Employee</span>
+                                                            <i class="fa fa-chevron-down"></i>
+                                                        </div>
+                                                        <div class="employee-dropdown d-none" id="employeeDropdown">
+                                                        </div>
+                                                        <div class="card-ext card flex-row d-flex justify-content-between align-items-start" id="monthSelector">
+                                                            <i class="fa fa-calendar"></i>
+                                                            <span id="currentMonthYear">N/A</span>
+                                                            <i class="fa fa-chevron-down"></i>
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                            </div>
+                                            <div class="card">
+                                                <div class="card-header pb-2 pt-3">
+                                                    <h5 id="todays-attendance">2025 Attendance</h5>
+                                                    <div class="status-badge status-present" id="attendanceBadge">
+                                                        <i class="fa fa-user"></i>
+                                                        <span>N/A</span>
+                                                    </div>
+                                                </div>
+                                                <div class="employee-info">
+                                                    <div class="employee-avatar">T</div>
+                                                    <div>
+                                                        <h3>N/A</h3>
+                                                        <p>N/A</p>
+                                                    </div>
+                                                </div>
+                                                <div class="attendance-details">
+                                                    <div class="detail-item">
+                                                        <div class="detail-label">Shift</div>
+                                                        <div class="detail-value" id="shiftValue">N/A</div>
+                                                    </div>
+                                                    <div class="detail-item">
+                                                        <div class="detail-label">Status</div>
+                                                        <div class="detail-value" id="attendanceStatus">N/A</div>
+                                                    </div>
+                                                    <div class="detail-item">
+                                                        <div class="detail-label">Check In/Out</div>
+                                                        <div class="detail-value" id="attendanceTimings">N/A</div>
+                                                    </div>
+                                                    <div class="detail-item" id="breaksRow" style="display:none">
+                                                        <div class="detail-label">Breaks</div>
+                                                        <div class="detail-value">
+                                                            <div id="attendanceBreaks" style="white-space:pre-line"></div>
+                                                            <div id="missingPunchBreaks" style="white-space:pre-line; margin-top:4px;"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="detail-item">
+                                                        <div class="detail-label">Date</div>
+                                                        <div class="detail-value" id="attendanceDate">N/A</div>
+                                                    </div>
+                                                </div>
+                                                <div id="attendanceBadges"></div>
+                                            </div>
+                                            <div class="card">
+                                                <div class="card-header pb-1">
+                                                    <h4>Attendance Calendar</h4>
+                                                    <div class="calendar-nav">
+                                                        <button class="nav-btn" id="prevMonth">
+                                                            <i class="fa fa-chevron-left"></i>
+                                                        </button>
+                                                        <button class="nav-btn" id="nextMonth">
+                                                            <i class="fa fa-chevron-right"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="calendar" id="calendarHeaders">
+                                                    <div class="calendar-day-header">Sun</div>
+                                                    <div class="calendar-day-header">Mon</div>
+                                                    <div class="calendar-day-header">Tue</div>
+                                                    <div class="calendar-day-header">Wed</div>
+                                                    <div class="calendar-day-header">Thu</div>
+                                                    <div class="calendar-day-header">Fri</div>
+                                                    <div class="calendar-day-header">Sat</div>
+                                                </div>
+                                                <div class="calendar" id="calendarDays"></div>
+                                            </div>
+                                        </div>
+                                        <div class="modalCustom" id="monthYearModalCustom">
+                                            <div class="modalCustom-content">
+                                                <div class="modalCustom-header">
+                                                    <h4>Select Month</h4>
+                                                    <button class="modalCustom-close" id="closeMonthModalCustom">
+                                                        <i class="fa fa-times"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="year-selector">
+                                                    <button class="nav-btn" id="prevYear">
+                                                        <i class="fa fa-chevron-left"></i>
+                                                    </button>
+                                                    <span id="modalCustomYear">2025</span>
+                                                    <button class="nav-btn" id="nextYear">
+                                                        <i class="fa fa-chevron-right"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="month-grid" id="monthGrid"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <t t-out="0" />
+                            </t>
+                        </div>
+                    </div>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+                    <script src="/employee_hr_portal/static/src/js/calendar-app.js"></script>
+                </t>
+                <t t-else="">
+                    <t t-set="is_portal" t-value="True" />
+                    <div t-if="not no_breadcrumbs and not my_details and not breadcrumbs_searchbar" class="o_portal container mt-3">
+                        <div class="row align-items-center bg-white g-0 border rounded">
+                            <div class="col-10">
+                                <t t-call="portal.portal_breadcrumbs"></t>
+                            </div>
+                            <div t-if="prev_record or next_record" class="col-2 flex-grow-0 text-center">
+                                <t t-call='portal.record_pager' />
+                            </div>
+                        </div>
+                    </div>
+                    <div id="wrap" class='o_portal_wrap'>
+                        <div class="container mb64">
+                            <t t-if="my_details">
+                                <div class="row justify-content-between mt-4">
+                                    <div t-attf-class="col-12 col-md col-lg-6">
+                                        <t t-out="0" />
+                                    </div>
+                                    <div id="o_my_sidebar" class="pt-3 pt-lg-0 col-12 col-md col-lg-5 col-xl-5 o_my_sidebar">
+                                        <div class="o_my_contact" t-if="sales_user">
+                                            <t t-call="portal.portal_contact" />
+                                        </div>
+                                        <div class="o_portal_my_details">
+                                            <h4>Details <a role="button" href="/my/account" class="btn btn-sm btn-link"><i class="fa fa-pencil" /> Edit</a></h4>
+                                            <hr class="mt-1 mb-0" />
+                                            <div t-field="user_id.partner_id" t-options='{"widget": "contact", "fields": ["email", "phone", "address", "name"]}' />
+                                        </div>
+                                        <div class="o_portal_my_security mt-3">
+                                            <h4>Account Security </h4>
+                                            <hr class="mt-1 mb-1" />
+                                            <a href="/my/security"><i class="fa fa-pencil mx-1" />Edit Security Settings</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <t t-out="0" />
+                            </t>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </xpath>
+    </template>
+</odoo>

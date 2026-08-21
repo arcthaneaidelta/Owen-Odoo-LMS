@@ -1,0 +1,3 @@
+id,name,batch_number,batch_year,program_id:id,evaluation_method,state,current_level
+batch_med_1,Medicine Batch 1,MED-001,2026,prog_med,method_a,active,1
+batch_mls_1,MLS Batch 1,MLS-001,2026,prog_mls,method_a,active,1

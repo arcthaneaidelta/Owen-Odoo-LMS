@@ -19,7 +19,7 @@
                     <field name="freeze_request_ids">
                         <list create="0" delete="0">
                             <field name="name"/>
-                            <field name="academic_year_id"/>
+                            <field name="academic_year_name"/>
                             <field name="level_to_freeze"/>
                             <field name="reason"/>
                             <field name="state" widget="badge" 

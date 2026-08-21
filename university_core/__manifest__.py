@@ -24,7 +24,7 @@
         'security/university_core_security.xml',
         'security/ir.model.access.csv',
         'data/sequence_data.xml',
-        'views/department_view.xml',
+        'data/cron_data.xml',
         'views/program_view.xml',
         'views/college_view.xml',
         'views/university_view.xml',

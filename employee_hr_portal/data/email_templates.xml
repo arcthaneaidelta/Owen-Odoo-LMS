@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Email for Create Leaves-->
+    <template id="leave_create_send_email_ext">
+        <div id="body">
+            <table class="container" border="0" cellpadding="0" cellspacing="0" style="width:100%; margin:0px auto;">
+                <tbody>
+                    <tr>
+                        <td align="center">
+                            <table width="600" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td align="center" bgcolor="#ffffff">
+                                        <h1 style="font-size: 24px; color: #333; margin-bottom:10px;">New Leave Requested</h1>
+                                        <p style="font-size: 16px; color: #666;">
+                                            A new leave has been requested by an employee, the details are given below:
+                                        </p>
+                                        <div style="padding: 16px 8px 16px 8px; border-radius: 3px; background-color: #F1F1F1;">
+                                            <p style="margin:0 0 5px 0; font-size: 17px; color: #000;"><strong style="font-weight:900;">Employee:</strong>
+                                                <t t-esc="data.employee_id.name"></t>
+                                            </p>
+                                            <p style="margin:0 0 5px 0; font-size: 17px; color: #000;">
+                                                <strong style="font-weight:900;">Leave:</strong>
+                                                <t t-esc="data.name"></t>
+                                            </p>
+                                            <p style="margin:0 0 5px 0; font-size: 17px; color: #000;">
+                                                <strong style="font-weight:900;">Leave Type:</strong>
+                                                <t t-esc="data.holiday_status_id.name"></t>
+                                            </p>
+                                            <p style="margin:0 0 5px 0;font-size: 17px; color: #000;"> <strong style="font-weight:900;">Date:</strong>
+                                                <t t-esc="data.request_date_from"></t>
+                                                <t t-if="data.request_date_to">
+                                                    - <t t-esc="data.request_date_to"></t>
+                                                </t>
+                                            </p>
+                                            <p style="margin:0 0 5px 0; font-size: 17px; color: #000;"> <strong style="font-weight:900;">Days:</strong>
+                                                <t t-esc="data.number_of_days"></t>
+                                            </p>
+                                        </div>
+                                        <div class="cta-button" style="text-align: center; margin: 10px; 0">
+                                            <a t-attf-href="/web?#id={{ data.id }}&amp;view_type=form&amp;model=hr.leave" style="display: inline-block; padding: 10px 20px; background-color: #0da9ef; color: #fff; text-decoration: none; border-radius: 5px; font-weight: bold;">View Leave</a>
+                                        </div>
+                                        <p style="font-size: 16px; color: #666;">
+                                            You can review the leave and contact the employee for any additional information if necessary. The leave details are also available in your admin panel.
+                                        </p>
+                                        <p style="font-size: 16px; color: #666; font-weight:900;">
+                                            Best Regards,<br />
+                                            <t t-esc="company.name"></t><br />
+                                            <t t-esc="company.email"></t>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </template>
+</odoo>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="portal_my_hr_docs" name="Documents/Communications">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True" />
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Documents/Communications</t>
+            </t>
+            <t t-if="not hr_docs_mails">
+                <p>There are currently no Documents/Communications.</p>
+            </t>
+            <t t-if="hr_docs_mails" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th class="text-left">Date</th>
+                        <th class="text-left">Subject</th>
+                        <th class="text-left">Employee/User</th>
+                        <th class="text-left">Document</th>
+                        <th class="text-left">Author</th>
+                        <th class="text-left">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="hr_docs_mails" t-as="hrd">
+                        <tr>
+                            <td class="text-left"><span t-field="hrd.date" /></td>
+                            <td class="text-left">
+                                <a style="text-decoration: underline;color: blue;" t-attf-href="/my/hr_doc/#{hrd.id}?{{ keep_query() }}">
+                                    <t t-esc="hrd.subject" />
+                                </a>
+                            </td>
+                            <t t-if="hrd.recipient_ids.sudo()">
+                                <td class="text-left"><span t-field="hrd.recipient_ids[0].sudo().name" /></td>
+                            </t>
+                            <t t-else="">
+                                <td class="text-left"><span /></td>
+                            </t>
+                            <t t-if="hrd.attachment_ids.sudo()">
+                                <td class="text-left"><span t-field="hrd.attachment_ids[0].sudo().name" /></td>
+                            </t>
+                            <t t-else="">
+                                <td class="text-left"><span /></td>
+                            </t>
+                            <td class="text-left"><span t-field="hrd.author_id.name" /></td>
+                            <td class="text-left">
+                                <t t-value="dict(hrd.fields_get(allfields=['state'])['state']['selection'])[hrd.state]" t-set="state" />
+                                <t t-if="hrd.state == 'outgoing'">
+                                    <span class="badge badge-pill badge-info" style="background-color: #999999; color: black;" title="Current stage of the contract" t-esc="state" />
+                                </t>
+                                <t t-if="hrd.state == 'sent'">
+                                    <span class="badge badge-pill badge-info" style="background-color: #0bdb12; color: black;" title="Current stage of the contract" t-esc="state" />
+                                </t>
+                                <t t-if="hrd.state == 'received'">
+                                    <span class="badge badge-pill badge-info" style="background-color: #0bdb12; color: black;" title="Current stage of the contract" t-esc="state" />
+                                </t>
+                                <t t-if="hrd.state == 'exception'">
+                                    <span class="badge badge-pill badge-info" style="background-color: #ff7700; color: black;" title="Current stage of the contract" t-esc="state" />
+                                </t>
+                                <t t-if="hrd.state == 'cancel'">
+                                    <span class="badge badge-pill badge-info" style="background-color: #ff7700; color: black;" title="Current stage of the contract" t-esc="state" />
+                                </t>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </t>
+        </t>
+    </template>
+    <template id="portal_my_hr_doc" name="My Documents/Communications">
+        <div class="card mt-4">
+            <div class="card mt-4">
+<div class="card-header">
+                    <div class="row g-0 align-items-center p-3 bg-primary text-white rounded-top">
+                        <div class="col-md">
+                            <h5 class="mb-0">
+                                <span t-field="hr_doc.subject" />
+                            </h5>
+                        </div>
+                        <div class="col-md text-md-end">
+                            <span t-field="hr_doc.state" class="badge rounded-pill bg-light text-dark" title="Current status of the docs" />
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="p-3 border rounded bg-light">
+                        <h6 class="text-primary">Communication Details</h6>
+                        <p><strong>Date:</strong> <span t-field="hr_doc.date" /></p>
+                        <p><strong>Sent by:</strong> <span t-field="hr_doc.author_id.name" /></p>
+                        <p><strong>Recipients:</strong> <span t-field="hr_doc.recipient_ids" /></p>
+                        <hr />
+                        <h6 class="text-primary">Message/Body</h6>
+                        <div class="border p-3 bg-white rounded" t-raw="hr_doc.body_html" />
+                        <hr />
+                        <h6 class="text-primary">Attachments</h6>
+                        <t t-if="hr_doc.attachment_ids">
+                            <ul class="list-unstyled">
+                                <t t-foreach="hr_doc.attachment_ids" t-as="attachment">
+                                    <t t-set="attachment_sudo" t-value="attachment.sudo()" />
+                                    <t t-esc="attachment_sudo.get_access_token_attachment_portal_update()" />
+                                    <t t-set="target" t-value="attachment_sudo.type == 'url' and '_blank' or '_self'" />
+                                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 my-2">
+                                        <div class="d-flex align-items-center p-2 border">
+                                            <div class="o_image" t-att-data-mimetype="attachment_sudo.mimetype" />
+                                            <div class="ms-2 text-truncate">
+                                                <div class="text-truncate" t-field="attachment_sudo.name" t-att-title="attachment_sudo.name" />
+                                                <a t-attf-href="/web/content/#{attachment_sudo.id}?download=true&amp;access_token=#{attachment_sudo.access_token}" t-att-target="target" class="link-primary d-inline-block mt-1">
+                                                    <i class="fa fa-download" /> Download
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </ul>
+                        </t>
+                        <t t-else="">
+                            <p class="text-muted">No attachments</p>
+                        </t>
+                    </div>
+</div>
+            </div>
+        </div>
+    </template>
+</odoo>

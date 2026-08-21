@@ -1,0 +1,122 @@
+# Translation of university_results.
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2024-05-21 12:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: none\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#. module: university_results
+msgid "Academic Results"
+msgstr ""
+
+#. module: university_results
+msgid "Academic Status"
+msgstr ""
+
+#. module: university_results
+msgid "Academic Status Result"
+msgstr ""
+
+#. module: university_results
+msgid "Academic Year"
+msgstr "Año Académico"
+
+#. module: university_results
+msgid "Actions"
+msgstr ""
+
+#. module: university_results
+msgid "Compute Final Results"
+msgstr ""
+
+#. module: university_results
+msgid "Confirm Results"
+msgstr ""
+
+#. module: university_results
+msgid "Could not find an active batch for this program at the required level to reassign the student."
+msgstr ""
+
+#. module: university_results
+msgid "Cumulative GPA"
+msgstr ""
+
+#. module: university_results
+msgid "Current Level GPA"
+msgstr ""
+
+#. module: university_results
+msgid "Examination Round"
+msgstr "Examenination Round"
+
+#. module: university_results
+msgid "Failed Subjects"
+msgstr "Failed Materias"
+
+#. module: university_results
+msgid "Is Pass"
+msgstr ""
+
+#. module: university_results
+msgid "Level"
+msgstr ""
+
+#. module: university_results
+msgid "No exam scores found for this student in the selected year and level."
+msgstr ""
+
+#. module: university_results
+msgid "Record State"
+msgstr ""
+
+#. module: university_results
+msgid "Repeating %s subject(s)"
+msgstr ""
+
+#. module: university_results
+msgid "Repeating all subjects"
+msgstr ""
+
+#. module: university_results
+msgid "Repetition Invoice"
+msgstr ""
+
+#. module: university_results
+msgid "Result Status"
+msgstr ""
+
+#. module: university_results
+msgid "Score"
+msgstr ""
+
+#. module: university_results
+msgid "Student"
+msgstr "Estudiante"
+
+#. module: university_results
+msgid "Student Exam Score"
+msgstr "Estudiante Examen Score"
+
+#. module: university_results
+msgid "Student Exam Scores"
+msgstr "Estudiante Examen Scores"
+
+#. module: university_results
+msgid "Student failed a repeated level. Automatic expulsion triggered."
+msgstr "Estudiante failed a repeated level. Automatic expulsion triggered."
+
+#. module: university_results
+msgid "Student set to repeat. Reassigned to Batch %s. Added to repetition history."
+msgstr "Estudiante set to repeat. Reassigned to Batch %s. Added to repetition history."
+
+#. module: university_results
+msgid "Subject"
+msgstr "Materia"
+

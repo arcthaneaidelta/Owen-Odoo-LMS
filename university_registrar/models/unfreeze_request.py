@@ -25,8 +25,7 @@ class UniversityStudentUnfreezeRequest(models.Model):
         related='student_id.program_id',
         store=True,
     )
-    academic_year_id = fields.Many2one(
-        'university.academic_year',
+    academic_year_name = fields.Char(
         string='Academic Year related to new enrollment',
         required=True,
         tracking=True,
@@ -123,7 +122,6 @@ class UniversityStudentUnfreezeRequest(models.Model):
             # Find the appropriate batch for their level in the current academic year
             # Logic: If returning to Level 1 in 2021, target batch year is 2021.
             # If returning to Level 2 in 2021, target batch year is 2020.
-            current_year_rec = self.env['university.academic_year'].search([('is_current', '=', True)], limit=1)
             new_batch = self.env['university.batch'].search([
                 ('program_id', '=', rec.student_id.program_id.id),
                 ('current_level', '=', rec.freeze_request_id.level_to_freeze),
@@ -134,7 +132,7 @@ class UniversityStudentUnfreezeRequest(models.Model):
                 'academic_standing': 'good_standing',
                 'registration_status': 'unregistered',
                 'batch_id': new_batch.id if new_batch else rec.student_id.batch_id,
-                'academic_year_id': current_year_rec.id if current_year_rec else rec.student_id.academic_year_id
+                'academic_year_name': new_batch.current_academic_year_name if new_batch else False
             })
             
             rec.student_id.message_post(body=_("Student has properly unfrozen via Request %s. They must now register and pay fees to join Batch %s.") % (rec.name, new_batch.name if new_batch else 'None'))

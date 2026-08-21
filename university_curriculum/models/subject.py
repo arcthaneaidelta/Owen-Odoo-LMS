@@ -33,21 +33,9 @@ class UniversitySubject(models.Model):
     )
 
     # ─── Placement ────────────────────────────────────────────────────────────
-    department_id = fields.Many2one(
-        'university.department',
-        string='Department',
-        ondelete='restrict',
-        tracking=True,
-    )
-
-    @api.onchange('department_id')
-    def _onchange_department_id(self):
-        self.program_id = False
-
     program_id = fields.Many2one(
         'university.program',
         string='Program',
-        domain="[('department_id', '=', department_id)]",
         help='The main program this subject belongs to.'
     )
 

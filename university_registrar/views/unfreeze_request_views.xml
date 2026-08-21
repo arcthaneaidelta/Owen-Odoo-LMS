@@ -55,7 +55,7 @@
                         <group>
                             <field name="student_id" readonly="state != 'draft'"/>
                             <field name="program_id"/>
-                            <field name="academic_year_id" readonly="state != 'draft'"/>
+                            <field name="academic_year_name" readonly="state != 'draft'"/>
                             <field name="freeze_request_id" readonly="state != 'draft'"/>
                             <field name="otp_verified" readonly="1"/>
                         </group>
@@ -77,7 +77,7 @@
             <list string="Unfreeze Requests">
                 <field name="name"/>
                 <field name="student_id"/>
-                <field name="academic_year_id"/>
+                <field name="academic_year_name"/>
                 <field name="state" decoration-info="state == 'draft'" decoration-success="state == 'completed'" widget="badge"/>
             </list>
         </field>

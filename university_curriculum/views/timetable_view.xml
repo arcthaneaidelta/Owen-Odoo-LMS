@@ -21,8 +21,7 @@
                         <group string="Class Details">
                             <field name="batch_id"/>
                             <field name="program_id" invisible="1"/>
-                            <field name="department_id" invisible="1"/>
-                            <field name="academic_year_id"/>
+                            <field name="academic_year_name"/>
                             <field name="subject_id"/>
                             <field name="session_type"/>
                         </group>

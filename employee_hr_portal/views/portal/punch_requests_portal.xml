@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_my_missing_punches" name="My Missing Punch">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True" />
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Missing Punch's</t>
+            </t>
+            <a t-attf-href="/create/my_missing_punch?{{ keep_query() }}"><button type="button" class="mt-2 mb-2 btn btn-info btn-md" id="create_missing_punche">Create a Missing Punch</button></a>
+            <p class="alert alert-danger mt8" t-if="request.params.get('error_msg')" role="alert">
+                <t t-esc="request.params.get('error_msg')" />
+            </p>
+            <t t-call="portal.portal_table">
+                <thead>
+                    <tr>
+                        <th>Punch Date/Time</th>
+                        <th>Employee</th>
+                        <th>Punch Type</th>
+                        <th class="text-right">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="missing_punch_requests" t-as="missing_punch">
+                        <tr>
+                            <td><a t-attf-href="/my/missing_punch/#{missing_punch.id}?{{ keep_query() }}"><span t-field="missing_punch.punch_datetime" t-options='{"widget": "datetime"}' /></a></td>
+                            <td><span t-field="missing_punch.employee_id" /></td>
+                            <td class="text-right">
+                                <t t-value="dict(missing_punch.fields_get(allfields=['punch_type'])['punch_type']['selection'])[missing_punch.punch_type]" t-set="punch_type" />
+                                <t t-if="missing_punch.punch_type == 'check_out'">
+                                    <span class="badge badge-pill badge-warning" style="background-color: yellow; color: black;" title="Current stage of the task" t-esc="punch_type" />
+                                </t>
+                                <t t-if="missing_punch.punch_type == 'check_in'">
+                                    <span class="badge badge-pill badge-info" style="background-color: #0bdb12; color: black;" title="Current stage of the task" t-esc="punch_type" />
+                                </t>
+                                <t t-if="missing_punch.punch_type == 'break_in'">
+                                    <span class="badge badge-pill badge-info" style="background-color: #0bdb12; color: black;" title="Current stage of the task" t-esc="punch_type" />
+                                </t>
+                                <t t-if="missing_punch.punch_type == 'break_out'">
+                                    <span class="badge badge-pill badge-warning" style="background-color: yellow; color: black;" title="Current stage of the task" t-esc="punch_type" />
+                                </t>
+                            </td>
+                            <td class="text-right">
+                                <t t-value="dict(missing_punch.fields_get(allfields=['state'])['state']['selection'])[missing_punch.state]" t-set="state" />
+                                <t t-if="missing_punch.state == 'new'">
+                                    <span class="badge badge-pill badge-info" style="background-color: #999999; color: black;" title="Current stage of the task" t-esc="state" />
+                                </t>
+                                <t t-if="missing_punch.state == 'approve'">
+                                    <span class="badge badge-pill badge-info" style="background-color: #0bdb12; color: black;" title="Current stage of the task" t-esc="state" />
+                                </t>
+                                <t t-if="missing_punch.state == 'attendance_created'">
+                                    <span class="badge badge-pill badge-info" style="background-color: #0bdb12; color: black;" title="Current stage of the task" t-esc="state" />
+                                </t>
+                                <t t-if="missing_punch.state == 'refuse'">
+                                    <span class="badge badge-pill badge-info" style="background-color: #ff0000; color: black;" title="Current stage of the task" t-esc="state" />
+                                </t>
+                                <t t-if="missing_punch.state == 'cancel'">
+                                    <span class="badge badge-pill badge-info" style="background-color: #ff7700; color: black;" title="Current stage of the task" t-esc="state" />
+                                </t>
+                            </td>
+                            <td>
+                                <a t-attf-href="/my/missing_punch/delete/#{missing_punch.id}?{{ keep_query() }}" t-if="missing_punch.state=='new'">
+                                    <span class="fa fa-trash-o remove-optionnal-item" title="Delete" aria-label="Delete" />
+                                </a>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </t>
+        </t>
+    </template>
+    <template id="portal_my_missing_punch" name="My Missing Punch's">
+        <t t-call="portal.portal_layout">
+            <p class="alert alert-danger mt8" t-if="request.params.get('error_msg')" role="alert">
+                <t t-esc="request.params.get('error_msg')" />
+            </p>
+            <form data-model_name="missing.punch" t-attf-action="/missing_punch/update/{{missing_punch.id}}" method="post" class=" form-horizontal container-fluid" enctype="multipart/form-data">
+                <div class="card mt-4">
+<div class="card-header">
+                        <div class="row no-gutters">
+                            <div class="col-md">
+                                <h5 class="mb-1 mb-md-0">
+                                    <t t-value="dict(missing_punch.fields_get(allfields=['state'])['state']['selection'])[missing_punch.state]" t-set="state" />
+                                    <t t-if="missing_punch.state == 'new'">
+                                        <span class="badge badge-pill badge-info" style="background-color: #999999; color: black;" title="Current stage of the task" t-esc="state" />
+                                    </t>
+                                    <t t-if="missing_punch.state == 'approve'">
+                                        <span class="badge badge-pill badge-info" style="background-color: #0bdb12; color: black;" title="Current stage of the task" t-esc="state" />
+                                    </t> 
+                                    <t t-if="missing_punch.state == 'attendance_created'">
+                                        <span class="badge badge-pill badge-info" style="background-color: #0bdb12; color: black;" title="Current stage of the task" t-esc="state" />
+                                    </t>
+                                    <t t-if="missing_punch.state == 'refuse'">
+                                        <span class="badge badge-pill badge-info" style="background-color: #ff0000; color: black;" title="Current stage of the task" t-esc="state" />
+                                    </t>
+                                    <t t-if="missing_punch.state == 'cancel'">
+                                        <span class="badge badge-pill badge-info" style="background-color: #ff7700; color: black;" title="Current stage of the task" t-esc="state" />
+                                    </t>
+                                </h5>
+                                <div class="mb-1 mb-md-0 mt-2">
+                                    <span t-if="missing_punch.state == 'new' " style="color: #17a2b8;">
+                                        Your requested Missing Punch is yet to be approved by your Missing Punch Manager.
+                                        <br />
+                                        To edit your Missing Punch, kindly fill up the updated details and click on save if it is still in new or new stage.
+                                    </span>
+                                    <span t-if="missing_punch.state == 'refuse' " class="text-danger">
+                                        Your missing punch is refused by your Missing Punch manager.
+                                    </span>
+                                    <span t-if="missing_punch.state == 'approve' " style="color: #0bdb12;">
+                                        Congratulations, your missing punch is approved by your Missing Punch Manager.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row no-gutters">
+                            <div class="col-md-12 col-sm-12">
+                                <div class="form-group mt-2 ">
+                                    <div class="col-sm-12">
+                                        <label for="name" class="col-md-2 col-sm-2">Punch Date/Time*:</label>
+                                        <input id="name" name="punch_datetime" type="datetime-local" onclick="this.showPicker()" string="Punch Date/Time" class="form-control mt-1 col-md-9 col-sm-9" t-att-value="missing_punch_datetime or missing_punch.punch_datetime" required="required" placeholder='Punch Date/Time' t-att-readonly="missing_punch.state != 'new' or None" />
+                                    </div>
+                                </div>
+                                <div class="form-group mt-2 ">
+                                    <div class="col-sm-12">
+                                        <label for="punch_type" class="col-md-2 col-sm-2">Punch Type*:</label>
+                                        <select id="punch_types" name="punch_type" t-attf-class="form-control col-md-9 mt-1 col-sm-9" required="required">
+                                            <option value="check_in" placeholder='Check In' t-att-selected="missing_punch.punch_type == 'check_in'">Check In</option>
+                                            <option value="check_out" placeholder='Check Out' t-att-selected="missing_punch.punch_type == 'check_out'">Check Out</option>
+                                            <option value="break_in" placeholder='Break In' t-att-selected="missing_punch.punch_type == 'break_in'">Break In</option>
+                                            <option value="break_out" placeholder='Break Out' t-att-selected="missing_punch.punch_type == 'break_out'">Break Out</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group mt-2 ">
+                                    <div class="col-sm-12">
+                                        <label for="break_slot" class="col-md-2 col-sm-2">Break Slot*:</label>
+                                        <select id="break_slots" name="break_slot" t-attf-class="form-control col-md-9 mt-1 col-sm-9" required="required">
+                                            <option value="1" placeholder='1' t-att-selected="missing_punch.break_slot == '1'">1</option>
+                                            <option value="2" placeholder='2' t-att-selected="missing_punch.break_slot == '2'">2</option>
+                                        </select>
+                                    </div>
+                                    <script>
+                                        $(document).ready(function () {
+                                            function toggleBreakSlot() {
+                                                let punchType = $("#punch_types").val();
+
+                                                if (punchType === "break_in" || punchType === "break_out") {
+                                                    $("#break_slot_group").show();
+                                                    $("#break_slots").attr("required", true);
+                                                } else {
+                                                    $("#break_slot_group").hide();
+                                                    $("#break_slots").attr("required", false);
+                                                }
+                                            }
+
+                                            // Run when page loads
+                                            toggleBreakSlot();
+
+                                            // Run on change
+                                            $("#punch_types").on("change", toggleBreakSlot);
+                                        });
+                                    </script>
+                                </div>
+                                <div class="form-group mt-2 row d-flex justify-content-between flex-wrap">
+                                    <div class="col-sm-12">
+                                        <label for="reason" class="col-md-2 col-sm-2">Reason*:</label>
+                                        <input id="reason" name="reason" type="text" string="Reason" class="form-control mt-1 datetimepicker-input col-md-4 col-sm-4" t-att-value="missing_punch.reason" required="required" placeholder='For Month' t-att-disabled="missing_punch.state != 'new' or None" />
+                                    </div>
+                                </div>
+                                <div class="mt-4 mb-2 col-md text-md-right d-flex">
+                                    <a t-attf-href="/my/my_missing_punches">
+                                        <button class="btn btn-danger btn-md" type="button" special="cancel">Close</button>
+                                    </a>
+                                    <t t-if="missing_punch.state in ['new']">
+                                        <button class="btn btn-primary btn-md" type="submit" id="save_missing_punch" style="margin-left:5px;">Update</button>
+                                    </t>
+                                    <a t-attf-href="/my/missing_punch/delete/#{missing_punch.id}?{{ keep_query() }}" t-if="missing_punch.state=='new'" class="d-flex mt-1" style="margin-left:5px;">
+                                        <span class="fa fa-trash-o fa-2x remove-optionnal-item" title="Delete" aria-label="Delete" />
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt32">
+                    <h4><strong>Message and communication history</strong></h4>
+                    <t t-call="portal.message_thread" />
+                </div>
+            </form>
+        </t>
+    </template>
+    <template id="portal_my_missing_punch_create" name="Create a New Missing Punch Request">
+        <t t-call="portal.portal_layout">
+            <p class="alert alert-danger mt8" t-if="request.params.get('error_msg')" role="alert">
+                <t t-esc="request.params.get('error_msg')" />
+            </p>
+            <form data-model_name="missing.punch" t-attf-action="/create/missing_punch?{{ keep_query() }}" method="post" class=" form-horizontal container-fluid" enctype="multipart/form-data" id="leave_request_form">
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <div class="row no-gutters">
+                            <div class="col-md">
+                                <h3 class="mt-2 mb-2 text-left">
+                                    Create a New Missing Punch Request
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row no-gutters">
+                            <div class="col-md-12 col-sm-12">
+                                <div class="form-group mt-2">
+                                    <div class="col-sm-12">
+                                        <label for="name" class="col-md-2 col-sm-2">Punch Date/Time*:</label>
+                                        <input id="name" name="punch_datetime" type="datetime-local" onclick="this.showPicker()" string="Punch Date/Time" class="form-control mt-1 col-md-9 col-sm-9" required="required" placeholder='2025/12/31 e.g' />
+                                    </div>
+                                </div>
+                                <div class="form-group mt-2 ">
+                                    <div class="col-sm-12">
+                                        <label for="punch_type" class="col-md-2 col-sm-2">Punch Type*:</label>
+                                        <select id="punch_types" name="punch_type" t-attf-class="form-control col-md-9 mt-1 col-sm-9" required="required">
+                                            <option value="check_in" placeholder='Check In'>Check In</option>
+                                            <option value="check_out" placeholder='Check Out'>Check Out</option>
+                                            <option value="break_in" placeholder='Break In'>Break In</option>
+                                            <option value="break_out" placeholder='Break Out'>Break Out</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group mt-2 ">
+                                    <div class="col-sm-12">
+                                        <label for="break_slot" class="col-md-2 col-sm-2">Break Slot*:</label>
+                                        <select id="break_slots" name="break_slot" t-attf-class="form-control col-md-9 mt-1 col-sm-9" required="required">
+                                            <option value="1" placeholder='1'>1</option>
+                                            <option value="2" placeholder='2'>2</option>
+                                        </select>
+                                    </div>
+                                    <script>
+                                        $(document).ready(function () {
+                                            function toggleBreakSlot() {
+                                                let punchType = $("#punch_types").val();
+
+                                                if (punchType === "break_in" || punchType === "break_out") {
+                                                    $("#break_slot_group").show();
+                                                    $("#break_slots").attr("required", true);
+                                                } else {
+                                                    $("#break_slot_group").hide();
+                                                    $("#break_slots").attr("required", false);
+                                                }
+                                            }
+
+                                            // Run when page loads
+                                            toggleBreakSlot();
+
+                                            // Run on change
+                                            $("#punch_types").on("change", toggleBreakSlot);
+                                        });
+                                    </script>
+                                </div>
+                                <div class="form-group mt-2">
+                                    <div class="col-sm-12">
+                                        <label for="reason" class="col-md-2 col-sm-2">Reason*:</label>
+                                        <input id="reason" name="reason" type="text" string="Reason" class="form-control mt-1 datetimepicker-input col-md-4 col-sm-4" required="required" placeholder='XYZ e.g' />
+                                    </div>
+                                </div>
+                                <div class="mt-4 mb-2 col-md text-md-right d-flex">
+                                    <a t-attf-href="/my/my_missing_punches">
+                                        <button class="btn btn-danger btn-md" type="button" special="cancel">Close</button>
+                                    </a>
+                                    <button class="btn btn-primary btn-md" type="submit" id="save_missing_punch" style="margin-left:5px;">Create</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+</div>
+            </form>
+        </t>
+    </template>
+</odoo>

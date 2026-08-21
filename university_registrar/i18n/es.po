@@ -1,0 +1,610 @@
+# Translation of university_registrar.
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2024-05-21 12:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: none\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#. module: university_registrar
+msgid "A student cannot freeze for two consecutive levels (e.g. Level %s and Level %s)."
+msgstr ""
+
+#. module: university_registrar
+msgid "A student may perform freezing up to a maximum of two times during the total program."
+msgstr ""
+
+#. module: university_registrar
+msgid "Academic Affairs Approve"
+msgstr ""
+
+#. module: university_registrar
+msgid "Academic Affairs Approver"
+msgstr ""
+
+#. module: university_registrar
+msgid "Academic Results"
+msgstr ""
+
+#. module: university_registrar
+msgid "Academic Status"
+msgstr ""
+
+#. module: university_registrar
+msgid "Academic Year"
+msgstr "Año Académico"
+
+#. module: university_registrar
+msgid "Academic Year for Exam"
+msgstr "Academic Year for Examen"
+
+#. module: university_registrar
+msgid "Academic Year related to new enrollment"
+msgstr ""
+
+#. module: university_registrar
+msgid "Academic year frozen due to approved Freeze Request %s. Student unregistered."
+msgstr "Academic year frozen due to approved Freeze Request %s. Estudiante unregistered."
+
+#. module: university_registrar
+msgid "Activate Freeze"
+msgstr ""
+
+#. module: university_registrar
+msgid "Activate Unfreeze (Complete)"
+msgstr ""
+
+#. module: university_registrar
+msgid "Activation Date"
+msgstr ""
+
+#. module: university_registrar
+msgid "Admission"
+msgstr "Admisión"
+
+#. module: university_registrar
+msgid "Admission Clearance"
+msgstr ""
+
+#. module: university_registrar
+msgid "Admission Cleared By"
+msgstr ""
+
+#. module: university_registrar
+msgid "Apply Template to Batch"
+msgstr ""
+
+#. module: university_registrar
+msgid "Approvals"
+msgstr ""
+
+#. module: university_registrar
+msgid "Approve &amp; Rejoin"
+msgstr ""
+
+#. module: university_registrar
+msgid "Approved"
+msgstr ""
+
+#. module: university_registrar
+msgid "At least 50%% of the tuition fees must be paid to apply for a freeze. Paid: %s, Total: %s"
+msgstr ""
+
+#. module: university_registrar
+msgid "Bank Reference"
+msgstr ""
+
+#. module: university_registrar
+msgid "Cancel"
+msgstr ""
+
+#. module: university_registrar
+msgid "Clear Admission"
+msgstr ""
+
+#. module: university_registrar
+msgid "Clear Finance"
+msgstr ""
+
+#. module: university_registrar
+msgid "Clear Laboratory"
+msgstr ""
+
+#. module: university_registrar
+msgid "Clear Library"
+msgstr ""
+
+#. module: university_registrar
+msgid "Confirm Results"
+msgstr ""
+
+#. module: university_registrar
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: university_registrar
+msgid "Day of Week"
+msgstr ""
+
+#. module: university_registrar
+msgid "Dean Approval is only required for Level 1."
+msgstr ""
+
+#. module: university_registrar
+msgid "Dean Approve (Lvl 1)"
+msgstr ""
+
+#. module: university_registrar
+msgid "Default Room"
+msgstr ""
+
+#. module: university_registrar
+msgid "Default Teacher"
+msgstr ""
+
+#. module: university_registrar
+msgid "Deliver to Student"
+msgstr "Deliver to Estudiante"
+
+#. module: university_registrar
+msgid "Departmental Clearance"
+msgstr ""
+
+#. module: university_registrar
+msgid "Document Request"
+msgstr ""
+
+#. module: university_registrar
+msgid "Document Requests"
+msgstr ""
+
+#. module: university_registrar
+msgid "Document Type"
+msgstr ""
+
+#. module: university_registrar
+msgid "Document is ready."
+msgstr ""
+
+#. module: university_registrar
+msgid "Eligible for Tuition Refund"
+msgstr ""
+
+#. module: university_registrar
+msgid "End Time"
+msgstr ""
+
+#. module: university_registrar
+msgid "End time must be after start time."
+msgstr ""
+
+#. module: university_registrar
+msgid "Enter OTP from Student"
+msgstr "Enter OTP from Estudiante"
+
+#. module: university_registrar
+msgid "Exam Fee Invoice"
+msgstr "Examen Fee Invoice"
+
+#. module: university_registrar
+msgid "External Exam Attempt"
+msgstr "External Examen Attempt"
+
+#. module: university_registrar
+msgid "External Exam Request"
+msgstr "External Examen Request"
+
+#. module: university_registrar
+msgid "External Exam Requests"
+msgstr "External Examen Requests"
+
+#. module: university_registrar
+msgid "Final Academic Approval"
+msgstr ""
+
+#. module: university_registrar
+msgid "Finance"
+msgstr ""
+
+#. module: university_registrar
+msgid "Finance Cleared By"
+msgstr ""
+
+#. module: university_registrar
+msgid "Financial Clearance"
+msgstr ""
+
+#. module: university_registrar
+msgid "Financials"
+msgstr ""
+
+#. module: university_registrar
+msgid "Freeze Fee Invoice"
+msgstr ""
+
+#. module: university_registrar
+msgid "Freeze History"
+msgstr ""
+
+#. module: university_registrar
+msgid "Freeze Request"
+msgstr ""
+
+#. module: university_registrar
+msgid "Freeze Request is not in 'OTP Sent' state."
+msgstr ""
+
+#. module: university_registrar
+msgid "Freeze Requests"
+msgstr ""
+
+#. module: university_registrar
+msgid "Freezing is allowed only once for a specific level. You cannot freeze Level %s again."
+msgstr ""
+
+#. module: university_registrar
+msgid "Generate Schedule"
+msgstr ""
+
+#. module: university_registrar
+msgid "Generate Timetable"
+msgstr ""
+
+#. module: university_registrar
+msgid "Group By"
+msgstr "Agrupar Por"
+
+#. module: university_registrar
+msgid "Invalid OTP Code."
+msgstr ""
+
+#. module: university_registrar
+msgid "Invalid OTP code. Please try again."
+msgstr ""
+
+#. module: university_registrar
+msgid "Lab Cleared By"
+msgstr ""
+
+#. module: university_registrar
+msgid "Laboratory"
+msgstr ""
+
+#. module: university_registrar
+msgid "Laboratory Clearance"
+msgstr ""
+
+#. module: university_registrar
+msgid "Level"
+msgstr ""
+
+#. module: university_registrar
+msgid "Level 1 freezing requests must be approved by Academic Affairs first."
+msgstr ""
+
+#. module: university_registrar
+msgid "Level 1 requests must be approved by the Dean before activation."
+msgstr ""
+
+#. module: university_registrar
+msgid "Level 1 students can only resign after completing initial registration procedures."
+msgstr ""
+
+#. module: university_registrar
+msgid "Level to Freeze"
+msgstr ""
+
+#. module: university_registrar
+msgid "Library"
+msgstr ""
+
+#. module: university_registrar
+msgid "Library Clearance"
+msgstr ""
+
+#. module: university_registrar
+msgid "Library Cleared By"
+msgstr ""
+
+#. module: university_registrar
+msgid "Mark as Ready"
+msgstr ""
+
+#. module: university_registrar
+msgid "My Clearances"
+msgstr ""
+
+#. module: university_registrar
+msgid "Net Study Duration (Years)"
+msgstr ""
+
+#. module: university_registrar
+msgid "Notes"
+msgstr "Notas"
+
+#. module: university_registrar
+msgid "Notes / Requirements"
+msgstr ""
+
+#. module: university_registrar
+msgid "OTP Code"
+msgstr ""
+
+#. module: university_registrar
+msgid "OTP Verified"
+msgstr ""
+
+#. module: university_registrar
+msgid "OTP Verified. Clearance process initiated."
+msgstr ""
+
+#. module: university_registrar
+msgid "OTP must be verified before submitting."
+msgstr ""
+
+#. module: university_registrar
+msgid "OTP not sent or already verified."
+msgstr ""
+
+#. module: university_registrar
+msgid "OTP sent to student email for Freeze confirmation."
+msgstr ""
+
+#. module: university_registrar
+msgid "OTP sent to student email for Unfreeze confirmation."
+msgstr ""
+
+#. module: university_registrar
+msgid "OTP successfully verified by Administrator."
+msgstr ""
+
+#. module: university_registrar
+msgid "Original Freeze Request"
+msgstr ""
+
+#. module: university_registrar
+msgid "Please provide a rejection reason."
+msgstr ""
+
+#. module: university_registrar
+msgid "Print Resignation Letter"
+msgstr ""
+
+#. module: university_registrar
+msgid "Print Transcript"
+msgstr ""
+
+#. module: university_registrar
+msgid "Process"
+msgstr ""
+
+#. module: university_registrar
+msgid "Program"
+msgstr "Programa"
+
+#. module: university_registrar
+msgid "Reason"
+msgstr ""
+
+#. module: university_registrar
+msgid "Reason Details"
+msgstr ""
+
+#. module: university_registrar
+msgid "Reason for Resignation"
+msgstr ""
+
+#. module: university_registrar
+msgid "Reference"
+msgstr ""
+
+#. module: university_registrar
+msgid "Registrar Approve"
+msgstr ""
+
+#. module: university_registrar
+msgid "Registrar Approver"
+msgstr ""
+
+#. module: university_registrar
+msgid "Registration and Tuition invoices generated."
+msgstr ""
+
+#. module: university_registrar
+msgid "Reject"
+msgstr ""
+
+#. module: university_registrar
+msgid "Rejection Reason"
+msgstr ""
+
+#. module: university_registrar
+msgid "Rejection info"
+msgstr ""
+
+#. module: university_registrar
+msgid "Requests must be approved by Academic Affairs before activation."
+msgstr ""
+
+#. module: university_registrar
+msgid "Resignation Date"
+msgstr ""
+
+#. module: university_registrar
+msgid "Resignation OTP sent to student email."
+msgstr ""
+
+#. module: university_registrar
+msgid "Resignation Request"
+msgstr ""
+
+#. module: university_registrar
+msgid "Resignation Requests"
+msgstr ""
+
+#. module: university_registrar
+msgid "Resignation approved. Student and user deactivated."
+msgstr "Resignation approved. Estudiante and user deactivated."
+
+#. module: university_registrar
+msgid "Schedule Lines"
+msgstr ""
+
+#. module: university_registrar
+msgid "Select Batch"
+msgstr ""
+
+#. module: university_registrar
+msgid "Semester"
+msgstr ""
+
+#. module: university_registrar
+msgid "Send OTP"
+msgstr ""
+
+#. module: university_registrar
+msgid "Session Type"
+msgstr ""
+
+#. module: university_registrar
+msgid "Start Time"
+msgstr ""
+
+#. module: university_registrar
+msgid "Status"
+msgstr "Estado"
+
+#. module: university_registrar
+msgid "Student"
+msgstr "Estudiante"
+
+#. module: university_registrar
+msgid "Student approved for External Exam and has rejoined the program to retake %s subject(s). Added to repetition history."
+msgstr "Estudiante approved for External Examen and has rejoined the program to retake %s subject(s). Added to repetition history."
+
+#. module: university_registrar
+msgid "Student does not have a registered email address."
+msgstr "Estudiante does not have a registered email address."
+
+#. module: university_registrar
+msgid "Student has properly unfrozen via Request %s. They must now register and pay fees to join Batch %s."
+msgstr "Estudiante has properly unfrozen via Request %s. They must now register and pay fees to join Batch %s."
+
+#. module: university_registrar
+msgid "Student has unfrozen from Request %s and is continuing the level."
+msgstr "Estudiante has unfrozen from Request %s and is continuing the level."
+
+#. module: university_registrar
+msgid "Student must be in 'Registered' status to apply for freezing. Current: %s"
+msgstr "Estudiante must be in 'Registered' status to apply for freezing. Current: %s"
+
+#. module: university_registrar
+msgid "Student must have an email address to receive OTP."
+msgstr "Estudiante must have an email address to receive OTP."
+
+#. module: university_registrar
+msgid "Student promoted to Level %s. ' if not is_repetition else 'Student is Repeating Level %s. "
+msgstr "Estudiante promoted to Level %s. ' if not is_repetition else 'Estudiante is Repeating Level %s. "
+
+#. module: university_registrar
+msgid "Student successfully verified OTP."
+msgstr "Estudiante successfully verified OTP."
+
+#. module: university_registrar
+msgid "Study Duration Metrics (Years)"
+msgstr ""
+
+#. module: university_registrar
+msgid "Subject"
+msgstr "Materia"
+
+#. module: university_registrar
+msgid "Subjects to Retake"
+msgstr "Materias to Retake"
+
+#. module: university_registrar
+msgid "Submit"
+msgstr ""
+
+#. module: university_registrar
+msgid "Success"
+msgstr ""
+
+#. module: university_registrar
+msgid "Successfully generated %s timetable records for %s."
+msgstr ""
+
+#. module: university_registrar
+msgid "Template"
+msgstr ""
+
+#. module: university_registrar
+msgid "Template Name"
+msgstr ""
+
+#. module: university_registrar
+msgid "The registration fee for the current academic year must be fully paid before applying for a freeze."
+msgstr ""
+
+#. module: university_registrar
+msgid "This student has exceeded the maximum program duration of %s years and is not eligible for an external exam."
+msgstr ""
+
+#. module: university_registrar
+msgid "Times must be valid 24h values."
+msgstr ""
+
+#. module: university_registrar
+msgid "Timetable Template"
+msgstr ""
+
+#. module: university_registrar
+msgid "Timetable Templates"
+msgstr ""
+
+#. module: university_registrar
+msgid "Total Freeze Years"
+msgstr ""
+
+#. module: university_registrar
+msgid "Tuition Refund Amount"
+msgstr ""
+
+#. module: university_registrar
+msgid "Tuition invoice not found. Student must have an issued and partially paid tuition invoice to freeze."
+msgstr "Tuition invoice not found. Estudiante must have an issued and partially paid tuition invoice to freeze."
+
+#. module: university_registrar
+msgid "Unfreeze (Complete)"
+msgstr ""
+
+#. module: university_registrar
+msgid "Unfreeze Request"
+msgstr ""
+
+#. module: university_registrar
+msgid "Unfreeze Request is not in 'OTP Sent' state."
+msgstr ""
+
+#. module: university_registrar
+msgid "Unfreeze Requests"
+msgstr ""
+
+#. module: university_registrar
+msgid "Verify &amp; Confirm"
+msgstr ""
+
+#. module: university_registrar
+msgid "Verify OTP"
+msgstr ""
+
+#. module: university_registrar
+msgid "{fee} – {name} ({prog})"
+msgstr ""
+

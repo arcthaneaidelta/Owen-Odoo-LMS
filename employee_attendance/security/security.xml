@@ -1,0 +1,32 @@
+<odoo>
+	<data noupdate="0">
+		<record id="show_all_payslip" model="res.groups">
+			<field name="name">Show All Payslips</field>
+			<field name="users" eval="[(4, ref('base.user_admin'))]"/>
+		</record> 
+		<record id="generate_payslip" model="res.groups">
+			<field name="name">Generate Payslips</field>
+			<field name="users" eval="[(4, ref('base.user_admin'))]"/>
+		</record>
+		<record id="payslips_to_pay" model="res.groups">
+			<field name="name">To Pay Payslips</field>
+			<field name="users" eval="[(4, ref('base.user_admin'))]"/>
+		</record>
+		<record id="all_payslips" model="res.groups">
+			<field name="name">All Payslips</field>
+			<field name="users" eval="[(4, ref('base.user_admin'))]"/>
+		</record>
+		<record id="show_all_attendance" model="res.groups">
+			<field name="name">Show All Attendance</field>
+			<field name="users" eval="[(4, ref('base.user_admin'))]"/>
+		</record> 
+		<record id="show_all_leave_allocation" model="res.groups">
+			<field name="name">Show Leave Allocations</field>
+			<field name="users" eval="[(4, ref('base.user_admin'))]"/>
+		</record> 
+		<!-- <record id="create_all_attendance" model="res.groups">
+			<field name="name">Create All Attendances</field>
+			<field name="users" eval="[(4, ref('base.user_admin'))]"/>
+		</record>  -->
+	</data>
+</odoo>

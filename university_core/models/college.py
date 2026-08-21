@@ -40,18 +40,9 @@ class UniversityCollege(models.Model):
         'college_id',
         string='Programs',
     )
-    department_ids = fields.One2many(
-        'university.department',
-        'college_id',
-        string='Departments',
-    )
     program_count = fields.Integer(
         string='Program Count',
         compute='_compute_program_count',
-    )
-    department_count = fields.Integer(
-        string='Department Count',
-        compute='_compute_department_count',
     )
 
     active = fields.Boolean(default=True)
@@ -69,11 +60,6 @@ class UniversityCollege(models.Model):
     def _compute_program_count(self):
         for rec in self:
             rec.program_count = len(rec.program_ids)
-
-    @api.depends('department_ids')
-    def _compute_department_count(self):
-        for rec in self:
-            rec.department_count = len(rec.department_ids)
 
     def name_get(self):
         result = []

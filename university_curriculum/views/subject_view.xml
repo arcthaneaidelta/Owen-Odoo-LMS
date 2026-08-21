@@ -14,7 +14,7 @@
                     <group>
                         <group string="Identification">
                             <field name="code"/>
-                            <field name="department_id"/>
+                            
                             <field name="program_id" invisible="is_elective"/>
                             <field name="subject_type"/>
                             <field name="is_elective"/>
@@ -66,7 +66,7 @@
                 <field name="code"/>
                 <field name="name_ar"/>
                 <field name="name"/>
-                <field name="department_id"/>
+                
                 <field name="program_id"/>
                 <field name="year_level"/>
                 <field name="semester"/>
@@ -89,12 +89,12 @@
                 <field name="name_ar"/>
                 <field name="name"/>
                 <field name="code"/>
-                <field name="department_id"/>
+                
                 <filter string="Theory" name="theory" domain="[('subject_type','=','theory')]"/>
                 <filter string="Practical" name="practical" domain="[('subject_type','in',['practical','mixed'])]"/>
                 <filter string="Elective" name="elective" domain="[('is_elective','=',True)]"/>
                 <group expand="0" string="Group By">
-                    <filter string="Department" name="grp_dept" context="{'group_by':'department_id'}"/>
+                    
                     <filter string="Year Level" name="grp_year" context="{'group_by':'year_level'}"/>
                     <filter string="Semester" name="grp_sem" context="{'group_by':'semester'}"/>
                 </group>
@@ -111,7 +111,7 @@
                 <field name="name_ar"/>
                 <field name="name"/>
                 <field name="program_id"/>
-                <field name="department_id"/>
+                
                 <templates>
                     <t t-name="kanban-box">
                         <div t-attf-class="oe_kanban_global_click">
@@ -127,9 +127,6 @@
                                 <div class="o_kanban_record_body mt-2">
                                     <div t-if="record.program_id.raw_value" class="text-muted">
                                         <i class="fa fa-graduation-cap me-1"/> <field name="program_id"/>
-                                    </div>
-                                    <div t-if="record.department_id.raw_value" class="text-muted mt-1">
-                                        <i class="fa fa-building me-1"/> <field name="department_id"/>
                                     </div>
                                 </div>
                             </div>

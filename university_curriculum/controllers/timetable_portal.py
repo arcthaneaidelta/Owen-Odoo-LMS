@@ -43,7 +43,7 @@ class TimetablePortal(http.Controller):
         """Personal class schedule — PORTAL STUDENTS ONLY."""
         user = request.env.user
         # Block non-portal users (internal backend users without student group)
-        is_student = user.has_group('university_core.group_student_portal') or user.has_group('base.group_portal')
+        is_student = user.has_group('base.group_portal')
         if not is_student:
             return request.render('http_routing.404')
 

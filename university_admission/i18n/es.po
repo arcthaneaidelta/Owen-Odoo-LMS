@@ -1,0 +1,958 @@
+# Translation of university_admission.
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2024-05-21 12:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: none\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#. module: university_admission
+msgid "%s – %s (%s)"
+msgstr ""
+
+#. module: university_admission
+msgid "A Batch must be selected before Head Approval."
+msgstr ""
+
+#. module: university_admission
+msgid "A user with login %s already exists."
+msgstr ""
+
+#. module: university_admission
+msgid "A. Have You any of chronic following the diseases"
+msgstr ""
+
+#. module: university_admission
+msgid "Academic"
+msgstr ""
+
+#. module: university_admission
+msgid "Academic Affair Approval"
+msgstr ""
+
+#. module: university_admission
+msgid "Academic Affairs Approval Date"
+msgstr ""
+
+#. module: university_admission
+msgid "Academic Affairs Approval Notes"
+msgstr ""
+
+#. module: university_admission
+msgid "Academic Year"
+msgstr "Año Académico"
+
+#. module: university_admission
+msgid "Acadmic Affairs"
+msgstr ""
+
+#. module: university_admission
+msgid "Admission"
+msgstr "Admisión"
+
+#. module: university_admission
+msgid "Admission Application"
+msgstr ""
+
+#. module: university_admission
+msgid "Admission Fee"
+msgstr ""
+
+#. module: university_admission
+msgid "Admission Type"
+msgstr ""
+
+#. module: university_admission
+msgid "Admissions"
+msgstr ""
+
+#. module: university_admission
+msgid "Admitted in hospital before?"
+msgstr ""
+
+#. module: university_admission
+msgid "An application with this Ministry Form Number (FRMNO) and Entry Year already exists."
+msgstr ""
+
+#. module: university_admission
+msgid "An application with this National ID and Academic Year already exists."
+msgstr ""
+
+#. module: university_admission
+msgid "Any Other Disease"
+msgstr ""
+
+#. module: university_admission
+msgid "Applicant"
+msgstr ""
+
+#. module: university_admission
+msgid "Application Date"
+msgstr ""
+
+#. module: university_admission
+msgid "Application Reference"
+msgstr ""
+
+#. module: university_admission
+msgid "Application marked as fully registered."
+msgstr ""
+
+#. module: university_admission
+msgid "Application rejected."
+msgstr ""
+
+#. module: university_admission
+msgid "Application validated successfully."
+msgstr ""
+
+#. module: university_admission
+msgid "Approval Notes"
+msgstr ""
+
+#. module: university_admission
+msgid "Assigned Subjects"
+msgstr "Assigned Materias"
+
+#. module: university_admission
+msgid "Assigned Subjects (Max 4)"
+msgstr "Assigned Materias (Max 4)"
+
+#. module: university_admission
+msgid "Awaiting Ministry"
+msgstr ""
+
+#. module: university_admission
+msgid "Awarded Credit Hours"
+msgstr ""
+
+#. module: university_admission
+msgid "B. Have you any of the following diseases"
+msgstr ""
+
+#. module: university_admission
+msgid "Bank Reference Number"
+msgstr ""
+
+#. module: university_admission
+msgid "Batch"
+msgstr "Lote"
+
+#. module: university_admission
+msgid "Batch Label"
+msgstr ""
+
+#. module: university_admission
+msgid "Blood Type"
+msgstr ""
+
+#. module: university_admission
+msgid "Bronchial Asthma"
+msgstr ""
+
+#. module: university_admission
+msgid "C. Have you ..."
+msgstr ""
+
+#. module: university_admission
+msgid "Cancel"
+msgstr ""
+
+#. module: university_admission
+msgid "Certificate Type"
+msgstr ""
+
+#. module: university_admission
+msgid "Citizenship"
+msgstr ""
+
+#. module: university_admission
+msgid "City of Residence"
+msgstr ""
+
+#. module: university_admission
+msgid "Close"
+msgstr ""
+
+#. module: university_admission
+msgid "College / Program / Major"
+msgstr ""
+
+#. module: university_admission
+msgid "Color"
+msgstr ""
+
+#. module: university_admission
+msgid "Color Blindness Test"
+msgstr ""
+
+#. module: university_admission
+msgid "Confirm Payment"
+msgstr ""
+
+#. module: university_admission
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: university_admission
+msgid "Country of Birth"
+msgstr ""
+
+#. module: university_admission
+msgid "Country of Birth (Legacy)"
+msgstr ""
+
+#. module: university_admission
+msgid "Country of Residence"
+msgstr ""
+
+#. module: university_admission
+msgid "Create Portal User"
+msgstr ""
+
+#. module: university_admission
+msgid "Created Student"
+msgstr "Created Estudiante"
+
+#. module: university_admission
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: university_admission
+msgid "Date of Birth"
+msgstr ""
+
+#. module: university_admission
+msgid "Detailed Address"
+msgstr ""
+
+#. module: university_admission
+msgid "Determine (Heart Disease)"
+msgstr ""
+
+#. module: university_admission
+msgid "Determine (Other Disease)"
+msgstr ""
+
+#. module: university_admission
+msgid "Determine (Physical Disability)"
+msgstr ""
+
+#. module: university_admission
+msgid "Determine (Psychiatric)"
+msgstr ""
+
+#. module: university_admission
+msgid "Diabetes Mellitus"
+msgstr ""
+
+#. module: university_admission
+msgid "Documents"
+msgstr ""
+
+#. module: university_admission
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: university_admission
+msgid "Email"
+msgstr "Correo Electrónico"
+
+#. module: university_admission
+msgid "Email Verification Token"
+msgstr ""
+
+#. module: university_admission
+msgid "Email Verified"
+msgstr ""
+
+#. module: university_admission
+msgid "Email address is required to create a portal user and approve the student."
+msgstr ""
+
+#. module: university_admission
+msgid "Email address is required to send verification link."
+msgstr ""
+
+#. module: university_admission
+msgid "Email verified successfully via the verification link."
+msgstr ""
+
+#. module: university_admission
+msgid "Enrollment Year"
+msgstr ""
+
+#. module: university_admission
+msgid "Entry Year"
+msgstr ""
+
+#. module: university_admission
+msgid "Entry Year and University ID are required to generate a username."
+msgstr ""
+
+#. module: university_admission
+msgid "Equivalency Status"
+msgstr ""
+
+#. module: university_admission
+msgid "Equivalent Subject (Current Curriculum)"
+msgstr "Equivalent Materia (Current Curriculum)"
+
+#. module: university_admission
+msgid "Explain (Hospitalization)"
+msgstr ""
+
+#. module: university_admission
+msgid "FAC"
+msgstr ""
+
+#. module: university_admission
+msgid "FACNAME"
+msgstr ""
+
+#. module: university_admission
+msgid "FRMNO"
+msgstr ""
+
+#. module: university_admission
+msgid "FRMNO (Forum Number)"
+msgstr ""
+
+#. module: university_admission
+msgid "Father's Name (N2)"
+msgstr ""
+
+#. module: university_admission
+msgid "File '%s' exceeds the 3MB limit."
+msgstr ""
+
+#. module: university_admission
+msgid "File Name"
+msgstr ""
+
+#. module: university_admission
+msgid "Fin-Position"
+msgstr ""
+
+#. module: university_admission
+msgid "Finance"
+msgstr ""
+
+#. module: university_admission
+msgid "Financial Type"
+msgstr ""
+
+#. module: university_admission
+msgid "First Name (N1)"
+msgstr ""
+
+#. module: university_admission
+msgid "Four-Part Arabic Name (N1–N4)"
+msgstr ""
+
+#. module: university_admission
+msgid "Full Arabic Name"
+msgstr ""
+
+#. module: university_admission
+msgid "GOBNO"
+msgstr ""
+
+#. module: university_admission
+msgid "GOBOLS"
+msgstr ""
+
+#. module: university_admission
+msgid "Gender"
+msgstr ""
+
+#. module: university_admission
+msgid "Graduation Certificate Type"
+msgstr ""
+
+#. module: university_admission
+msgid "Group By"
+msgstr "Agrupar Por"
+
+#. module: university_admission
+msgid "Guardians"
+msgstr ""
+
+#. module: university_admission
+msgid "Head Approval"
+msgstr ""
+
+#. module: university_admission
+msgid "Head Approval Date"
+msgstr ""
+
+#. module: university_admission
+msgid "Head approved."
+msgstr ""
+
+#. module: university_admission
+msgid "Head of Admissions"
+msgstr ""
+
+#. module: university_admission
+msgid "Health Book Scan"
+msgstr ""
+
+#. module: university_admission
+msgid "Heart Disease"
+msgstr ""
+
+#. module: university_admission
+msgid "Hepatitis B"
+msgstr ""
+
+#. module: university_admission
+msgid "High School Certificate"
+msgstr ""
+
+#. module: university_admission
+msgid "High School Data"
+msgstr ""
+
+#. module: university_admission
+msgid "High School Exam Number"
+msgstr "High School Examen Number"
+
+#. module: university_admission
+msgid "High School Grade %"
+msgstr ""
+
+#. module: university_admission
+msgid "High School Name"
+msgstr ""
+
+#. module: university_admission
+msgid "Hypertension"
+msgstr ""
+
+#. module: university_admission
+msgid "ID Document Number"
+msgstr ""
+
+#. module: university_admission
+msgid "Identity"
+msgstr ""
+
+#. module: university_admission
+msgid "Import"
+msgstr ""
+
+#. module: university_admission
+msgid "Import Batch"
+msgstr ""
+
+#. module: university_admission
+msgid "Import Date"
+msgstr ""
+
+#. module: university_admission
+msgid "Import Ministry Excel"
+msgstr ""
+
+#. module: university_admission
+msgid "Import Result"
+msgstr ""
+
+#. module: university_admission
+msgid "Internal Admission Type"
+msgstr ""
+
+#. module: university_admission
+msgid "Internal Notes"
+msgstr ""
+
+#. module: university_admission
+msgid "Invalid or expired verification link."
+msgstr ""
+
+#. module: university_admission
+msgid "Invalid verification link. Token is missing."
+msgstr ""
+
+#. module: university_admission
+msgid "Invoice"
+msgstr ""
+
+#. module: university_admission
+msgid "Invoice Payment Status"
+msgstr ""
+
+#. module: university_admission
+msgid "Matched"
+msgstr ""
+
+#. module: university_admission
+msgid "Matched Admission"
+msgstr ""
+
+#. module: university_admission
+msgid "Matched Bank Record"
+msgstr ""
+
+#. module: university_admission
+msgid "Matched to Application"
+msgstr ""
+
+#. module: university_admission
+msgid "Medical"
+msgstr ""
+
+#. module: university_admission
+msgid "Medical Approved"
+msgstr ""
+
+#. module: university_admission
+msgid "Medical Notes"
+msgstr ""
+
+#. module: university_admission
+msgid "Medical Result"
+msgstr ""
+
+#. module: university_admission
+msgid "Medical Review"
+msgstr ""
+
+#. module: university_admission
+msgid "Medical Review Date"
+msgstr ""
+
+#. module: university_admission
+msgid "Medical Review Details"
+msgstr ""
+
+#. module: university_admission
+msgid "Medical Reviewer"
+msgstr ""
+
+#. module: university_admission
+msgid "Medical result is FAIL. Cannot proceed."
+msgstr ""
+
+#. module: university_admission
+msgid "Medical review passed."
+msgstr ""
+
+#. module: university_admission
+msgid "Ministry Approved"
+msgstr ""
+
+#. module: university_admission
+msgid "Ministry Bank Records"
+msgstr ""
+
+#. module: university_admission
+msgid "Ministry Batch"
+msgstr ""
+
+#. module: university_admission
+msgid "Ministry Batches"
+msgstr ""
+
+#. module: university_admission
+msgid "Ministry Data"
+msgstr ""
+
+#. module: university_admission
+msgid "Ministry Excel File"
+msgstr ""
+
+#. module: university_admission
+msgid "Ministry Identifiers"
+msgstr ""
+
+#. module: university_admission
+msgid "Ministry Records – %s"
+msgstr ""
+
+#. module: university_admission
+msgid "Ministry Submission Date"
+msgstr ""
+
+#. module: university_admission
+msgid "Ministry University Number"
+msgstr ""
+
+#. module: university_admission
+msgid "N1 (First Name)"
+msgstr ""
+
+#. module: university_admission
+msgid "N2 (Father)"
+msgstr ""
+
+#. module: university_admission
+msgid "N2 (Father\"
+msgstr ""
+
+#. module: university_admission
+msgid "N3 (Grandfather)"
+msgstr ""
+
+#. module: university_admission
+msgid "N3 (Grandfather\"
+msgstr ""
+
+#. module: university_admission
+msgid "N4 (Family Name)"
+msgstr ""
+
+#. module: university_admission
+msgid "N4 (Family)"
+msgstr ""
+
+#. module: university_admission
+msgid "NATIONAL_ID"
+msgstr ""
+
+#. module: university_admission
+msgid "Name (English)"
+msgstr ""
+
+#. module: university_admission
+msgid "National ID"
+msgstr ""
+
+#. module: university_admission
+msgid "National ID Photo"
+msgstr ""
+
+#. module: university_admission
+msgid "National ID Scan"
+msgstr ""
+
+#. module: university_admission
+msgid "Nationality"
+msgstr ""
+
+#. module: university_admission
+msgid "No student record found. Please ensure the student was created during approval."
+msgstr ""
+
+#. module: university_admission
+msgid "Not Yet Matched"
+msgstr ""
+
+#. module: university_admission
+msgid "Notes"
+msgstr "Notas"
+
+#. module: university_admission
+msgid "Passport Number"
+msgstr ""
+
+#. module: university_admission
+msgid "Passport Photo"
+msgstr ""
+
+#. module: university_admission
+msgid "Payment confirmed."
+msgstr ""
+
+#. module: university_admission
+msgid "Payment must be confirmed before registration."
+msgstr ""
+
+#. module: university_admission
+msgid "Phone"
+msgstr "Teléfono"
+
+#. module: university_admission
+msgid "Phone Country Code"
+msgstr ""
+
+#. module: university_admission
+msgid "Photo"
+msgstr ""
+
+#. module: university_admission
+msgid "Physical Disability"
+msgstr ""
+
+#. module: university_admission
+msgid "Placement Info"
+msgstr ""
+
+#. module: university_admission
+msgid "Please verify WhatsApp contact before creating a user account."
+msgstr ""
+
+#. module: university_admission
+msgid "Portal user created with username: %s"
+msgstr ""
+
+#. module: university_admission
+msgid "Previous Credit Hours"
+msgstr ""
+
+#. module: university_admission
+msgid "Previous Grade"
+msgstr ""
+
+#. module: university_admission
+msgid "Previous Institution"
+msgstr ""
+
+#. module: university_admission
+msgid "Previous Institution Certificate"
+msgstr ""
+
+#. module: university_admission
+msgid "Previous Institution Details"
+msgstr ""
+
+#. module: university_admission
+msgid "Previous Institution Name"
+msgstr ""
+
+#. module: university_admission
+msgid "Previous Subject Code"
+msgstr "Previous Materia Code"
+
+#. module: university_admission
+msgid "Previous Subject Name"
+msgstr "Previous Materia Name"
+
+#. module: university_admission
+msgid "Previous Transcript"
+msgstr ""
+
+#. module: university_admission
+msgid "Program"
+msgstr "Programa"
+
+#. module: university_admission
+msgid "Program Approved"
+msgstr ""
+
+#. module: university_admission
+msgid "Program Review Date"
+msgstr ""
+
+#. module: university_admission
+msgid "Program Review Notes"
+msgstr ""
+
+#. module: university_admission
+msgid "Program Reviewer"
+msgstr ""
+
+#. module: university_admission
+msgid "Program review approved."
+msgstr ""
+
+#. module: university_admission
+msgid "Psychiatric Disease"
+msgstr ""
+
+#. module: university_admission
+msgid "Records"
+msgstr ""
+
+#. module: university_admission
+msgid "Registered"
+msgstr ""
+
+#. module: university_admission
+msgid "Registration Fee"
+msgstr ""
+
+#. module: university_admission
+msgid "Registration Fee must be greater than 0 before Head Approval."
+msgstr ""
+
+#. module: university_admission
+msgid "Reject"
+msgstr ""
+
+#. module: university_admission
+msgid "Rejected"
+msgstr ""
+
+#. module: university_admission
+msgid "Rejection Reason"
+msgstr ""
+
+#. module: university_admission
+msgid "Religion"
+msgstr ""
+
+#. module: university_admission
+msgid "Requested Program"
+msgstr ""
+
+#. module: university_admission
+msgid "Required fields missing: %s"
+msgstr ""
+
+#. module: university_admission
+msgid "Reset to Draft"
+msgstr ""
+
+#. module: university_admission
+msgid "Review Date"
+msgstr ""
+
+#. module: university_admission
+msgid "Reviewed By"
+msgstr ""
+
+#. module: university_admission
+msgid "SCNAME"
+msgstr ""
+
+#. module: university_admission
+msgid "SCNAME (School)"
+msgstr ""
+
+#. module: university_admission
+msgid "SEX"
+msgstr ""
+
+#. module: university_admission
+msgid "School &amp; Faculty Info from Ministry"
+msgstr ""
+
+#. module: university_admission
+msgid "Send to Medical Committee"
+msgstr ""
+
+#. module: university_admission
+msgid "Sent to medical committee for review."
+msgstr ""
+
+#. module: university_admission
+msgid "Stage"
+msgstr ""
+
+#. module: university_admission
+msgid "Starting Level"
+msgstr ""
+
+#. module: university_admission
+msgid "Student"
+msgstr "Estudiante"
+
+#. module: university_admission
+msgid "Student Nationality (Legacy)"
+msgstr "Estudiante Nationality (Legacy)"
+
+#. module: university_admission
+msgid "Subject Equivalencies"
+msgstr "Materia Equivalencies"
+
+#. module: university_admission
+msgid "Subject Equivalency"
+msgstr "Materia Equivalency"
+
+#. module: university_admission
+msgid "Target Batch"
+msgstr ""
+
+#. module: university_admission
+msgid "Tuition Fee"
+msgstr ""
+
+#. module: university_admission
+msgid "Tuition Fee must be greater than 0 before Head Approval."
+msgstr ""
+
+#. module: university_admission
+msgid "Type of Drug (Asthma)"
+msgstr ""
+
+#. module: university_admission
+msgid "Type of Drug (Diabetes)"
+msgstr ""
+
+#. module: university_admission
+msgid "Type of Drug (Hepatitis B)"
+msgstr ""
+
+#. module: university_admission
+msgid "Type of Drug (Hypertension)"
+msgstr ""
+
+#. module: university_admission
+msgid "UNIVERSITY"
+msgstr ""
+
+#. module: university_admission
+msgid "UNIV_ID"
+msgstr ""
+
+#. module: university_admission
+msgid "Validate Application"
+msgstr ""
+
+#. module: university_admission
+msgid "Verification Deadline"
+msgstr ""
+
+#. module: university_admission
+msgid "Verification email sent to %s"
+msgstr ""
+
+#. module: university_admission
+msgid "Verification failed. Invalid state."
+msgstr ""
+
+#. module: university_admission
+msgid "Verify Email"
+msgstr ""
+
+#. module: university_admission
+msgid "Verify WhatsApp"
+msgstr ""
+
+#. module: university_admission
+msgid "WhatsApp"
+msgstr ""
+
+#. module: university_admission
+msgid "WhatsApp Country Code"
+msgstr ""
+
+#. module: university_admission
+msgid "WhatsApp Verified"
+msgstr ""
+
+#. module: university_admission
+msgid "WhatsApp contact verified."
+msgstr ""
+
+#. module: university_admission
+msgid "YEAR"
+msgstr ""
+
+#. module: university_admission
+msgid "Years Completed"
+msgstr ""
+
+#. module: university_admission
+msgid "Your session has expired or the form data was lost. Please start the application over."
+msgstr ""
+
+#. module: university_admission
+msgid "openpyxl is required. Install it via: pip install openpyxl"
+msgstr ""
+
+#. module: university_admission
+msgid "⚠ Verification email could not be sent to %s. Please send manually."
+msgstr ""
+
+#. module: university_admission
+msgid "🔑 Unique Search Key (FRMNO + Entry Year)"
+msgstr ""
+

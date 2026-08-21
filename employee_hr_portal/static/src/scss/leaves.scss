@@ -1,0 +1,38 @@
+body {
+    .o_portal_wrap {
+        table.table{
+            thead:not(:first-child){
+                tr{
+                    th:not(:first-child){
+                        font-size: 0px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .card {
+        .card-body  {
+            .row.no-gutters {
+                .col-md-12 {
+                    .form-group.row {
+                        margin: 0;
+                        margin-bottom: 10px;
+                        label {
+                            padding-left: 0;
+                        }
+                        #to.col-sm-1.text-center, #request_hour_from + label {
+                            text-align: left !important;
+                            margin-top: 15px;
+                        }
+                    }
+                }
+                #request_unit_half + label , #request_unit_hours + label {
+                    width: auto;
+                }
+            }
+        }
+    }
+}

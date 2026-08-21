@@ -1,0 +1,214 @@
+<odoo>
+	<data>
+		<record model="ir.ui.view" id="view_attendance_tree">
+			<field name="name">hr.attendance.tree</field>
+			<field name="model">hr.attendance</field>
+			<field name="inherit_id" ref="hr_attendance.view_attendance_tree" />
+			<field name="arch" type="xml">
+				<field name="check_out" position="after">
+					<!-- <field name="break_ids"/> -->
+					<field name="break_display"/>
+					<field name="unauthorized_leave"/>
+					<field name="over_time" widget="float_time" />
+					<field name="early_left" widget="float_time" />
+					<field name="late_arrival" widget="float_time" />
+					<field name="late_days" widget="float_time"/>
+					<field name="badge_id" widget="float_time"/>
+					<field name="total_late_arrival" widget="float_time" sum="Total" />
+				</field>
+			</field>
+		</record>
+		<record id="view_employee_attendance_tree_manager_only" model="ir.ui.view">
+			<field name="name">hr.attendance.tree.manager.only</field>
+			<field name="model">hr.attendance</field>
+			<field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+			<field name="arch" type="xml">
+				<xpath expr="//list" position="attributes">
+					<attribute name="edit">false</attribute>
+					<attribute name="create">false</attribute>
+				</xpath>
+			</field>
+		</record>
+		<record id="view_employee_attendance_form_manager_only" model="ir.ui.view">
+			<field name="name">hr.attendance.form.manager.only</field>
+			<field name="model">hr.attendance</field>
+			<field name="inherit_id" ref="hr_attendance.hr_attendance_view_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//form" position="attributes">
+					<attribute name="edit">false</attribute>
+					<attribute name="create">false</attribute>
+				</xpath>
+			</field>
+		</record>
+		<record id="view_hr_payslip_form_inherit" model="ir.ui.view">
+		  <field name="name">hr.payslip.form.inherit</field>
+		  <field name="model">hr.payslip</field>
+		  <field name="inherit_id" ref="om_hr_payroll.view_hr_payslip_form" />
+		  <field name="arch" type="xml">
+			  <xpath expr="//field[@name='struct_id']" position="after">
+				  <field name="total_late_arrival" invisible ="1"/>
+			  </xpath>
+			  <!-- <xpath expr="//button[@name='compute_sheet'][1]" position="attributes">
+				  <attribute name="groups">employee_attendance.payslips_to_pay</attribute>
+			  </xpath> 
+			  <xpath expr="//button[@name='compute_sheet'][2]" position="attributes">
+				  <attribute name="groups">employee_attendance.all_payslips</attribute>
+			  </xpath> -->
+			 <xpath expr="//button[@name='compute_sheet']" position="attributes">
+			    <attribute name="groups">employee_attendance.payslips_to_pay,employee_attendance.all_payslips</attribute>
+			</xpath>
+		  </field>
+		</record>
+		<record id="hr_employee_view_form_inherit" model="ir.ui.view">
+			<field name="name">hr.employee.form.inherit</field>
+			<field name="model">hr.employee</field>
+			<field name="inherit_id" ref="hr.view_employee_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='work_email']" position="after">
+					<field name="isExecutive" string="Is Executive"/>
+					<field name="employee_group_id" string="Employee Groups For Break"/>
+				</xpath>
+			</field>
+		</record>
+		<record id="employee_group_tree_view" model="ir.ui.view">
+			<field name="name">employee.group.tree</field>
+			<field name="model">employee.group</field>
+			<field name="arch" type="xml">
+				<list>
+					<field name="name"/>
+					<field name="break_type"/>
+					<field name="break_checkin" widget="float_time"/>
+					<field name="break_checkout" widget="float_time"/>
+					<field name="break_checkin2" widget="float_time" column_invisible="break_type == 2"/>
+					<field name="break_checkout2" widget="float_time" column_invisible="break_type == 2"/>
+				</list>
+			</field>
+		</record>
+
+		<record id="employee_group_form_view" model="ir.ui.view">
+			<field name="name">employee.group.form</field>
+			<field name="model">employee.group</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<group>
+							<field name="name"/>
+							<field name="break_type"/>
+							<field name="break_checkin" widget="float_time"/>
+							<field name="break_checkout" widget="float_time"/>
+							<field name="break_checkin2" widget="float_time" invisible="break_type == 2"/>
+							<field name="break_checkout2" widget="float_time" invisible="break_type == 2"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="employee_break_tree_view" model="ir.ui.view">
+			<field name="name">employee.break.tree</field>
+			<field name="model">employee.break</field>
+			<field name="arch" type="xml">
+				<list>
+					<field name="employee_id"/>
+					<field name="attendance_id"/>
+					<field name="break_checkin" />
+					<field name="break_checkout" />
+				</list>
+			</field>
+		</record>
+
+		<record id="employee_break_form_view" model="ir.ui.view">
+			<field name="name">employee.break.form</field>
+			<field name="model">employee.break</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<group>
+							<field name="employee_id"/>
+							<field name="attendance_id"/>
+							<field name="break_checkin" />
+							<field name="break_checkout" />
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_employee_group" model="ir.actions.act_window">
+			<field name="name">Employee Groups</field>
+			<field name="res_model">employee.group</field>
+			<field name="view_mode">list,form</field>
+		</record>
+		<record id="action_employee_break" model="ir.actions.act_window">
+			<field name="name">Employee Break</field>
+			<field name="res_model">employee.break</field>
+			<field name="view_mode">list,form</field>
+		</record>
+
+		<menuitem id="menu_employee_group_root"
+				  name="Employee Groups"
+				  parent="hr.menu_human_resources_configuration"
+				  sequence="12"/>
+
+		<menuitem id="menu_employee_group_sub"
+				  name="Employee Groups"
+				  parent="menu_employee_group_root"
+				  action="action_employee_group"
+				  sequence="10"/>
+
+		<menuitem id="menu_employee_break_root"
+				  name="Employee Break"
+				  parent="hr.menu_human_resources_configuration"
+				  sequence="13"/>
+
+		<menuitem id="menu_employee_break_sub"
+				  name="Employee Break"
+				  parent="menu_employee_break_root"
+				  action="action_employee_break"
+				  sequence="10"/>
+				  
+		<!-- <record id="hr_payslip_run_view_form_inherit" model="ir.ui.view">
+			<field name="name">hr.payslip.run.view.form.inherit</field>
+			<field name="model">hr.payslip.run</field>
+			<field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//button[@name='465']" position="attributes">
+					<attribute name="groups">employee_attendance.generate_payslip</attribute>
+				</xpath>
+			</field>
+		</record> -->
+		<record id="hr_employee_view_form_inherit_ext" model="ir.ui.view">
+			<field name="name">hr.employee.form.inherit</field>
+			<field name="model">hr.employee</field>
+			<field name="inherit_id" ref="hr.view_employee_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//page[@name='hr_settings']//field[@name='pin']" position="after">
+					<field name="give_pension" string="Give Pension"/>
+				</xpath>
+			</field>
+		</record>
+		<record id="action_server_all_allocation_approve" model="ir.actions.server">
+			<field name="name">Approve All Allocation</field>
+			<field name="model_id" ref="model_hr_leave_allocation"/>
+			<field name="state">code</field>
+			<field name="binding_model_id" ref="model_hr_leave_allocation"/>
+			<field name="binding_type">action</field>
+			<field name="code">
+				for rec in records:
+					rec.action_approve()
+			</field>
+		</record> 
+		<record id="action_server_all_allocation_confirm" model="ir.actions.server">
+			<field name="name">Confirm All Allocation</field>
+			<field name="model_id" ref="model_hr_leave_allocation"/>
+			<field name="state">code</field>
+			<field name="binding_model_id" ref="model_hr_leave_allocation"/>
+			<field name="binding_type">action</field>
+			<field name="code">
+				for rec in records:
+					rec.action_confirm()
+			</field>
+		</record>
+
+	</data>
+</odoo>

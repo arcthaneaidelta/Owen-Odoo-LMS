@@ -4,6 +4,20 @@ from odoo import models, fields, api
 class UniversityProgram(models.Model):
     _inherit = 'university.program'
 
+    master_curriculum_ids = fields.One2many(
+        'university.curriculum', 
+        'program_id', 
+        domain=[('curriculum_type', '=', 'master')],
+        string='Main Program Curriculums'
+    )
+
+    batch_curriculum_ids = fields.One2many(
+        'university.curriculum', 
+        'program_id', 
+        domain=[('curriculum_type', '=', 'batch')],
+        string='Batch Wise Curriculums'
+    )
+
     subject_ids = fields.One2many(
         'university.subject',
         'program_id',

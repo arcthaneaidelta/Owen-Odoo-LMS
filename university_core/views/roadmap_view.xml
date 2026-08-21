@@ -7,14 +7,10 @@
         <field name="name">university.batch.roadmap.calendar</field>
         <field name="model">university.batch.roadmap</field>
         <field name="arch" type="xml">
-            <calendar string="Academic Roadmap" 
-                      date_start="date_start" 
-                      date_stop="date_stop" 
-                      color="event_type" 
-                      quick_create="true"
-                      mode="month">
+            <calendar string="Academic Calendar" date_start="date_start" date_stop="date_stop" color="color" event_open_popup="true" quick_create="false" mode="month">
                 <field name="name"/>
                 <field name="batch_id"/>
+                <field name="academic_year_id"/>
                 <field name="event_type" filters="1"/>
             </calendar>
         </field>
@@ -26,17 +22,19 @@
         <field name="arch" type="xml">
             <list string="Academic Roadmap" editable="bottom">
                 <field name="name"/>
-                <field name="batch_id" invisible="context.get('default_batch_id')"/>
+                <field name="batch_id"/>
+                <field name="academic_year_id"/>
                 <field name="event_type" 
-                       decoration-danger="event_type == 'examination'"
+
+                       decoration-danger="event_type in ('main_exam_s1', 'main_exam_s2', 'second_exam', 'supplementary_exam', 'clearance_exam')"
                        decoration-warning="event_type == 'registration'"
-                       decoration-success="event_type == 'class_start'"
-                       decoration-info="event_type == 'holiday'"
-                       decoration-primary="event_type == 'event'"
-                       decoration-muted="event_type == 'other'"/>
+                       decoration-success="event_type == 'level_promotion'"
+                       decoration-muted="event_type == 'other'"
+                       decoration-primary="event_type == 'event'"/>
                 <field name="date_start"/>
                 <field name="date_stop"/>
-                <field name="description"/>
+                <field name="description" optional="show"/>
+                <field name="is_processed" widget="boolean_toggle" readonly="1"/>
             </list>
         </field>
     </record>
@@ -56,14 +54,18 @@
                     <group>
                         <group string="Scheduling">
                             <field name="batch_id" readonly="context.get('default_batch_id')"/>
+                            <field name="academic_year_id" readonly="context.get('default_academic_year_id')"/>
                             <field name="event_type"/>
                         </group>
                         <group string="Duration">
                             <field name="date_start"/>
                             <field name="date_stop"/>
+                            <field name="is_processed" readonly="1"/>
                         </group>
                     </group>
                     <group string="Additional Details">
+                        <field name="registration_start" invisible="event_type != 'registration'" required="event_type == 'registration'"/>
+                        <field name="registration_end" invisible="event_type != 'registration'" required="event_type == 'registration'"/>
                         <field name="description" placeholder="Provide details about registration deadlines, exam slots, or holiday periods..."/>
                     </group>
                 </sheet>
@@ -78,13 +80,15 @@
             <search string="Search Roadmap">
                 <field name="name"/>
                 <field name="batch_id"/>
+                <field name="academic_year_id"/>
                 <field name="event_type"/>
-                <filter string="Examinations" name="exams" domain="[('event_type', '=', 'examination')]"/>
-                <filter string="Holidays &amp; Breaks" name="holidays" domain="[('event_type', '=', 'holiday')]"/>
                 <filter string="Registrations" name="registrations" domain="[('event_type', '=', 'registration')]"/>
+                <filter string="Exams" name="exams" domain="[('event_type', 'in', ['main_exam_s1', 'main_exam_s2', 'second_exam', 'supplementary_exam', 'clearance_exam'])]"/>
+                <filter string="Holidays" name="holidays" domain="[('event_type', '=', 'holiday')]"/>
                 <group expand="0" string="Group By">
-                    <filter string="Batch" name="group_batch" context="{'group_by': 'batch_id'}"/>
-                    <filter string="Event Type" name="group_type" context="{'group_by': 'event_type'}"/>
+                    <filter string="Batch" name="group_batch" context="{'group_by':'batch_id'}"/>
+                    <filter string="Academic Year" name="group_academic_year" context="{'group_by':'academic_year_id'}"/>
+                    <filter string="Event Type" name="group_type" context="{'group_by':'event_type'}"/>
                     <filter string="Start Date" name="group_start" context="{'group_by': 'date_start'}"/>
                 </group>
             </search>

@@ -16,7 +16,7 @@
                 <page string="Academic Details" invisible="not is_teacher">
                     <group>
                         <group string="Academic Placement">
-                            <field name="university_department_id" required="is_teacher"/>
+                            <field name="university_college_id" required="is_teacher"/>
                             <field name="university_program_id"/>
                         </group>
                         <group string="Qualifications">
@@ -39,7 +39,7 @@
                 <filter string="Teachers" name="teachers" domain="[('is_teacher', '=', True)]"/>
             </xpath>
             <xpath expr="//group" position="inside">
-                <filter string="Academic Department" name="groupby_academic_department" domain="[]" context="{'group_by': 'university_department_id'}"/>
+                <filter string="Academic College" name="groupby_academic_college" domain="[]" context="{'group_by': 'university_college_id'}"/>
                 <filter string="Academic Qualification" name="groupby_academic_qualification" domain="[]" context="{'group_by': 'academic_qualification'}"/>
             </xpath>
         </field>

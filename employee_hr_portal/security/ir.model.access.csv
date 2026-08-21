@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+acccess_employee_hr_portal,employee_hr_portal.employee.present.user.portal,model_employee_present_user_portal,om_hr_payroll.group_hr_payroll_manager,1,1,1,1
+
+access_advance_requests,advance.requests,model_advance_requests,base.group_user,1,1,1,1
+access_missing_punch,missing.punch,model_missing_punch,base.group_user,1,1,1,1
+access_loan_requests,loan.requests,model_loan_requests,base.group_user,1,1,1,1
+access_hr_attendance_absents,hr.attendance.absents,model_hr_attendance_absents,base.group_user,1,1,1,1
+access_hr_overtime_requests,hr.overtime.requests,model_hr_overtime_requests,base.group_user,1,1,1,1

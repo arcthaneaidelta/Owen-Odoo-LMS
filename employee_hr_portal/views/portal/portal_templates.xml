@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- <template id="portal_layout_ext_own_layout" inherit_id="portal.portal_sidebar">
+        <xpath expr="//div[hasclass('o_portal_sidebar')]" position="attributes">
+            <attribute name="class">o_portal_sidebar container pt-3 pt-lg-0 col-12 col-md col-lg-5 col-xl-5</attribute>
+        </xpath>
+    </template> -->
+    <template id="portal_my_home_ext_own" inherit_id="portal.portal_my_home" priority="10">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+                <t t-if="request.env.user.sudo().has_group('employee_hr_portal.access_to_employee_portal_custom_user')">
+                    <style>
+                        
+
+                        .o_portal_docs {
+                            display: grid !important;
+                            grid-template-columns: 1fr 1fr !important;
+                            gap: 10px !important;
+                        }
+                        #portal_service_category {
+                            display: contents !important;
+                        }
+                        .o_portal_docs .o_portal_index_card {
+                            height: auto !important;
+                            min-height: 72px !important;
+                            display: flex !important;
+                            align-items: center !important;
+                            justify-content: space-between !important;
+                            padding: 0.875rem 1.125rem !important;
+                            border-radius: 12px !important;
+                            border: 0.5px solid #dee2e6 !important;
+                            background: #fff !important;
+                            margin: 0 !important;
+                            box-sizing: border-box !important;
+                        }
+                        .o_portal_docs .o_portal_index_card h3,
+                        .o_portal_docs .o_portal_index_card .h3 {
+                            font-size: 15px !important;
+                            font-weight: 500 !important;
+                            margin: 0 !important;
+                            line-height: 1.2 !important;
+                        }
+                        .o_portal_docs .o_portal_index_card .badge,
+                        .o_portal_docs .o_portal_index_card sup {
+                            font-size: 12px !important;
+                            min-width: 34px !important;
+                            text-align: center !important;
+                            border-radius: 20px !important;
+                        }
+                        #portal_common_category .o_portal_index_card {
+                            grid-column: span 2 !important;
+                        }
+                    </style>
+                        <t t-call="portal.portal_docs_entry">
+                            <t t-set="title">Payslips</t>
+                            <t t-set="url" t-value="'/my/my_payslips'"/>
+                            <t t-set="placeholder_count" t-value="'employee_payslips_count'"/>
+                            <t t-set="config_card" t-value="True"/>
+                            <t t-set="show_count" t-value="True"/>
+                        </t>
+
+                        <t t-call="portal.portal_docs_entry">
+                            <t t-set="title">Attendances</t>
+                            <t t-set="url" t-value="'/my/my_attendances'"/>
+                            <t t-set="placeholder_count" t-value="'employee_attendances_count'"/>
+                            <t t-set="config_card" t-value="True"/>
+                            <t t-set="show_count" t-value="True"/>
+                        </t>
+
+                        <t t-call="portal.portal_docs_entry">
+                            <t t-set="title">Absents</t>
+                            <t t-set="url" t-value="'/my/my_absents'"/>
+                            <t t-set="placeholder_count" t-value="'employee_absents_count'"/>
+                            <t t-set="config_card" t-value="True"/>
+                            <t t-set="show_count" t-value="True"/>
+                        </t>
+
+                        <t t-call="portal.portal_docs_entry">
+                            <t t-set="title">Contracts</t>
+                            <t t-set="url" t-value="'/my/my_contracts'"/>
+                            <t t-set="placeholder_count" t-value="'employee_contracts_count'"/>
+                            <t t-set="config_card" t-value="True"/>
+                            <t t-set="show_count" t-value="True"/>
+                        </t>
+
+                        <t t-call="portal.portal_docs_entry">
+                            <t t-set="title">Leaves</t>
+                            <t t-set="url" t-value="'/my/leaves'"/>
+                            <t t-set="placeholder_count" t-value="'employee_leaves_count'"/>
+                            <t t-set="config_card" t-value="True"/>
+                            <t t-set="show_count" t-value="True"/>
+                        </t>
+
+                        <t t-call="portal.portal_docs_entry">
+                            <t t-set="title">Advance Requests</t>
+                            <t t-set="url" t-value="'/my/my_advances'"/>
+                            <t t-set="placeholder_count" t-value="'employee_advance_requests_count'"/>
+                            <t t-set="config_card" t-value="True"/>
+                            <t t-set="show_count" t-value="True"/>
+                        </t>
+
+                        <!-- <t t-if="request.env.user.sudo().employee_id.sudo() and request.env.user.sudo().employee_id.sudo().show_overtime_requests"> -->
+                            <t t-call="portal.portal_docs_entry">
+                                <t t-set="title">Overtime Requests</t>
+                                <t t-set="url" t-value="'/my/my_overtime_requests'"/>
+                                <t t-set="placeholder_count" t-value="'employee_overtime_requests_count'"/>
+                                <t t-set="config_card" t-value="True"/>
+                                <t t-set="show_count" t-value="True"/>
+                            </t>
+                        <!-- </t> -->
+
+                        <t t-call="portal.portal_docs_entry">
+                            <t t-set="title">Missing Punch's</t>
+                            <t t-set="url" t-value="'/my/my_missing_punches'"/>
+                            <t t-set="placeholder_count" t-value="'employee_missing_punches_count'"/>
+                            <t t-set="config_card" t-value="True"/>
+                            <t t-set="show_count" t-value="True"/>
+                        </t>
+
+                        <t t-call="portal.portal_docs_entry">
+                            <t t-set="title">Appraisals</t>
+                            <t t-set="url" t-value="'/my/my_appraisals'"/>
+                            <t t-set="placeholder_count" t-value="'employee_appraisals_count'"/>
+                            <t t-set="config_card" t-value="True"/>
+                            <t t-set="show_count" t-value="True"/>
+                        </t>
+
+                        <t t-call="portal.portal_docs_entry">
+                            <t t-set="title">Expenses</t>
+                            <t t-set="url" t-value="'/my/my_expenses'"/>
+                            <t t-set="placeholder_count" t-value="'employee_expenses_count'"/>
+                            <t t-set="config_card" t-value="True"/>
+                            <t t-set="show_count" t-value="True"/>
+                        </t>
+
+                        <t t-call="portal.portal_docs_entry">
+                            <t t-set="title">Docs/Communications</t>
+                            <t t-set="url" t-value="'/my/my_hr_docs'"/>
+                            <t t-set="placeholder_count" t-value="'employee_docs_count'"/>
+                            <t t-set="config_card" t-value="True"/>
+                            <t t-set="show_count" t-value="True"/>
+                        </t>
+
+                        <!-- <t t-if="request.env.user.sudo().employee_id.sudo() and request.env.user.sudo().employee_id.sudo().allow_loan_request"> -->
+                            <t t-call="portal.portal_docs_entry">
+                                <t t-set="title">Loan Requests</t>
+                                <t t-set="url" t-value="'/my/my_loans'"/>
+                                <t t-set="placeholder_count" t-value="'employee_loan_requests_count'"/>
+                                <t t-set="config_card" t-value="True"/>
+                                <t t-set="show_count" t-value="True"/>
+                            </t>
+                        <!-- </t> -->
+
+                        <!-- Check-in / Check-out -->
+                        <t t-set="employee_checkin" t-value="request.env['hr.employee'].sudo().search([('user_id', '=', request.env.uid)], limit=1)"/>
+                        <!-- <t t-if="employee_checkin and employee_checkin.allow_checkin_checkout"> -->
+                            <t t-call="portal.portal_docs_entry">
+                                <t t-set="title">Check-in / Check-out</t>
+                                <t t-set="url" t-value="'/my/checkin_checkout'"/>
+                                <t t-set="config_card" t-value="True"/>
+                                <t t-set="show_count" t-value="True"/>
+                            </t>
+                        <!-- </t> -->
+
+                    <!-- Check-in full width row -->
+                    
+                 </t>
+        </xpath>
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="after">
+            <t t-if="request.env.user.sudo().has_group('employee_hr_portal.access_to_employee_portal_custom_user')">
+                <div class="o_portal_my_security mt-3 p-4 border rounded shadow-sm bg-white">
+                    <h4 class="text-black mb-3">Employee Details</h4>
+                    <hr class="mb-3"/>
+                    <t t-if="request.env.user">
+                        <t t-set="employee"
+                           t-value="request.env['hr.employee'].sudo().search([('user_id', '=', request.env.user.id)], limit=1)"/>
+                        <t t-if="employee">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <strong>Name:</strong>
+                                    <t t-esc="employee.name"/>
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Department:</strong>
+                                    <t t-esc="employee.department_id.name or 'N/A'"/>
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Job Position:</strong>
+                                    <t t-esc="employee.job_id.name or 'N/A'"/>
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Manager:</strong>
+                                    <t t-esc="employee.parent_id.name or 'N/A'"/>
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Working Hours:</strong>
+                                    <t t-esc="employee.resource_calendar_id.name or 'N/A'"/>
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Work Email:</strong>
+                                    <t t-esc="employee.work_email or 'N/A'"/>
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Work Mobile:</strong>
+                                    <t t-esc="employee.mobile_phone or 'N/A'"/>
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Work Phone:</strong>
+                                    <t t-esc="employee.work_phone or 'N/A'"/>
+                                </li>
+                                <!-- <li class="list-group-item">
+                                    <strong>Registration Number:</strong>
+                                    <t t-esc="employee.registration_number or 'N/A'"/>
+                                </li> -->
+                            </ul>
+                        </t>
+                        <t t-else="">
+                            <p class="text-muted text-center">No employee details available.</p>
+                        </t>
+                    </t>
+                </div>
+                <div id="o_my_sidebar"
+                     class="o_portal_my_security mt-3 p-4 border rounded shadow-sm bg-white o_my_sidebar">
+                    <div class="o_my_contact" t-if="sales_user">
+                        <t t-call="portal.portal_contact"/>
+                    </div>
+                    <div class="o_portal_my_details">
+                        <h4>Details
+                            <a role="button" href="/my/account" class="btn btn-sm btn-link">
+                                <i class="fa fa-pencil"/>
+                                Edit
+                            </a>
+                        </h4>
+                        <hr class="mt-1 mb-0"/>
+                        <div t-field="user_id.partner_id"
+                             t-options='{"widget": "contact", "fields": ["email", "phone", "address", "name"]}'/>
+                    </div>
+                    <div class="o_portal_my_security mt-3">
+                        <h4>Account Security</h4>
+                        <hr class="mt-1 mb-1"/>
+                        <a href="/my/security"><i class="fa fa-pencil mx-1"/>Edit Security Settings
+                        </a>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </template>
+    <template id="portal_my_payslips_menu" inherit_id="portal.portal_breadcrumbs" priority="30">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <t t-if="request.env.user.sudo().has_group('employee_hr_portal.access_to_employee_portal_custom_user')">
+                <li t-if="page_name == 'my_payslips'" class="breadcrumb-item active">
+                    Payslips
+                </li>
+                <li t-if="page_name == 'my_attendances'" class="breadcrumb-item active">
+                    Attendances
+                </li>
+                <li t-if="page_name == 'my_absents'" class="breadcrumb-item active">
+                    Absents
+                </li>
+                <li t-if="page_name == 'my_contracts'" class="breadcrumb-item active">
+                    Contracts
+                </li>
+                <li t-if="contract" class="breadcrumb-item active">
+                    <t t-esc="contract.name"/>
+                </li>
+                <li t-if="page_name == 'leave' or leave"
+                    t-attf-class="breadcrumb-item #{'active ' if not leave else ''}">
+                    <a t-if="leave" t-attf-href="/my/leaves?{{ keep_query() }}">Leaves</a>
+                    <t t-else="">Leaves</t>
+                </li>
+                <li t-if="leave" class="breadcrumb-item active">
+                    <t t-esc="leave.name"/>
+                </li>
+                <li t-if="page_name == 'leave_create'"
+                    t-attf-class="breadcrumb-item #{'active ' if not (page_name == 'leave_create') else ''}">
+                    <a t-if="page_name == 'leave_create'" t-attf-href="/my/leaves?{{ keep_query() }}">Leaves</a>
+                    <t t-else="">Leaves</t>
+                </li>
+                <li t-if="page_name == 'leave_create'" class="breadcrumb-item active">
+                    New
+                </li>
+                <li t-if="page_name == 'my_advances' or my_advances or advance"
+                    t-attf-class="breadcrumb-item #{'active ' if not my_advances else ''}">
+                    <a t-if="my_advances or advance" t-attf-href="/my/my_advances?{{ keep_query() }}">Advance Requests
+                    </a>
+                    <t t-else="">Advance Requests</t>
+                </li>
+                <li t-if="my_advances" class="breadcrumb-item active">
+                    <t t-esc="my_advances.name"/>
+                </li>
+                <li t-if="advance" class="breadcrumb-item active">
+                    <t t-esc="advance.name"/>
+                </li>
+                <li t-if="page_name == 'my_advances_create'"
+                    t-attf-class="breadcrumb-item #{'active ' if not (page_name == 'my_advances_create') else ''}">
+                    <a t-if="page_name == 'my_advances_create'" t-attf-href="/my/my_advances?{{ keep_query() }}">Advance
+                        Requests
+                    </a>
+                    <t t-else="">Advance Requests</t>
+                </li>
+                <li t-if="page_name == 'my_advances_create'" class="breadcrumb-item active">
+                    New
+                </li>
+                <li t-if="page_name == 'my_loans' or my_loans or loan"
+                    t-attf-class="breadcrumb-item #{'active ' if not my_loans else ''}">
+                    <a t-if="my_loans or loan" t-attf-href="/my/my_loans?{{ keep_query() }}">Loan Requests</a>
+                    <t t-else="">Loan Requests</t>
+                </li>
+                <li t-if="my_loans" class="breadcrumb-item active">
+                    <t t-esc="my_loans.name"/>
+                </li>
+                <li t-if="loan" class="breadcrumb-item active">
+                    <t t-esc="loan.name"/>
+                </li>
+                <li t-if="page_name == 'my_loans_create'"
+                    t-attf-class="breadcrumb-item #{'active ' if not (page_name == 'my_loans_create') else ''}">
+                    <a t-if="page_name == 'my_loans_create'" t-attf-href="/my/my_loans?{{ keep_query() }}">Loan
+                        Requests
+                    </a>
+                    <t t-else="">Loan Requests</t>
+                </li>
+                <li t-if="page_name == 'my_loans_create'" class="breadcrumb-item active">
+                    New
+                </li>
+                <li t-if="page_name == 'my_missing_punches' or my_missing_punches"
+                    t-attf-class="breadcrumb-item #{'active ' if not my_missing_punches else ''}">
+                    <a t-if="my_missing_punches or missing_punch"
+                       t-attf-href="/my/my_missing_punches?{{ keep_query() }}">Missing Punch's
+                    </a>
+                    <t t-else="">Missing Punch's</t>
+                </li>
+                <li t-if="my_missing_punches" class="breadcrumb-item active">
+                    <t t-esc="my_missing_punches.punch_datetime"/>
+                </li>
+                <li t-if="missing_punch" class="breadcrumb-item active">
+                    <t t-esc="missing_punch.punch_datetime"/>
+                </li>
+                <li t-if="page_name == 'my_missing_punches_create'"
+                    t-attf-class="breadcrumb-item #{'active ' if not (page_name == 'my_missing_punches_create') else ''}">
+                    <a t-if="page_name == 'my_missing_punches_create'"
+                       t-attf-href="/my/my_missing_punches?{{ keep_query() }}">Missing Punch's
+                    </a>
+                    <t t-else="">Missing Punch's</t>
+                </li>
+                <li t-if="page_name == 'my_missing_punches_create'" class="breadcrumb-item active">
+                    New
+                </li>
+                <li t-if="page_name == 'my_hr_docs' or my_hr_docs or hr_doc"
+                    t-attf-class="breadcrumb-item #{'active ' if not my_hr_docs else ''}">
+                    <a t-if="my_hr_docs or hr_doc" t-attf-href="/my/my_hr_docs?{{ keep_query() }}">
+                        Documents/Communications
+                    </a>
+                    <t t-else="">Documents/Communications</t>
+                </li>
+                <li t-if="my_hr_docs" class="breadcrumb-item active">
+                    <t t-esc="my_hr_docs.name"/>
+                </li>
+                <li t-if="hr_doc" class="breadcrumb-item active">
+                    <t t-esc="hr_doc.subject"/>
+                </li>
+                <li t-if="page_name == 'my_appraisals' or my_appraisals"
+                    t-attf-class="breadcrumb-item #{'active ' if not my_appraisals else ''}">
+                    <a t-if="my_appraisals or appraisal" t-attf-href="/my/my_appraisals?{{ keep_query() }}">Appraisals
+                    </a>
+                    <t t-else="">Appraisals</t>
+                </li>
+                <li t-if="my_appraisals" class="breadcrumb-item active">
+                    <span t-field="my_appraisals.employee_id.name"/>
+                    <t t-if="my_appraisals.date_close">-
+                        <span t-field="my_appraisals.date_close"/>
+                    </t>
+                </li>
+                <li t-if="appraisal" class="breadcrumb-item active">
+                    <span t-field="appraisal.employee_id.name"/>
+                    <t t-if="appraisal.date_close">-
+                        <span t-field="appraisal.date_close"/>
+                    </t>
+                </li>
+                <li t-if="page_name == 'my_appraisals_create'"
+                    t-attf-class="breadcrumb-item #{'active ' if not (page_name == 'my_appraisals_create') else ''}">
+                    <a t-if="page_name == 'my_appraisals_create'" t-attf-href="/my/my_appraisals?{{ keep_query() }}">
+                        Appraisals
+                    </a>
+                    <t t-else="">Appraisals</t>
+                </li>
+                <li t-if="page_name == 'my_appraisals_create'" class="breadcrumb-item active">
+                    New
+                </li>
+                <li t-if="page_name == 'my_expenses' or my_expenses"
+                    t-attf-class="breadcrumb-item #{'active ' if not my_expenses else ''}">
+                    <a t-if="my_expenses or expense" t-attf-href="/my/my_expenses?{{ keep_query() }}">Expenses</a>
+                    <t t-else="">Expenses</t>
+                </li>
+                <li t-if="my_expenses" class="breadcrumb-item active">
+                    <span t-field="my_expenses.name"/>
+                </li>
+                <li t-if="expense" class="breadcrumb-item active">
+                    <span t-field="expense.name"/>
+                </li>
+                <li t-if="page_name == 'my_expenses_create'"
+                    t-attf-class="breadcrumb-item #{'active ' if not (page_name == 'my_expenses_create') else ''}">
+                    <a t-if="page_name == 'my_expenses_create'" t-attf-href="/my/my_expenses?{{ keep_query() }}">
+                        Expenses
+                    </a>
+                    <t t-else="">Expenses</t>
+                </li>
+                <li t-if="page_name == 'my_expenses_create'" class="breadcrumb-item active">
+                    New
+                </li>
+                <li t-if="page_name == 'my_overtimes' or my_overtimes or overtime"
+                    t-attf-class="breadcrumb-item #{'active ' if not my_overtimes else ''}">
+                    <a t-if="my_overtimes or overtime" t-attf-href="/my/my_overtime_requests?{{ keep_query() }}">
+                        Overtime Requests
+                    </a>
+                    <t t-else="">Overtime Requests</t>
+                </li>
+                <li t-if="my_overtimes" class="breadcrumb-item active">
+                    <t t-esc="my_overtimes.name"/>
+                </li>
+                <li t-if="overtime" class="breadcrumb-item active">
+                    <t t-esc="overtime.name"/>
+                </li>
+                <li t-if="page_name == 'my_overtimes_create'"
+                    t-attf-class="breadcrumb-item #{'active ' if not (page_name == 'my_overtimes_create') else ''}">
+                    <a t-if="page_name == 'my_overtimes_create'"
+                       t-attf-href="/my/my_overtime_requests?{{ keep_query() }}">Overtime Requests
+                    </a>
+                    <t t-else="">Overtime Requests</t>
+                </li>
+                <li t-if="page_name == 'my_overtimes_create'" class="breadcrumb-item active">
+                    New
+                </li>
+                <li t-if="page_name == 'checkin_checkout'" class="breadcrumb-item active">
+                    Check-in / Check-out
+                </li>
+                <!-- <script src='/employee_hr_portal/static/src/js/jquery.min.js'></script>
+                <script src='/employee_hr_portal/static/src/js/jquery.slim.min.js'></script>
+                <script src='/employee_hr_portal/static/src/js/popper.min.js'></script>
+                <script src='/employee_hr_portal/static/src/js/bootstrap.bundle.min.js'></script> -->
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_home_project_override"
+          inherit_id="project.portal_my_home"
+          priority="50">
+        <xpath expr="//div[@id='portal_service_category']" position="replace">
+            <div id="portal_service_category">
+                <t t-call="portal.portal_docs_entry">
+                    <t t-set="title">Projects</t>
+                    <t t-set="url" t-value="'/my/projects'"/>
+                    <t t-set="placeholder_count" t-value="'project_count'"/>
+                    <t t-set="config_card" t-value="True"/>
+                    <t t-set="show_count" t-value="True"/>
+                </t>
+                <t t-call="portal.portal_docs_entry">
+                    <t t-set="title">Tasks</t>
+                    <t t-set="url" t-value="'/my/tasks'"/>
+                    <t t-set="placeholder_count" t-value="'task_count'"/>
+                    <t t-set="config_card" t-value="True"/>
+                    <t t-set="show_count" t-value="True"/>
+                </t>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="portal_my_home_invoice_override"
+          inherit_id="account.portal_my_home_invoice"
+          priority="50">
+
+        <xpath expr="//div[@id='portal_client_category']" position="replace">
+            <div id="portal_client_category">
+                <t t-call="portal.portal_docs_entry">
+                    <t t-set="title">Your Invoices</t>
+                    <t t-set="url" t-value="'/my/invoices?filterby=invoices'"/>
+                    <t t-set="placeholder_count" t-value="'invoice_count'"/>
+                    <t t-set="config_card" t-value="True"/>
+                    <t t-set="show_count" t-value="True"/>
+                </t>
+            </div>
+        </xpath>
+
+        <xpath expr="//div[@id='portal_vendor_category']" position="replace">
+            <div id="portal_vendor_category">
+                <t t-call="portal.portal_docs_entry">
+                    <t t-set="title">Our Invoices</t>
+                    <t t-set="url" t-value="'/my/invoices?filterby=bills'"/>
+                    <t t-set="placeholder_count" t-value="'bill_count'"/>
+                    <t t-set="config_card" t-value="True"/>
+                    <t t-set="show_count" t-value="True"/>
+                </t>
+            </div>
+        </xpath>
+
+    </template>
+
+    <template id="portal_my_home_base_override"
+          inherit_id="portal.portal_my_home"
+          priority="50">
+
+        <!-- Make the main docs container a grid -->
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="attributes">
+            <attribute name="class">o_portal_docs</attribute>
+        </xpath>
+
+        <!-- Remove row/grid classes from all category divs so they flow into our CSS grid -->
+        <xpath expr="//div[@id='portal_alert_category']" position="attributes">
+            <attribute name="class">o_portal_category</attribute>
+            <attribute name="id">portal_alert_category</attribute>
+        </xpath>
+
+        <xpath expr="//div[@id='portal_client_category']" position="attributes">
+            <attribute name="class">o_portal_category</attribute>
+            <attribute name="id">portal_client_category</attribute>
+        </xpath>
+
+        <xpath expr="//div[@id='portal_service_category']" position="attributes">
+            <attribute name="class">o_portal_category</attribute>
+            <attribute name="id">portal_service_category</attribute>
+        </xpath>
+
+        <xpath expr="//div[@id='portal_vendor_category']" position="attributes">
+            <attribute name="class">o_portal_category</attribute>
+            <attribute name="id">portal_vendor_category</attribute>
+        </xpath>
+
+        <xpath expr="//div[@id='portal_common_category']" position="attributes">
+            <attribute name="class">o_portal_category</attribute>
+            <attribute name="id">portal_common_category</attribute>
+        </xpath>
+
+        <!-- Replace Connection & Security to remove icon and text -->
+        <xpath expr="//div[@id='portal_common_category']" position="replace">
+            <div id="portal_common_category" class="o_portal_category">
+                <t t-call="portal.portal_docs_entry" t-if="False"/>
+                <t t-call="portal.portal_docs_entry">
+                    <t t-set="title">Connection &amp; Security</t>
+                    <t t-set="url" t-value="'/my/security'"/>
+                    <t t-set="config_card" t-value="True"/>
+                    <t t-set="show_count" t-value="True"/>
+                </t>
+            </div>
+        </xpath>
+
+    </template>
+
+
+<!-- Remove Your Invoices / Our Invoices from portal home -->
+<!-- <record id="account.portal_my_home_invoice" model="ir.ui.view">
+    <field name="active">False</field>
+</record> -->
+<!-- <record id="project.portal_my_home" model="ir.ui.view">
+    <field name="active">False</field>
+</record> -->
+</odoo>
+
+
+
+
+
+

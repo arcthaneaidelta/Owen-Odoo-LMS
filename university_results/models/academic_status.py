@@ -15,8 +15,7 @@ class UniversityAcademicStatus(models.Model):
         required=True, 
         tracking=True,
     )
-    academic_year_id = fields.Many2one(
-        'university.academic_year',
+    academic_year_name = fields.Char(
         string='Academic Year',
         required=True,
         tracking=True,
@@ -75,7 +74,7 @@ class UniversityAcademicStatus(models.Model):
         for rec in self:
             scores = self.env['university.student.subject.score'].search([
                 ('student_id', '=', rec.student_id.id),
-                ('academic_year_id', '=', rec.academic_year_id.id),
+                ('academic_year_name', '=', rec.academic_year_name),
                 ('level', '=', rec.level),
             ])
 
@@ -190,7 +189,7 @@ class UniversityAcademicStatus(models.Model):
                 
                 self.env['university.student.repeat.history'].create({
                     'student_id': student.id,
-                    'academic_year_id': rec.academic_year_id.id,
+                    'current_academic_year_name': rec.academic_year_name,
                     'level_repeated': rec.level,
                     'status': 'ongoing',
                     'notes': _("Repeating all subjects") if rec.status_result == 'repeating_all' else _("Repeating %s subject(s)") % len(rec.failed_subject_ids)

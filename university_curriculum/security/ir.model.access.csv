@@ -27,7 +27,7 @@ access_timetable_manager,university.timetable manager,model_university_timetable
 access_timetable_coordinator,university.timetable coordinator,model_university_timetable,university_core.group_academic_coordinator,1,1,1,0
 access_timetable_teacher,university.timetable teacher,model_university_timetable,university_core.group_teacher,1,0,0,0
 access_timetable_admissions,university.timetable admissions,model_university_timetable,university_core.group_head_admissions,1,0,0,0
-access_timetable_student,university.timetable student,model_university_timetable,university_core.group_student_portal,1,0,0,0
+access_timetable_student,university.timetable student,model_university_timetable,base.group_portal,1,0,0,0
 
 access_timetable_grid_wizard_super_admin,university.timetable.grid.wizard super admin,model_university_timetable_grid_wizard,university_core.group_university_super_admin,1,1,1,1
 access_timetable_grid_wizard_manager,university.timetable.grid.wizard manager,model_university_timetable_grid_wizard,university_core.group_university_manager,1,1,1,0

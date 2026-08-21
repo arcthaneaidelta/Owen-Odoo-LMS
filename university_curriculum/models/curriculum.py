@@ -7,7 +7,7 @@ class UniversityCurriculum(models.Model):
     _name = 'university.curriculum'
     _description = 'Curriculum Blueprint'
     _inherit = ['mail.thread', 'mail.activity.mixin']
-    _order = 'program_id, academic_year_id, name'
+    _order = 'program_id, academic_year_name, name'
 
     name = fields.Char(
         string='Curriculum Name',
@@ -24,6 +24,7 @@ class UniversityCurriculum(models.Model):
     ], string='Curriculum Type', default='master', required=True, tracking=True)
     
     parent_id = fields.Many2one('university.curriculum', string='Parent Curriculum', ondelete='set null', help='The curriculum this was copied from')
+    child_ids = fields.One2many('university.curriculum', 'parent_id', string='Derived Curriculums')
     batch_id = fields.Many2one('university.batch', string='Linked Batch', ondelete='cascade')
     student_id = fields.Many2one('university.student', string='Linked Student', ondelete='cascade')
 
@@ -40,10 +41,8 @@ class UniversityCurriculum(models.Model):
         store=True,
         readonly=True,
     )
-    academic_year_id = fields.Many2one(
-        'university.academic_year',
+    academic_year_name = fields.Char(
         string='Academic Year',
-        domain="[('state', '=', 'active')]",
         tracking=True,
     )
     has_specialization = fields.Boolean(
